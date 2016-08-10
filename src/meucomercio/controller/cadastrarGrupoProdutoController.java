@@ -1,66 +1,174 @@
-package controller;
+package meucomercio.controller;
 
-import entidades.Grupo;
+import meucomercio.dao.GrupoDao;
+import meucomercio.entidades.Grupo;
+import meucomercio.entidades.Sequence;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
+import javafx.scene.control.cell.PropertyValueFactory;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import javafx.beans.binding.BooleanBinding;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * Created by leandro on 04/07/16.
  */
-public class cadastrarGrupoProdutoController {
+public class cadastrarGrupoProdutoController implements Initializable {
+
+    GrupoDao grupoDao = new GrupoDao();
+    Sequence sequence = new Sequence();
+    private static principalController princCont = principalController.getInstance();
+    private Grupo grupo = new Grupo();
+    private List<Grupo> listGrupo;
+    private ObservableList<Grupo> observableListGrupo;
 
     @FXML
     private TableView<Grupo> tblGrupo;
-
     @FXML
-    private TableColumn<Grupo, String> tblColId;
-
+    private TableColumn<Grupo, Integer> tblColId;
     @FXML
     private TableColumn<Grupo, String> tblColGrupo;
-
     @FXML
     private Button btnNovo;
-
-    @FXML
-    private Button btnEditar;
-
     @FXML
     private Button btnPesquisar;
-
-    @FXML
-    private Button btnLimpar;
-
     @FXML
     private Button btnRemover;
-
-    @FXML
-    private Button btnConfirmar;
-
     @FXML
     private Button btnCancelar;
-
+    @FXML
+    private Button btnAtualizar;
+    @FXML
+    private Button btnSalvar;
+    @FXML
+    private Button btnFechar;
     @FXML
     private Label lblGrupoId;
-
     @FXML
-    private TextField tfdId;
-
+    private Label lblId;
     @FXML
     private TextField tfdGrupo;
-
     @FXML
     private TextField tfdPesquisa;
-
     @FXML
     private TitledPane titledPane;
 
-    private List<Grupo> listGrupo;
 
-    private ObservableList<Grupo> observableListGrupo;
+    @FXML
+    private void handleBtnPesquisar() {
+        ArrayList grupos = new ArrayList();
+        if (tfdPesquisa.getText().equals("")) {
+            grupos = grupoDao.consultarTodos();
+        } else {
+            grupos = grupoDao.consultar(tfdPesquisa.getText());
+        }
+        for (int i = 0; i < grupos.size(); i++) {
+            Grupo tmpGrupo = (Grupo) grupos.get(i);
+        }
+        ObservableList<Grupo> listGrupos = FXCollections.observableArrayList(grupos);
+        tblGrupo.setItems(listGrupos);
+    }
 
+    @FXML
+    private void handleBtnRemover() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Excluir Grupo");
+        alert.setHeaderText("Deseja excluir '" + grupo.getGrupo() + "' ?");
+        alert.setContentText("Tem certeza?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            grupoDao.excluir(Integer.valueOf(grupo.getId()));
+            handleBtnCancelar();
+            handleBtnPesquisar();
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
+    }
 
+    @FXML
+    private void handleBtnSalvar() {
+        Grupo grupo = new Grupo();
+        grupo.setGrupo(tfdGrupo.getText());
+        grupoDao.salvar(grupo);
+        handleBtnPesquisar();
+        handleBtnCancelar();
+    }
 
+    @FXML
+    private void handleBtnCancelar() {
+        tblGrupo.getSelectionModel().clearSelection();
+        lblId.setText("X");
+        tfdGrupo.setText("");
+        tblGrupo.setDisable(false);
+        btnPesquisar.setDisable(false);
+        handleBtnPesquisar();
+    }
+
+    @FXML
+    private void handleBtnAtualizar() {
+        tblGrupo.setDisable(false);
+        btnPesquisar.setDisable(false);
+        grupoDao.atualizar(grupo);
+        handleBtnPesquisar();
+    }
+
+    @FXML
+    private void handleBtnFechar() {
+        princCont.fecharTittledPane("cadastrarGrupoProduto");
+    }
+
+    private void configuraColunas() {
+        tblColId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tblColGrupo.setCellValueFactory(new PropertyValueFactory<>("grupo"));
+        handleBtnPesquisar();
+    }
+
+    // configura a lógica da tela
+    private void configuraBindings() {
+        //bids de campos
+        grupo.idProperty().bind(lblId.textProperty());
+        grupo.grupoProperty().bind(tfdGrupo.textProperty());
+        // Verifica se os campos Obrigatorios estão vazios
+        BooleanBinding camposObrigatorios = tfdGrupo.textProperty().isEmpty();
+        // indica se há algo selecionado na tabela
+        BooleanBinding algoSelecionado = tblGrupo.getSelectionModel().selectedItemProperty().isNull();
+        // alguns botões só são habilitados se algo foi selecionado na tabela
+        btnRemover.disableProperty().bind(algoSelecionado);
+        btnAtualizar.disableProperty().bind(algoSelecionado);
+        // o botão salvar/cancelar só é habilitado se as informações foram preenchidas e não tem nada na tela
+        btnSalvar.disableProperty().bind(algoSelecionado.not().or(camposObrigatorios));
+        btnCancelar.disableProperty().bind(camposObrigatorios);
+        // quando algo é selecionado na tabela, preenchemos os campos de entrada com os valores para o 
+        tblGrupo.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<Grupo>() {
+            @Override
+            public void changed(ObservableValue<? extends Grupo> observable, Grupo oldValue, Grupo newValue) {
+                if (newValue != null) {
+                    tfdGrupo.textProperty().bindBidirectional(newValue.grupoProperty());
+                    lblId.textProperty().bind(Bindings.convert(newValue.idProperty()));
+                    tblGrupo.setDisable(true);
+                    btnPesquisar.setDisable(true);
+                } else {
+                    lblId.textProperty().unbind();
+                    tfdGrupo.textProperty().unbind();
+                    tfdGrupo.setText("");
+                    lblId.setText("X");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        configuraColunas();
+        configuraBindings();
+    }
 }

@@ -1,18 +1,43 @@
-package entidades;
+package meucomercio.entidades;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
- * Created by leandro on 12/07/16.
+ * Created by leandro on 05/07/16.
  */
 public class Grupo {
 
-    int id;
-    String grupo;
+    public String getId() {
+        return id.get();
+    }
 
-    public int getId() {
+    public StringProperty idProperty() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id.set(id);
     }
+
+    public String getGrupo() {
+        return grupo.get();
+    }
+
+    public StringProperty grupoProperty() {
+        return grupo;
+    }
+
+    public void setGrupo(String grupo) {
+        this.grupo.set(grupo);
+    }
+
+    StringProperty id = new SimpleStringProperty();
+    StringProperty grupo = new SimpleStringProperty();
+
+
+
 }
+

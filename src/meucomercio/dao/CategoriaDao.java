@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class CategoriaDao implements daos.IDAO {
 
     @Override
-    public String salvar(Object o) {
+    public int salvar(Object o) {
         Categoria categoria = (Categoria) o;
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
@@ -29,21 +29,43 @@ public class CategoriaDao implements daos.IDAO {
             if (rs.next()) {
                 id = rs.getInt("id");
             }
-            return String.valueOf(id);
+            return id;
         } catch (Exception e) {
             System.out.println("Erro ao salvar Categoria = " + e);
-            return e.toString();
+            return 0;
         }
     }
 
     @Override
-    public String atualizar(Object o) {
-        return null;
+    public boolean atualizar(Object o) {
+        Categoria categoria = (Categoria) o;
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            String sql = "UPDATE categoria SET "
+                    + "categoria = '" + categoria.getCategoria()
+                    + "' WHERE id = " + categoria.getId();
+            System.out.println("sql: " + sql);
+            st.executeUpdate(sql);;
+            return true;
+        } catch (Exception e) {
+            System.out.println("Erro Atualizar Categoria = " + e);
+            return false;
+        }
     }
 
     @Override
-    public String excluir(int id) {
-        return null;
+    public boolean excluir(int id) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            String sql = "DELETE FROM categoria WHERE "
+                    + "id  = " + id + "";
+            //  System.out.println("sql: " + sql);
+            st.execute(sql);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Erro ao excliuir categoria = " + e);
+            return false;
+        }
     }
 
     @Override
@@ -52,13 +74,13 @@ public class CategoriaDao implements daos.IDAO {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "SELECT * FROM Categoria";
-
+            String sql = "SELECT * FROM Categoria ORDER BY 1";
             // System.out.println("sql: " + sql);
+
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
                 Categoria tmpCategoria = new Categoria();
-                tmpCategoria.setId(resultado.getInt("id"));
+                tmpCategoria.setId(String.valueOf(resultado.getInt("id")));
                 tmpCategoria.setCategoria(resultado.getString("categoria"));
                 categorias.add(tmpCategoria);
             }
@@ -70,8 +92,27 @@ public class CategoriaDao implements daos.IDAO {
     }
 
     @Override
-    public ArrayList<Object> consultar(String criterio) {
-        return null;
+    public ArrayList<Object> consultar(String categoria) {
+        ArrayList categorias = new ArrayList();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM Categoria WHERE "
+                    + "categoria iLIKE '%" + categoria + "%' ORDER BY 1;";
+            System.out.println("sql: " + sql);
+
+            ResultSet resultado = st.executeQuery(sql);
+            while (resultado.next()) {
+                Categoria tmpCategoria = new Categoria();
+                tmpCategoria.setId(String.valueOf(resultado.getInt("id")));
+                tmpCategoria.setCategoria(resultado.getString("categoria"));
+                categorias.add(tmpCategoria);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Categoria= " + e);
+            return null;
+        }
+        return categorias;
     }
 
     @Override
@@ -80,14 +121,14 @@ public class CategoriaDao implements daos.IDAO {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * FROM Categoria WHERE "
-                    + "id = " + id + "";
+                    + "id = " + id + " ORDER BY 1;";
 
             // System.out.println("sql: " + sql);
             ResultSet resultado = st.executeQuery(sql);
 
             if (resultado.next()) {
                 Categoria tmpCategoria = new Categoria();
-                tmpCategoria.setId(resultado.getInt("id"));
+                tmpCategoria.setId(String.valueOf(resultado.getInt("id")));
                 tmpCategoria.setCategoria(resultado.getString("categoria"));
                 return tmpCategoria;
             } else {
@@ -97,5 +138,10 @@ public class CategoriaDao implements daos.IDAO {
             System.out.println("Erro consultar Categoria= " + e);
             return e.toString();
         }
+    }
+
+    @Override
+    public Object consultarNome(String nome) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

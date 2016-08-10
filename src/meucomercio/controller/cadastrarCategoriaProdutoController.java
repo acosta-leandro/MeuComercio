@@ -7,21 +7,17 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * Created by leandro on 04/07/16.
@@ -31,85 +27,71 @@ public class cadastrarCategoriaProdutoController implements Initializable {
     CategoriaDao categoriaDao = new CategoriaDao();
     Sequence sequence = new Sequence();
     private static principalController princCont = principalController.getInstance();
-
-    @FXML
-    private TableView<Categoria> tblCategoria;
-
-    @FXML
-    private TableColumn<Categoria, Integer> tblColId;
-
-    @FXML
-    private TableColumn<Categoria, String> tblColCategoria;
-
-    @FXML
-    private Button btnNovo;
-
-    @FXML
-    private Button btnPesquisar;
-
-    @FXML
-    private Button btnRemover;
-
-    @FXML
-    private Button btnCancelar;
-
-    @FXML
-    private Button btnAtualizar;
-
-    @FXML
-    private Button btnSalvar;
-
-    @FXML
-    private Button btnFechar;
-
-    @FXML
-    private Label lblCategoriaId;
-
-    @FXML
-    private Label lblId;
-
-    @FXML
-    private TextField tfdCategoria;
-
-    @FXML
-    private TextField tfdPesquisa;
-
-    @FXML
-    private TitledPane titledPane;
-
+    private Categoria categoria = new Categoria();
     private List<Categoria> listCategoria;
-
     private ObservableList<Categoria> observableListCategoria;
 
     @FXML
-    private void handleBtnNovo() {
-    }
-
+    private TableView<Categoria> tblCategoria;
     @FXML
-    private void handleBtnEditar() {
-        tfdCategoria.setEditable(false);
-        System.out.println("aaaaa");
-    }
+    private TableColumn<Categoria, Integer> tblColId;
+    @FXML
+    private TableColumn<Categoria, String> tblColCategoria;
+    @FXML
+    private Button btnNovo;
+    @FXML
+    private Button btnPesquisar;
+    @FXML
+    private Button btnRemover;
+    @FXML
+    private Button btnCancelar;
+    @FXML
+    private Button btnAtualizar;
+    @FXML
+    private Button btnSalvar;
+    @FXML
+    private Button btnFechar;
+    @FXML
+    private Label lblCategoriaId;
+    @FXML
+    private Label lblId;
+    @FXML
+    private TextField tfdCategoria;
+    @FXML
+    private TextField tfdPesquisa;
+    @FXML
+    private TitledPane titledPane;
+
 
     @FXML
     private void handleBtnPesquisar() {
-
-        // if (tfdPesquisa.getText().equals("null")) {
-        ArrayList categorias = categoriaDao.consultarTodos();
+        ArrayList categorias = new ArrayList();
+        if (tfdPesquisa.getText().equals("")) {
+            categorias = categoriaDao.consultarTodos();
+        } else {
+            categorias = categoriaDao.consultar(tfdPesquisa.getText());
+        }
         for (int i = 0; i < categorias.size(); i++) {
             Categoria tmpCategoria = (Categoria) categorias.get(i);
-            System.out.println(tmpCategoria.getCategoria());
-            System.out.println(tmpCategoria.getId());
         }
         ObservableList<Categoria> listCategorias = FXCollections.observableArrayList(categorias);
         tblCategoria.setItems(listCategorias);
-        //      } else {
-//
-        //}
     }
 
     @FXML
     private void handleBtnRemover() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Excluir Categoria");
+        alert.setHeaderText("Deseja excluir '" + categoria.getCategoria() + "' ?");
+        alert.setContentText("Tem certeza?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            categoriaDao.excluir(Integer.valueOf(categoria.getId()));
+            handleBtnCancelar();
+            handleBtnPesquisar();
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
     }
 
     @FXML
@@ -118,6 +100,7 @@ public class cadastrarCategoriaProdutoController implements Initializable {
         categoria.setCategoria(tfdCategoria.getText());
         categoriaDao.salvar(categoria);
         handleBtnPesquisar();
+        handleBtnCancelar();
     }
 
     @FXML
@@ -126,12 +109,16 @@ public class cadastrarCategoriaProdutoController implements Initializable {
         lblId.setText("X");
         tfdCategoria.setText("");
         tblCategoria.setDisable(false);
+        btnPesquisar.setDisable(false);
         handleBtnPesquisar();
     }
 
     @FXML
     private void handleBtnAtualizar() {
         tblCategoria.setDisable(false);
+        btnPesquisar.setDisable(false);
+        categoriaDao.atualizar(categoria);
+        handleBtnPesquisar();
     }
 
     @FXML
@@ -147,6 +134,9 @@ public class cadastrarCategoriaProdutoController implements Initializable {
 
     // configura a lógica da tela
     private void configuraBindings() {
+        //bids de campos
+        categoria.idProperty().bind(lblId.textProperty());
+        categoria.categoriaProperty().bind(tfdCategoria.textProperty());
         // Verifica se os campos Obrigatorios estão vazios
         BooleanBinding camposObrigatorios = tfdCategoria.textProperty().isEmpty();
         // indica se há algo selecionado na tabela
@@ -165,6 +155,7 @@ public class cadastrarCategoriaProdutoController implements Initializable {
                     tfdCategoria.textProperty().bindBidirectional(newValue.categoriaProperty());
                     lblId.textProperty().bind(Bindings.convert(newValue.idProperty()));
                     tblCategoria.setDisable(true);
+                    btnPesquisar.setDisable(true);
                 } else {
                     lblId.textProperty().unbind();
                     tfdCategoria.textProperty().unbind();
@@ -179,8 +170,5 @@ public class cadastrarCategoriaProdutoController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         configuraColunas();
         configuraBindings();
-        //pegando evento de click tabela
-
     }
-
 }

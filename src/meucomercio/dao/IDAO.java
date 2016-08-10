@@ -15,15 +15,18 @@ public interface IDAO {
     ArrayList<Object> objs = new ArrayList<>();
     Object obj = new Object();
 
-    public String salvar(Object o);
+    public int salvar(Object o);
 
-    public String atualizar(Object o);
+    public boolean atualizar(Object o);
 
-    public String excluir(int id);
+    public boolean excluir(int id);
 
     public ArrayList<Object> consultarTodos();
 
     public ArrayList<Object> consultar(String criterio);
 
     public Object consultarId(int id);
+    
+    public Object consultarNome(String nome);
+    
 }

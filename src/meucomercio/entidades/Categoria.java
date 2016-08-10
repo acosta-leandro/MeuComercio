@@ -10,15 +10,15 @@ import javafx.beans.property.StringProperty;
  */
 public class Categoria {
 
-    public int getId() {
+    public String getId() {
         return id.get();
     }
 
-    public IntegerProperty idProperty() {
+    public StringProperty idProperty() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id.set(id);
     }
 
@@ -34,7 +34,7 @@ public class Categoria {
         this.categoria.set(categoria);
     }
 
-    IntegerProperty id = new SimpleIntegerProperty();
+    StringProperty id = new SimpleStringProperty();
     StringProperty categoria = new SimpleStringProperty();
 
 

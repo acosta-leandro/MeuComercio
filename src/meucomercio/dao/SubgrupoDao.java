@@ -1,39 +1,160 @@
-package daos;
+package meucomercio.dao;
 
+import apoio.ConexaoBD;
+import com.sun.prism.paint.Gradient;
+import meucomercio.entidades.Subgrupo;
+
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import meucomercio.entidades.Grupo;
 
 /**
  * Created by leandro on 12/07/16.
  */
-public class SubgrupoDao implements IDAO{
+public class SubgrupoDao implements daos.IDAO {
 
     @Override
-    public String salvar(Object o) {
-        return null;
+    public int salvar(Object o) {
+        Subgrupo subgrupo = (Subgrupo) o;
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "INSERT INTO subgrupo VALUES"
+                    + "(DEFAULT, "
+                    + "'" + subgrupo.getSubgrupo() + "', "
+                    + "'" + subgrupo.getGrupoId()
+                    + "') RETURNING id";
+            System.out.println("sql: " + sql);
+
+            ResultSet rs = st.executeQuery(sql);
+            int id = 0;
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+            return id;
+        } catch (Exception e) {
+            System.out.println("Erro ao salvar Subgrupo = " + e);
+            return 0;
+        }
     }
 
     @Override
-    public String atualizar(Object o) {
-        return null;
+    public boolean atualizar(Object o) {
+        Subgrupo subgrupo = (Subgrupo) o;
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            String sql = "UPDATE subgrupo SET "
+                    + "subgrupo = '" + subgrupo.getSubgrupo()+ "', "
+                    + "grupo_id = " + subgrupo.getGrupoId()
+                    + " WHERE id = " + subgrupo.getId();
+            System.out.println("sql: " + sql);
+            st.executeUpdate(sql);;
+            return true;
+        } catch (Exception e) {
+            System.out.println("Erro Atualizar Subgrupo = " + e);
+            return false;
+        }
     }
 
     @Override
-    public String excluir(int id) {
-        return null;
+    public boolean excluir(int id) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            String sql = "DELETE FROM subgrupo WHERE "
+                    + "id  = " + id + "";
+            //  System.out.println("sql: " + sql);
+            st.execute(sql);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Erro ao excliuir subgrupo = " + e);
+            return false;
+        }
     }
 
     @Override
     public ArrayList<Object> consultarTodos() {
-        return null;
+        ArrayList subgrupos = new ArrayList();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM Subgrupo ORDER BY 1";
+            // System.out.println("sql: " + sql);
+
+            ResultSet resultado = st.executeQuery(sql);
+            while (resultado.next()) {
+                Subgrupo tmpSubgrupo = new Subgrupo();
+                tmpSubgrupo.setId(String.valueOf(resultado.getInt("id")));
+                tmpSubgrupo.setSubgrupo(resultado.getString("subgrupo"));
+                tmpSubgrupo.setGrupoId(String.valueOf(resultado.getInt("grupo_id")));
+                Grupo tmpGrupo = (Grupo) new GrupoDao().consultarId(Integer.valueOf(tmpSubgrupo.getGrupoId()));
+                tmpSubgrupo.setGrupoNome(tmpGrupo.getGrupo());
+                subgrupos.add(tmpSubgrupo);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Subgrupo= " + e);
+            return null;
+        }
+        return subgrupos;
     }
 
     @Override
-    public ArrayList<Object> consultar(String criterio) {
-        return null;
+    public ArrayList<Object> consultar(String subgrupo) {
+        ArrayList subgrupos = new ArrayList();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM Subgrupo WHERE "
+                    + "subgrupo iLIKE '%" + subgrupo + "%' ORDER BY 1;";
+            System.out.println("sql: " + sql);
+
+            ResultSet resultado = st.executeQuery(sql);
+            while (resultado.next()) {
+                Subgrupo tmpSubgrupo = new Subgrupo();
+                tmpSubgrupo.setId(String.valueOf(resultado.getInt("id")));
+                tmpSubgrupo.setSubgrupo(resultado.getString("subgrupo"));
+                tmpSubgrupo.setGrupoId(String.valueOf(resultado.getInt("grupo_id")));
+                Grupo tmpGrupo = (Grupo) new GrupoDao().consultarId(Integer.valueOf(tmpSubgrupo.getGrupoId()));
+                tmpSubgrupo.setGrupoNome(tmpGrupo.getGrupo());
+                subgrupos.add(tmpSubgrupo);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Subgrupo= " + e);
+            return null;
+        }
+        return subgrupos;
     }
 
     @Override
     public Object consultarId(int id) {
-        return null;
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM Subgrupo WHERE "
+                    + "id = " + id + " ORDER BY 1;";
+
+            // System.out.println("sql: " + sql);
+            ResultSet resultado = st.executeQuery(sql);
+
+            if (resultado.next()) {
+                Subgrupo tmpSubgrupo = new Subgrupo();
+                tmpSubgrupo.setId(String.valueOf(resultado.getInt("id")));
+                tmpSubgrupo.setSubgrupo(resultado.getString("subgrupo"));
+                tmpSubgrupo.setGrupoId(String.valueOf(resultado.getInt("grupo_id")));
+                Grupo tmpGrupo = (Grupo) new GrupoDao().consultarId(Integer.valueOf(tmpSubgrupo.getGrupoId()));
+                tmpSubgrupo.setGrupoNome(tmpGrupo.getGrupo());
+                return tmpSubgrupo;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Subgrupo= " + e);
+            return e.toString();
+        }
+    }
+
+    @Override
+    public Object consultarNome(String nome) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

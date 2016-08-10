@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TitledPane fx:id="titledPane" alignment="TOP_CENTER" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" text="Cadastrar Subgrupo" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.cadastrarSubgrupoProdutoController">
+<TitledPane fx:id="titledPane" alignment="TOP_LEFT" animated="false" ellipsisString="" graphicTextGap="10.0" lineSpacing="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" text="Cadastrar Subgrupo" textOverrun="CLIP" wrapText="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="meucomercio.controller.cadastrarSubgrupoProdutoController">
    <content>
       <HBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
          <children>
@@ -15,52 +15,44 @@
                <items>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="577.0" prefWidth="386.0">
                      <children>
-                        <TableView fx:id="tblSubgrupo" layoutX="-2.0" layoutY="78.0" prefHeight="424.0" prefWidth="435.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="0.0">
+                        <TableView fx:id="tblSubgrupo" layoutX="-2.0" layoutY="82.0" prefHeight="460.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                            <columns>
                               <TableColumn fx:id="tblColId" prefWidth="73.0" text="ID" />
-                              <TableColumn fx:id="tblColSubgrupo" prefWidth="325.0" text="Subgrupo" />
+                              <TableColumn fx:id="tblColSubgrupo" prefWidth="219.0" text="Subgrupo" />
+                              <TableColumn fx:id="tblColGrupo" prefWidth="219.0" text="Grupo" />
                            </columns>
                         </TableView>
                         <Label layoutX="15.0" layoutY="21.0" text="Pesquise Subgrupo" AnchorPane.rightAnchor="310.0" />
-                        <TextField fx:id="tfdPesquisa" layoutX="14.0" layoutY="44.0" prefHeight="25.0" prefWidth="196.0" AnchorPane.rightAnchor="240.0" />
-                        <Group layoutX="-48.0" layoutY="-2.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
-                           <children>
-                              <Button fx:id="btnNovo" layoutX="107.0" layoutY="554.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnNovo" prefHeight="25.0" prefWidth="90.0" text="Novo">
-                                 <padding>
-                                    <Insets left="5.0" />
-                                 </padding>
-                              </Button>
-                              <Button fx:id="btnRemover" layoutX="310.0" layoutY="554.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnRemover" prefHeight="25.0" prefWidth="90.0" text="Remover" />
-                              <Button fx:id="btnEditar" layoutX="209.0" layoutY="554.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnEditar" prefHeight="25.0" prefWidth="90.0" text="Editar" />
-                           </children>
-                        </Group>
-                        <Group nodeOrientation="LEFT_TO_RIGHT">
-                           <children>
-                              <Button fx:id="btnLimpar" layoutX="345.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnLimpar" prefHeight="25.0" prefWidth="90.0" text="Limpar" AnchorPane.rightAnchor="-245.0" />
-                              <Button fx:id="btnPesquisar" layoutX="243.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnPesquisar" prefHeight="25.0" prefWidth="90.0" text="Pesquisar" AnchorPane.rightAnchor="-153.0" />
-                           </children>
-                        </Group>
+                        <TextField fx:id="tfdPesquisa" layoutX="14.0" layoutY="44.0" prefHeight="25.0" prefWidth="214.0" AnchorPane.rightAnchor="222.0" />
+                        <Button fx:id="btnRemover" layoutX="346.0" layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnRemover" prefHeight="25.0" prefWidth="90.0" text="Remover" />
+                        <Button fx:id="btnPesquisar" layoutX="242.0" layoutY="44.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnPesquisar" prefHeight="25.0" prefWidth="90.0" text="Pesquisar" AnchorPane.rightAnchor="118.0" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="578.0" prefWidth="378.0">
+                  <AnchorPane blendMode="SRC_ATOP" minHeight="0.0" minWidth="0.0" prefHeight="533.0" prefWidth="351.0" SplitPane.resizableWithParent="false">
                      <children>
-                        <GridPane layoutX="18.0" layoutY="57.0" prefHeight="86.0" prefWidth="308.0">
+                        <GridPane layoutX="18.0" layoutY="57.0">
                            <children>
                               <Label text="ID" />
                               <Label text="Subgrupo" GridPane.rowIndex="1" />
-                              <TextField fx:id="tfdId" GridPane.columnIndex="1">
+                              <TextField fx:id="tfdSubgrupo" promptText="*" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <TextField fx:id="tfdSubgrupo" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <Label fx:id="lblId" text="X" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </GridPane.margin>
-                              </TextField>
+                              </Label>
+                              <ComboBox fx:id="cmbGrupo" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <GridPane.margin>
+                                    <Insets left="15.0" right="15.0" />
+                                 </GridPane.margin>
+                              </ComboBox>
+                              <Label text="Grupo" GridPane.rowIndex="2" />
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="65.0" />
@@ -69,14 +61,12 @@
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
-                        <Group AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
-                           <children>
-                              <Button fx:id="btnConfirmar" layoutX="-195.0" layoutY="509.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnConfirmar" prefHeight="25.0" prefWidth="90.0" text="Confirmar" AnchorPane.bottomAnchor="-508.0" AnchorPane.rightAnchor="297.0" />
-                              <Button fx:id="btnCancelar" layoutX="-93.0" layoutY="509.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnCancelar" prefHeight="25.0" prefWidth="90.0" text="Cancelar" AnchorPane.bottomAnchor="-508.0" AnchorPane.rightAnchor="195.0" />
-                           </children>
-                        </Group>
+                        <Button fx:id="btnCancelar" layoutX="236.0" layoutY="494.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnCancelar" prefHeight="25.0" prefWidth="90.0" text="Cancelar" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+                        <Button fx:id="btnSalvar" layoutX="18.0" layoutY="494.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnSalvar" prefHeight="21.0" prefWidth="90.0" text="Salvar" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="232.0" />
+                        <Button fx:id="btnAtualizar" layoutX="18.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleBtnAtualizar" prefHeight="21.0" prefWidth="90.0" text="Atualizar" />
                      </children>
                   </AnchorPane>
                </items>
@@ -84,4 +74,7 @@
          </children>
       </HBox>
    </content>
+   <graphic>
+    <Button fx:id="btnFechar" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBtnFechar" prefHeight="25.0" prefWidth="33.0" text="X" />
+   </graphic>
 </TitledPane>
