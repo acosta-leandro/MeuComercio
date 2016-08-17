@@ -1,0 +1,174 @@
+package meucomercio.controller;
+
+import meucomercio.dao.TipoDao;
+import meucomercio.entidades.Tipo;
+import meucomercio.entidades.Sequence;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import javafx.beans.binding.BooleanBinding;
+import javafx.scene.control.Alert.AlertType;
+
+/**
+ * Created by leandro on 04/07/16.
+ */
+public class cadastrarTipoProdutoController implements Initializable {
+
+    TipoDao tipoDao = new TipoDao();
+    Sequence sequence = new Sequence();
+    private static principalController princCont = principalController.getInstance();
+    private Tipo tipo = new Tipo();
+    private List<Tipo> listTipo;
+    private ObservableList<Tipo> observableListTipo;
+
+    @FXML
+    private TableView<Tipo> tblTipo;
+    @FXML
+    private TableColumn<Tipo, Integer> tblColId;
+    @FXML
+    private TableColumn<Tipo, String> tblColTipo;
+    @FXML
+    private Button btnNovo;
+    @FXML
+    private Button btnPesquisar;
+    @FXML
+    private Button btnRemover;
+    @FXML
+    private Button btnCancelar;
+    @FXML
+    private Button btnAtualizar;
+    @FXML
+    private Button btnSalvar;
+    @FXML
+    private Button btnFechar;
+    @FXML
+    private Label lblTipoId;
+    @FXML
+    private Label lblId;
+    @FXML
+    private TextField tfdTipo;
+    @FXML
+    private TextField tfdPesquisa;
+    @FXML
+    private TitledPane titledPane;
+
+
+    @FXML
+    private void handleBtnPesquisar() {
+        ArrayList tipos = new ArrayList();
+        if (tfdPesquisa.getText().equals("")) {
+            tipos = tipoDao.consultarTodos();
+        } else {
+            tipos = tipoDao.consultar(tfdPesquisa.getText());
+        }
+        for (int i = 0; i < tipos.size(); i++) {
+            Tipo tmpTipo = (Tipo) tipos.get(i);
+        }
+        ObservableList<Tipo> listTipos = FXCollections.observableArrayList(tipos);
+        tblTipo.setItems(listTipos);
+    }
+
+    @FXML
+    private void handleBtnRemover() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Excluir Tipo");
+        alert.setHeaderText("Deseja excluir '" + tipo.getTipo() + "' ?");
+        alert.setContentText("Tem certeza?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            tipoDao.excluir(Integer.valueOf(tipo.getId()));
+            handleBtnCancelar();
+            handleBtnPesquisar();
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
+    }
+
+    @FXML
+    private void handleBtnSalvar() {
+        Tipo tipo = new Tipo();
+        tipo.setTipo(tfdTipo.getText());
+        tipoDao.salvar(tipo);
+        handleBtnPesquisar();
+        handleBtnCancelar();
+    }
+
+    @FXML
+    private void handleBtnCancelar() {
+        tblTipo.getSelectionModel().clearSelection();
+        lblId.setText("X");
+        tfdTipo.setText("");
+        tblTipo.setDisable(false);
+        btnPesquisar.setDisable(false);
+        handleBtnPesquisar();
+    }
+
+    @FXML
+    private void handleBtnAtualizar() {
+        tblTipo.setDisable(false);
+        btnPesquisar.setDisable(false);
+        tipoDao.atualizar(tipo);
+        handleBtnPesquisar();
+    }
+
+    @FXML
+    private void handleBtnFechar() {
+        princCont.fecharTittledPane("cadastrarTipoProduto");
+    }
+
+    private void configuraColunas() {
+        tblColId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tblColTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        handleBtnPesquisar();
+    }
+
+    // configura a lógica da tela
+    private void configuraBindings() {
+        //bids de campos
+        tipo.idProperty().bind(lblId.textProperty());
+        tipo.tipoProperty().bind(tfdTipo.textProperty());
+        // Verifica se os campos Obrigatorios estão vazios
+        BooleanBinding camposObrigatorios = tfdTipo.textProperty().isEmpty();
+        // indica se há algo selecionado na tabela
+        BooleanBinding algoSelecionado = tblTipo.getSelectionModel().selectedItemProperty().isNull();
+        // alguns botões só são habilitados se algo foi selecionado na tabela
+        btnRemover.disableProperty().bind(algoSelecionado);
+        btnAtualizar.disableProperty().bind(algoSelecionado);
+        // o botão salvar/cancelar só é habilitado se as informações foram preenchidas e não tem nada na tela
+        btnSalvar.disableProperty().bind(algoSelecionado.not().or(camposObrigatorios));
+        btnCancelar.disableProperty().bind(camposObrigatorios);
+        // quando algo é selecionado na tabela, preenchemos os campos de entrada com os valores para o 
+        tblTipo.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<Tipo>() {
+            @Override
+            public void changed(ObservableValue<? extends Tipo> observable, Tipo oldValue, Tipo newValue) {
+                if (newValue != null) {
+                    tfdTipo.textProperty().bindBidirectional(newValue.tipoProperty());
+                    lblId.textProperty().bind(Bindings.convert(newValue.idProperty()));
+                    tblTipo.setDisable(true);
+                    btnPesquisar.setDisable(true);
+                } else {
+                    lblId.textProperty().unbind();
+                    tfdTipo.textProperty().unbind();
+                    tfdTipo.setText("");
+                    lblId.setText("X");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        configuraColunas();
+        configuraBindings();
+    }
+}

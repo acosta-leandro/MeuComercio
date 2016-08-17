@@ -18,20 +18,12 @@
                <menus>
                   <Menu mnemonicParsing="false" text="Cadastrar">
                      <items>
-                        <MenuItem fx:id="MenuItemProduto" mnemonicParsing="false" text="Produto" />
                         <MenuItem fx:id="MenuItemCategoria" mnemonicParsing="false" onAction="#handleMenuItemCadastrarCategoria" text="Categoria" />
                         <MenuItem fx:id="MenuItemGrupo" mnemonicParsing="false" onAction="#handleMenuItemCadastrarGrupo" text="Grupo" />
+                        <MenuItem fx:id="MenuItemProduto" mnemonicParsing="false" text="Produto" />
                         <MenuItem fx:id="MenuItemSubgrupo" mnemonicParsing="false" onAction="#handleMenuItemCadastrarSubgrupo" text="Subgrupo" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Edit">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Help">
-                     <items>
-                        <MenuItem fx:id="MenuItemTeste" mnemonicParsing="false" onAction="#handleMenuItemTeste" text="teste" />
+                        <MenuItem fx:id="MenuItemTipo" mnemonicParsing="false" onAction="#handleMenuItemCadastrarTipo" text="Tipo" />
+                        <MenuItem fx:id="MenuItemUnMedida" mnemonicParsing="false" onAction="#handleMenuItemCadastrarUnMedida" text="Un Medida" />
                      </items>
                   </Menu>
                </menus>

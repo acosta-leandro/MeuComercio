@@ -21,7 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import meucomercio.controller.cadastrarCategoriaProdutoController;
+import meucomercio.controller.cadastrarTipoProdutoController;
 
 /**
  *
@@ -88,18 +88,18 @@ public class MeuComercio extends Application {
         }
     }
 
-    public void gotoCategoria() {
-        try {
-            new cadastrarCategoriaProdutoController();
-            Parent page = (Parent) FXMLLoader.load(MeuComercio.class.getResource("view/cadastrarCategoriaProduto.fxml"), null, new JavaFXBuilderFactory());
-            Scene scene = new Scene(page, 725, 384);
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.setTitle("BHGerVendas -- Busca Produtos");
-            stage.centerOnScreen();
-        } catch (Exception ex) {
-            Logger.getLogger(MeuComercio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void gotoCategoria() {
+//        try {
+//            new cadastrarTipoProdutoController();
+//            Parent page = (Parent) FXMLLoader.load(MeuComercio.class.getResource("view/cadastrarCategoriaProduto.fxml"), null, new JavaFXBuilderFactory());
+//            Scene scene = new Scene(page, 725, 384);
+//            stage.setScene(scene);
+//            stage.setResizable(false);
+//            stage.setTitle("BHGerVendas -- Busca Produtos");
+//            stage.centerOnScreen();
+//        } catch (Exception ex) {
+//            Logger.getLogger(MeuComercio.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
 }

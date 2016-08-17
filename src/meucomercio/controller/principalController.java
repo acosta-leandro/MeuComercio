@@ -34,6 +34,9 @@ public class principalController {
     private boolean cadastrarCategoriaIsAberto = false;
     private boolean cadastrarGrupoIsAberto = false;
     private boolean cadastrarSubgrupoIsAberto = false;
+    private boolean cadastrarUnMedidaIsAberto = false;
+    private boolean cadastrarTipoIsAberto = false;
+    private boolean cadastrarProdutoIsAberto = false;
 
     @FXML
     private Accordion accordion;
@@ -51,7 +54,7 @@ public class principalController {
     private MenuItem MenuItemSubgrupo;
 
     @FXML
-    private MenuItem MenuItemTeste;
+    private MenuItem MenuItemTipo;
 
     @FXML
     public void handleMenuItemCadastrarCategoria() throws IOException {
@@ -84,11 +87,33 @@ public class principalController {
     }
 
     @FXML
-    public void handleMenuItemTeste() throws IOException {
-        System.out.println("teste:" + accordion.getExpandedPane());
-        System.out.println("teste:" + accordion.getPanes().toString());
-        // System.out.println("teste:"+accordion.getPanes().remove(accordion.getExpandedPane()));
+    public void handleMenuItemCadastrarUnMedida() throws IOException {
+        if (!cadastrarUnMedidaIsAberto) {
+            TitledPane cadastrarUnMedida = FXMLLoader.load(MeuComercio.class.getResource("view/cadastrarUnMedida.fxml"));
+            accordion.getPanes().add(cadastrarUnMedida);
+            accordion.setExpandedPane(cadastrarUnMedida);
+            cadastrarUnMedidaIsAberto = true;
+        }
+    }
 
+    @FXML
+    public void handleMenuItemCadastrarTipo() throws IOException {
+        if (!cadastrarTipoIsAberto) {
+            TitledPane cadastrarTipo = FXMLLoader.load(MeuComercio.class.getResource("view/cadastrarTipoProduto.fxml"));
+            accordion.getPanes().add(cadastrarTipo);
+            accordion.setExpandedPane(cadastrarTipo);
+            cadastrarTipoIsAberto = true;
+        }
+    }
+
+    @FXML
+    public void handleMenuItemCadastrarProduto() throws IOException {
+        if (!cadastrarProdutoIsAberto) {
+            TitledPane cadastrarProduto = FXMLLoader.load(MeuComercio.class.getResource("view/cadastrarProduto.fxml"));
+            accordion.getPanes().add(cadastrarProduto);
+            accordion.setExpandedPane(cadastrarProduto);
+            cadastrarTipoIsAberto = true;
+        }
     }
 
     public void fecharTittledPane(String tela) {
@@ -100,6 +125,15 @@ public class principalController {
         }
         if (tela.equals("cadastrarSubgruProduto")) {
             cadastrarSubgrupoIsAberto = false;
+        }
+        if (tela.equals("cadastrarUnMedida")) {
+            cadastrarSubgrupoIsAberto = false;
+        }
+        if (tela.equals("cadastrarTipoProduto")) {
+            cadastrarTipoIsAberto = false;
+        }
+        if (tela.equals("cadastrarProduto")) {
+            cadastrarProdutoIsAberto = false;
         }
         accordion.getPanes().remove(accordion.getExpandedPane());
     }
