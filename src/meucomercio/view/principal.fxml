@@ -20,7 +20,7 @@
                      <items>
                         <MenuItem fx:id="MenuItemCategoria" mnemonicParsing="false" onAction="#handleMenuItemCadastrarCategoria" text="Categoria" />
                         <MenuItem fx:id="MenuItemGrupo" mnemonicParsing="false" onAction="#handleMenuItemCadastrarGrupo" text="Grupo" />
-                        <MenuItem fx:id="MenuItemProduto" mnemonicParsing="false" text="Produto" />
+                        <MenuItem fx:id="MenuItemProduto" mnemonicParsing="false" onAction="#handleMenuItemCadastrarProduto" text="Produto" />
                         <MenuItem fx:id="MenuItemSubgrupo" mnemonicParsing="false" onAction="#handleMenuItemCadastrarSubgrupo" text="Subgrupo" />
                         <MenuItem fx:id="MenuItemTipo" mnemonicParsing="false" onAction="#handleMenuItemCadastrarTipo" text="Tipo" />
                         <MenuItem fx:id="MenuItemUnMedida" mnemonicParsing="false" onAction="#handleMenuItemCadastrarUnMedida" text="Un Medida" />

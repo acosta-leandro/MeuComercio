@@ -113,6 +113,7 @@ public class principalController {
             accordion.getPanes().add(cadastrarProduto);
             accordion.setExpandedPane(cadastrarProduto);
             cadastrarTipoIsAberto = true;
+            System.out.println("peru");
         }
     }
 

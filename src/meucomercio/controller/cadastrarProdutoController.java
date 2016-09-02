@@ -20,6 +20,7 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Alert.AlertType;
 import meucomercio.dao.GrupoDao;
 import meucomercio.entidades.Grupo;
+import meucomercio.entidades.Produto;
 
 /**
  * Created by leandro on 04/07/16.
@@ -34,13 +35,13 @@ public class cadastrarProdutoController implements Initializable {
     private ObservableList<Subgrupo> observableListSubgrupo;
 
     @FXML
-    private TableView<Subgrupo> tblSubgrupo;
+    private TableView<Produto> tblProduto;
     @FXML
-    private TableColumn<Subgrupo, Integer> tblColId;
+    private TableColumn<Produto, Integer> tblColId;
     @FXML
-    private TableColumn<Subgrupo, String> tblColSubgrupo;
+    private TableColumn<Produto, String> tblColProduto;
     @FXML
-    private TableColumn<Subgrupo, String> tblColGrupo;
+    private TableColumn<Produto, String> tblColCategoria;
     @FXML
     private Button btnNovo;
     @FXML
