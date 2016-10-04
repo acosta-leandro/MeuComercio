@@ -194,8 +194,10 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
         cmbGrupo.getItems().addAll(nomesProdutos);
     }
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("dadadada");
         configuraColunas();
         configuraBindings();
         popularCmbGrupo();

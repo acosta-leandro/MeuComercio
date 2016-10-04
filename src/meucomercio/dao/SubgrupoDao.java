@@ -45,7 +45,7 @@ public class SubgrupoDao implements daos.IDAO {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE subgrupo SET "
-                    + "subgrupo = '" + subgrupo.getSubgrupo()+ "', "
+                    + "subgrupo = '" + subgrupo.getSubgrupo() + "', "
                     + "grupo_id = " + subgrupo.getGrupoId()
                     + " WHERE id = " + subgrupo.getId();
             System.out.println("sql: " + sql);
@@ -155,6 +155,26 @@ public class SubgrupoDao implements daos.IDAO {
 
     @Override
     public Object consultarNome(String nome) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM Subgrupo WHERE "
+                    + "subgrupo = '" + nome + "';";
+
+            System.out.println("sql: " + sql);
+            ResultSet resultado = st.executeQuery(sql);
+
+            if (resultado.next()) {
+                Grupo tmpGrupo = new Grupo();
+                tmpGrupo.setId(String.valueOf(resultado.getInt("id")));
+                tmpGrupo.setGrupo(resultado.getString("subgrupo"));
+                return tmpGrupo;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Grupo= " + e);
+            return e.toString();
+        }
     }
 }

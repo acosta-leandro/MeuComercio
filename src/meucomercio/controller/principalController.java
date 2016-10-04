@@ -37,6 +37,7 @@ public class principalController {
     private boolean cadastrarUnMedidaIsAberto = false;
     private boolean cadastrarTipoIsAberto = false;
     private boolean cadastrarProdutoIsAberto = false;
+    private boolean cadastrarBloqueioIsAberto = false;
 
     @FXML
     private Accordion accordion;
@@ -55,6 +56,9 @@ public class principalController {
 
     @FXML
     private MenuItem MenuItemTipo;
+
+    @FXML
+    private MenuItem MenuItemBloqueio;
 
     @FXML
     public void handleMenuItemCadastrarCategoria() throws IOException {
@@ -78,7 +82,7 @@ public class principalController {
 
     @FXML
     public void handleMenuItemCadastrarSubgrupo() throws IOException {
-        if (!cadastrarGrupoIsAberto) {
+        if (!cadastrarSubgrupoIsAberto) {
             TitledPane cadastrarSubgrupo = FXMLLoader.load(MeuComercio.class.getResource("view/cadastrarSubgrupoProduto.fxml"));
             accordion.getPanes().add(cadastrarSubgrupo);
             accordion.setExpandedPane(cadastrarSubgrupo);
@@ -112,8 +116,17 @@ public class principalController {
             TitledPane cadastrarProduto = FXMLLoader.load(MeuComercio.class.getResource("view/cadastrarProduto.fxml"));
             accordion.getPanes().add(cadastrarProduto);
             accordion.setExpandedPane(cadastrarProduto);
-            cadastrarTipoIsAberto = true;
-            System.out.println("peru");
+            cadastrarProdutoIsAberto = true;
+        }
+    }
+
+    @FXML
+    public void handleMenuItemCadastrarBloqueio() throws IOException {
+        if (!cadastrarBloqueioIsAberto) {
+            TitledPane cadastrarProduto = FXMLLoader.load(MeuComercio.class.getResource("view/cadastrarBloqueioProduto.fxml"));
+            accordion.getPanes().add(cadastrarProduto);
+            accordion.setExpandedPane(cadastrarProduto);
+            cadastrarBloqueioIsAberto = true;
         }
     }
 
@@ -124,7 +137,7 @@ public class principalController {
         if (tela.equals("cadastrarGrupoProduto")) {
             cadastrarGrupoIsAberto = false;
         }
-        if (tela.equals("cadastrarSubgruProduto")) {
+        if (tela.equals("cadastrarSubgrupoProduto")) {
             cadastrarSubgrupoIsAberto = false;
         }
         if (tela.equals("cadastrarUnMedida")) {
@@ -135,6 +148,9 @@ public class principalController {
         }
         if (tela.equals("cadastrarProduto")) {
             cadastrarProdutoIsAberto = false;
+        }
+        if (tela.equals("cadastrarBloqueioProduto")) {
+            cadastrarBloqueioIsAberto = false;
         }
         accordion.getPanes().remove(accordion.getExpandedPane());
     }

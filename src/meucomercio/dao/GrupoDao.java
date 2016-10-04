@@ -2,8 +2,6 @@ package meucomercio.dao;
 
 import apoio.ConexaoBD;
 
-
-
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -144,13 +142,13 @@ public class GrupoDao implements daos.IDAO {
 
     @Override
     public Object consultarNome(String nome) {
-    try {
+        try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * FROM Grupo WHERE "
                     + "grupo = '" + nome + "';";
 
-             System.out.println("sql: " + sql);
+            System.out.println("sql: " + sql);
             ResultSet resultado = st.executeQuery(sql);
 
             if (resultado.next()) {

@@ -1,7 +1,5 @@
 package meucomercio.controller;
 
-import meucomercio.dao.SubgrupoDao;
-import meucomercio.entidades.Subgrupo;
 import meucomercio.entidades.Sequence;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
@@ -18,32 +16,70 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Alert.AlertType;
+import meucomercio.dao.BloqueioDao;
+import meucomercio.dao.CategoriaDao;
 import meucomercio.dao.GrupoDao;
+import meucomercio.dao.ProdutoDao;
+import meucomercio.dao.SubgrupoDao;
+import meucomercio.dao.TipoDao;
+import meucomercio.dao.UnMedidaDao;
+import meucomercio.entidades.Bloqueio;
+import meucomercio.entidades.Categoria;
 import meucomercio.entidades.Grupo;
 import meucomercio.entidades.Produto;
+import meucomercio.entidades.Subgrupo;
+import meucomercio.entidades.Tipo;
+import meucomercio.entidades.UnMedida;
 
 /**
  * Created by leandro on 04/07/16.
  */
 public class cadastrarProdutoController implements Initializable {
 
-    SubgrupoDao subgrupoDao = new SubgrupoDao();
+    ProdutoDao produtoDao = new ProdutoDao();
     Sequence sequence = new Sequence();
     private static principalController princCont = principalController.getInstance();
-    private Subgrupo subgrupo = new Subgrupo();
-    private List<Subgrupo> listSubgrupo;
-    private ObservableList<Subgrupo> observableListSubgrupo;
+    private Produto produto = new Produto();
+    private List<Produto> listProdutos;
+    private ObservableList<Produto> observableListProduto;
+    private ArrayList<Object> listGrupos = new GrupoDao().consultarTodos();
+    private ArrayList<Object> listCategorias = new CategoriaDao().consultarTodos();
+    private ArrayList<Object> listSubgrupos = new SubgrupoDao().consultarTodos();
+    private ArrayList<Object> listTipos = new TipoDao().consultarTodos();
+    private ArrayList<Object> listBloqueios = new BloqueioDao().consultarTodos();
+    private ArrayList<Object> listUnMedidas = new UnMedidaDao().consultarTodos();
+    private boolean atualizando = false;
 
     @FXML
     private TableView<Produto> tblProduto;
     @FXML
-    private TableColumn<Produto, Integer> tblColId;
+    private TableColumn<Produto, String> tblColId;
     @FXML
-    private TableColumn<Produto, String> tblColProduto;
+    private TableColumn<Produto, String> tblCId;
     @FXML
-    private TableColumn<Produto, String> tblColCategoria;
+    private TableColumn<Produto, String> tblCProduto;
     @FXML
-    private Button btnNovo;
+    private TableColumn<Produto, String> tblCValor;
+    @FXML
+    private TableColumn<Produto, String> tblCCusto;
+    @FXML
+    private TableColumn<Produto, String> tblCCategoria;
+    @FXML
+    private TableColumn<Produto, String> tblCGrupo;
+    @FXML
+    private TableColumn<Produto, String> tblCSubgrupo;
+    @FXML
+    private TableColumn<Produto, String> tblCTipo;
+    @FXML
+    private TableColumn<Produto, String> tblCBloqueio;
+    @FXML
+    private TableColumn<Produto, String> tblCUn;
+    @FXML
+    private TableColumn<Produto, String> tblCUltCusto;
+    @FXML
+    private TableColumn<Produto, String> tblCEstMin;
+    @FXML
+    private TableColumn<Produto, String> tblCEstMax;
     @FXML
     private Button btnPesquisar;
     @FXML
@@ -51,148 +87,422 @@ public class cadastrarProdutoController implements Initializable {
     @FXML
     private Button btnCancelar;
     @FXML
-    private Button btnAtualizar;
-    @FXML
-    private Button btnSalvar;
+    private Button btnConfirmar;
     @FXML
     private Button btnFechar;
     @FXML
-    private Label lblSubgrupoId;
-    @FXML
     private Label lblId;
     @FXML
-    private TextField tfdSubgrupo;
+    private TextField tfdProduto;
     @FXML
-    private TextField tfdPesquisa;
+    private TextField tfdCusto;
     @FXML
-    private TitledPane titledPane;
+    private TextField tfdUltCusto;
+    @FXML
+    private TextField tfdValor;
+    @FXML
+    private TextField tfdEstMin;
+    @FXML
+    private TextField tfdEstMax;
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private Tab tabProcurar;
+    @FXML
+    private Tab tabGeral;
     @FXML
     private ComboBox cmbGrupo;
-
+    @FXML
+    private ComboBox cmbSubgrupo;
+    @FXML
+    private ComboBox cmbCategoria;
+    @FXML
+    private ComboBox cmbTipo;
+    @FXML
+    private ComboBox cmbPGrupo;
+    @FXML
+    private ComboBox cmbPSubgrupo;
+    @FXML
+    private ComboBox cmbPCategoria;
+    @FXML
+    private ComboBox cmbPTipo;
+    @FXML
+    private ComboBox cmbPBloqueio;
+    @FXML
+    private ComboBox cmbBloqueio;
+    @FXML
+    private ComboBox cmbUnMedida;
+    @FXML
+    private TextField tfdPProduto;
 
     @FXML
     private void handleBtnPesquisar() {
-        ArrayList subgrupos = new ArrayList();
-        if (tfdPesquisa.getText().equals("")) {
-            subgrupos = subgrupoDao.consultarTodos();
+
+        ArrayList produtos = new ArrayList();
+
+        if (cmbPCategoria.getSelectionModel().getSelectedIndex() == -1 && cmbPGrupo.getSelectionModel().getSelectedIndex() == -1
+                && cmbPSubgrupo.getSelectionModel().getSelectedIndex() == -1 && cmbPTipo.getSelectionModel().getSelectedIndex() == -1
+                && tfdPProduto.getText().equals("")) {
+            produtos = produtoDao.consultarTodos();
         } else {
-            subgrupos = subgrupoDao.consultar(tfdPesquisa.getText());
+            String sql = "SELECT * FROM produto";
+            if (cmbPCategoria.getSelectionModel().getSelectedIndex() != -1 || cmbPGrupo.getSelectionModel().getSelectedIndex() != -1
+                    || cmbPSubgrupo.getSelectionModel().getSelectedIndex() != -1 || cmbPTipo.getSelectionModel().getSelectedIndex() != -1 || !tfdPProduto.getText().equals("")) {
+                sql = sql + " WHERE ";
+            }
+            if (cmbPCategoria.getSelectionModel().getSelectedIndex() != -1) {
+                Categoria tmpCategoria = (Categoria) listCategorias.get(cmbPCategoria.getSelectionModel().getSelectedIndex());
+                int categoriaId = Integer.parseInt(tmpCategoria.getId());
+                sql = sql + "categoria_id = " + categoriaId;
+            }
+            if (cmbPGrupo.getSelectionModel().getSelectedIndex() != -1) {
+                Grupo tmpGrupo = (Grupo) listGrupos.get(cmbPGrupo.getSelectionModel().getSelectedIndex());
+                int grupoId = Integer.parseInt(tmpGrupo.getId());
+                if (sql.equals("SELECT * FROM produto WHERE ")) {
+                    sql = sql + "grupo_id = " + grupoId;
+                } else {
+                    sql = sql + " AND grupo_id = " + grupoId;
+                }
+            }
+            if (cmbPSubgrupo.getSelectionModel().getSelectedIndex() != -1) {
+                Subgrupo tmpSubgrupo = (Subgrupo) listSubgrupos.get(cmbPSubgrupo.getSelectionModel().getSelectedIndex());
+                int subgrupoId = Integer.parseInt(tmpSubgrupo.getId());
+                if (sql.equals("SELECT * FROM produto WHERE ")) {
+                    sql = sql + "subgrupo_id = " + subgrupoId;
+                } else {
+                    sql = sql + " AND subgrupo_id = " + subgrupoId;
+                }
+            }
+            if (cmbPTipo.getSelectionModel().getSelectedIndex() != -1) {
+                Tipo tmpTipo = (Tipo) listTipos.get(cmbPTipo.getSelectionModel().getSelectedIndex());
+                int tipoId = Integer.parseInt(tmpTipo.getId());
+                if (sql.equals("SELECT * FROM produto WHERE ")) {
+                    sql = sql + "tipo_id = " + tipoId;
+                } else {
+                    sql = sql + " AND tipo_id = " + tipoId;
+                }
+            }
+            if (!tfdPProduto.getText().equals("")) {
+                System.out.println("sql" + sql);
+                if (sql.equals("SELECT * FROM produto WHERE ")) {
+                    sql = sql + "produto ilike '%" + tfdPProduto.getText() + "%';";
+                } else {
+                    sql = sql + " AND produto ilike '%" + tfdPProduto.getText() + "%';";
+                }
+            }
+            System.out.println("sql: " + sql);
+            produtos = produtoDao.consultarTodos(sql);
         }
-        for (int i = 0; i < subgrupos.size(); i++) {
-            Subgrupo tmpSubgrupo = (Subgrupo) subgrupos.get(i);
-        }
-        ObservableList<Subgrupo> listSubgrupos = FXCollections.observableArrayList(subgrupos);
-        tblSubgrupo.setItems(listSubgrupos);
+        ObservableList<Produto> tmplistProdutos = FXCollections.observableArrayList(produtos);
+        tblProduto.setItems(tmplistProdutos);
     }
 
     @FXML
     private void handleBtnRemover() {
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Excluir Subgrupo");
-        alert.setHeaderText("Deseja excluir '" + subgrupo.getSubgrupo() + "' ?");
+        alert.setTitle("Excluir Produto");
+        alert.setHeaderText("Deseja excluir '" + produto.getProduto() + "' ?");
         alert.setContentText("Tem certeza?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            subgrupoDao.excluir(Integer.valueOf(subgrupo.getId()));
+            produtoDao.excluir(Integer.valueOf(produto.getId()));
             handleBtnCancelar();
             handleBtnPesquisar();
+            tabPane.getSelectionModel().select(tabProcurar);
         }
     }
 
     @FXML
-    private void handleBtnSalvar() {
-        Subgrupo subgrupo = new Subgrupo();
-        subgrupo.setSubgrupo(tfdSubgrupo.getText());
-        Grupo grupo = (Grupo) new GrupoDao().consultarNome(cmbGrupo.getSelectionModel().getSelectedItem().toString());
-        subgrupo.setGrupoId(grupo.getId());
-        subgrupoDao.salvar(subgrupo);
+    private void handleBtnConfirmar() {
+        if (atualizando) {
+            produtoDao.atualizar(produto);
+            atualizando = false;
+        } else {
+            produtoDao.salvar(produto);
+        }
         handleBtnPesquisar();
         handleBtnCancelar();
+        tabPane.getSelectionModel().select(tabProcurar);
     }
 
     @FXML
     private void handleBtnCancelar() {
-        tblSubgrupo.getSelectionModel().clearSelection();
-        lblId.setText("X");
-        tfdSubgrupo.setText("");
-        cmbGrupo.getSelectionModel().clearSelection();
-        tblSubgrupo.setDisable(false);
+        tblProduto.getSelectionModel().clearSelection();
+        tblProduto.setDisable(false);
         btnPesquisar.setDisable(false);
         handleBtnPesquisar();
-    }
-
-    @FXML
-    private void handleBtnAtualizar() {
-        tblSubgrupo.setDisable(false);
-        btnPesquisar.setDisable(false);
-        subgrupoDao.atualizar(subgrupo);
-        handleBtnPesquisar();
+        limparTabGeral();
+        atualizando = false;
     }
 
     @FXML
     private void handleBtnFechar() {
-        princCont.fecharTittledPane("cadastrarSubgrupoProduto");
+        princCont.fecharTittledPane("cadastrarProduto");
+    }
+
+    @FXML
+    private void handleBtnLimpar() {
+        tblProduto.getItems().clear();
+        cmbBloqueio.getSelectionModel().clearSelection();
+        cmbCategoria.getSelectionModel().clearSelection();
+        cmbGrupo.getSelectionModel().clearSelection();
+        cmbPBloqueio.getSelectionModel().clearSelection();
+        cmbPCategoria.getSelectionModel().clearSelection();
+        cmbPGrupo.getSelectionModel().clearSelection();
+        cmbPSubgrupo.getSelectionModel().clearSelection();
+        cmbPTipo.getSelectionModel().clearSelection();
+        cmbSubgrupo.getSelectionModel().clearSelection();
+        cmbTipo.getSelectionModel().clearSelection();
+        cmbUnMedida.getSelectionModel().clearSelection();
+        tfdPProduto.clear();
+        tfdCusto.clear();
+        tfdEstMax.clear();
+        tfdEstMin.clear();
+        tfdProduto.clear();
+        tfdUltCusto.clear();
+        tfdValor.clear();
     }
 
     private void configuraColunas() {
-        tblColId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        tblColSubgrupo.setCellValueFactory(new PropertyValueFactory<>("subgrupo"));
-        tblColGrupo.setCellValueFactory(new PropertyValueFactory<>("grupoNome"));
-        handleBtnPesquisar();
+        tblCId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tblCProduto.setCellValueFactory(new PropertyValueFactory<>("produto"));
+        tblCValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        tblCCusto.setCellValueFactory(new PropertyValueFactory<>("custo"));
+        tblCCategoria.setCellValueFactory(new PropertyValueFactory<>("categoriaNome"));
+        tblCGrupo.setCellValueFactory(new PropertyValueFactory<>("grupoNome"));
+        tblCSubgrupo.setCellValueFactory(new PropertyValueFactory<>("subgrupoNome"));
+        tblCTipo.setCellValueFactory(new PropertyValueFactory<>("tipoNome"));
+        tblCBloqueio.setCellValueFactory(new PropertyValueFactory<>("bloqueioNome"));
+        tblCUn.setCellValueFactory(new PropertyValueFactory<>("unidadeNome"));
+        tblCUltCusto.setCellValueFactory(new PropertyValueFactory<>("ultCusto"));
+        tblCEstMin.setCellValueFactory(new PropertyValueFactory<>("estMin"));
+        tblCEstMax.setCellValueFactory(new PropertyValueFactory<>("estMax"));
     }
 
     // configura a lógica da tela
     private void configuraBindings() {
-        //bids de campos
-        subgrupo.idProperty().bind(lblId.textProperty());
-        subgrupo.subgrupoProperty().bind(tfdSubgrupo.textProperty());
-        // Verifica se os campos Obrigatorios estão vazios
-        BooleanBinding camposObrigatorios = tfdSubgrupo.textProperty().isEmpty();
-        // indica se há algo selecionado na tabela
-        BooleanBinding algoSelecionado = tblSubgrupo.getSelectionModel().selectedItemProperty().isNull();
-        // alguns botões só são habilitados se algo foi selecionado na tabela
-        btnRemover.disableProperty().bind(algoSelecionado);
-        btnAtualizar.disableProperty().bind(algoSelecionado);
-        // o botão salvar/cancelar só é habilitado se as informações foram preenchidas e não tem nada na tela
-        btnSalvar.disableProperty().bind(algoSelecionado.not().or(camposObrigatorios));
-        btnCancelar.disableProperty().bind(camposObrigatorios);
-        // quando algo é selecionado na tabela, preenchemos os campos de entrada com os valores para o 
-        tblSubgrupo.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<Subgrupo>() {
-            @Override
-            public void changed(ObservableValue<? extends Subgrupo> observable, Subgrupo oldValue, Subgrupo newValue) {
-                if (newValue != null) {
-                    tfdSubgrupo.textProperty().bindBidirectional(newValue.subgrupoProperty());
-                    lblId.textProperty().bind(Bindings.convert(newValue.idProperty()));
-                    cmbGrupo.getSelectionModel().select(newValue.getGrupoNome());
-                    tblSubgrupo.setDisable(true);
-                    btnPesquisar.setDisable(true);
-                } else {
-                    lblId.textProperty().unbind();
-                    tfdSubgrupo.textProperty().unbind();
-                    tfdSubgrupo.setText("");
-                    lblId.setText("X");
-                }
-            }
-        });
+        //binds de campos
+        produto.idProperty().bind(lblId.textProperty());
+        produto.produtoProperty().bind(tfdProduto.textProperty());
+        produto.custoProperty().bind(tfdCusto.textProperty());
+        produto.ultCustoProperty().bind(tfdUltCusto.textProperty());
+        produto.valorProperty().bind(tfdValor.textProperty());
+        produto.estMaxProperty().bind(tfdEstMax.textProperty());
+        produto.estMinProperty().bind(tfdEstMin.textProperty());
+
+//bind combos 
         cmbGrupo.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (newValue != null) {
-                    Grupo grupo = (Grupo) new GrupoDao().consultarNome(cmbGrupo.getSelectionModel().getSelectedItem().toString());
-                    subgrupo.setGrupoId(grupo.getId());
+                    for (int i = 0; i <= listGrupos.size(); i++) {
+                        Grupo grupo = (Grupo) listGrupos.get(i);
+                        if (grupo.getGrupo().equals(cmbGrupo.getSelectionModel().getSelectedItem().toString())) {
+                            produto.setGrupoId(grupo.getId());
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        cmbSubgrupo.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    for (int i = 0; i <= listSubgrupos.size(); i++) {
+                        Subgrupo subgrupo = (Subgrupo) listSubgrupos.get(i);
+                        if (subgrupo.getSubgrupo().equals(cmbSubgrupo.getSelectionModel().getSelectedItem().toString())) {
+                            produto.setSubgrupoId(subgrupo.getId());
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        cmbCategoria.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    for (int i = 0; i <= listCategorias.size(); i++) {
+                        Categoria categoria = (Categoria) listCategorias.get(i);
+                        if (categoria.getCategoria().equals(cmbCategoria.getSelectionModel().getSelectedItem().toString())) {
+                            produto.setCategoriaId(categoria.getId());
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        cmbTipo.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    for (int i = 0; i <= listTipos.size(); i++) {
+                        Tipo tipo = (Tipo) listTipos.get(i);
+                        if (tipo.getTipo().equals(cmbTipo.getSelectionModel().getSelectedItem().toString())) {
+                            produto.setTipoId(tipo.getId());
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        cmbBloqueio.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    for (int i = 0; i <= listBloqueios.size(); i++) {
+                        Bloqueio bloqueio = (Bloqueio) listBloqueios.get(i);
+                        if (bloqueio.getBloqueio().equals(cmbBloqueio.getSelectionModel().getSelectedItem().toString())) {
+                            produto.setBloqueioId(bloqueio.getId());
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        cmbUnMedida.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    for (int i = 0; i <= listUnMedidas.size(); i++) {
+                        UnMedida unMedida = (UnMedida) listUnMedidas.get(i);
+                        if (unMedida.getNome().equals(cmbUnMedida.getSelectionModel().getSelectedItem().toString())) {
+                            produto.setUnidadeId(unMedida.getId());
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
+        // Verifica se os campos Obrigatorios estão vazios
+        //BooleanBinding camposObrigatorios = tfdProduto.textProperty().isEmpty();
+        // indica se há algo selecionado na tabela
+         BooleanBinding algoSelecionado = tblProduto.getSelectionModel().selectedItemProperty().isNull();
+        // alguns botões só são habilitados se algo foi selecionado na tabela
+        btnRemover.disableProperty().bind(algoSelecionado);
+
+        // o botão salvar/cancelar só é habilitado se as informações foram preenchidas e não tem nada na tela
+        //    btnConfirmar.disableProperty().bind(algoSelecionado.not().or(camposObrigatorios));
+       // btnCancelar.disableProperty().bind(camposObrigatorios);
+        // quando algo é selecionado na tabela, preenchemos os campos de entrada com os valores para o 
+        tblProduto.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<Produto>() {
+            @Override
+            public void changed(ObservableValue<? extends Produto> observable, Produto oldValue, Produto newValue) {
+                if (newValue != null) {
+                    atualizando = true;
+                    tabPane.getSelectionModel().select(tabGeral);
+                    lblId.textProperty().bind(Bindings.convert(newValue.idProperty()));
+                    tfdProduto.textProperty().bindBidirectional(newValue.produtoProperty());
+                    tfdCusto.textProperty().bindBidirectional(newValue.custoProperty());
+                    tfdUltCusto.textProperty().bindBidirectional(newValue.ultCustoProperty());
+                    tfdValor.textProperty().bindBidirectional(newValue.valorProperty());
+                    tfdEstMax.textProperty().bindBidirectional(newValue.estMaxProperty());
+                    tfdEstMin.textProperty().bindBidirectional(newValue.estMinProperty());
+                    cmbGrupo.getSelectionModel().select(newValue.getGrupoNome());
+                    cmbSubgrupo.getSelectionModel().select(newValue.getSubgrupoNome());
+                    cmbCategoria.getSelectionModel().select(newValue.getCategoriaNome());
+                    cmbTipo.getSelectionModel().select(newValue.getTipoNome());
+                    cmbBloqueio.getSelectionModel().select(newValue.getBloqueioNome());
+                    cmbUnMedida.getSelectionModel().select(newValue.getUnidadeNome());
+                    tblProduto.setDisable(true);
+                    btnPesquisar.setDisable(true);
+                } else {
+                    atualizando = false;
+                    lblId.textProperty().unbind();
+                    tfdProduto.textProperty().unbind();
+                    tfdCusto.textProperty().unbind();
+                    tfdUltCusto.textProperty().unbind();
+                    tfdValor.textProperty().unbind();
+                    tfdEstMax.textProperty().unbind();
+                    tfdEstMin.textProperty().unbind();
+                    tfdProduto.setText("");
+                    tfdCusto.setText("");
+                    tfdUltCusto.setText("");
+                    tfdValor.setText("");
+                    tfdEstMax.setText("");
+                    tfdEstMin.setText("");
+                    lblId.setText("X");
                 }
             }
         });
     }
 
     private void popularCmbGrupo() {
-        ObservableList<String> nomesProdutos = FXCollections.observableArrayList();
-        ArrayList<Object> listProduto = new GrupoDao().consultarTodos(); //Aqui você tem uma lista de todos seu produtos
-        for (int i = 0; i < listProduto.size(); i++) {
-            Grupo grupo = (Grupo) listProduto.get(i);
-            nomesProdutos.add(grupo.getGrupo());
+        ObservableList<String> nomesGrupos = FXCollections.observableArrayList();
+
+        for (int i = 0; i < listGrupos.size(); i++) {
+            Grupo grupo = (Grupo) listGrupos.get(i);
+            nomesGrupos.add(grupo.getGrupo());
         }
-        cmbGrupo.getItems().addAll(nomesProdutos);
+        cmbPGrupo.getItems().addAll(nomesGrupos);
+        cmbGrupo.getItems().addAll(nomesGrupos);
+    }
+
+    private void popularCmbCategoria() {
+        ObservableList<String> nomesCategorias = FXCollections.observableArrayList();
+        for (int i = 0; i < listCategorias.size(); i++) {
+            Categoria categoria = (Categoria) listCategorias.get(i);
+            nomesCategorias.add(categoria.getCategoria());
+        }
+        cmbPCategoria.getItems().addAll(nomesCategorias);
+        cmbCategoria.getItems().addAll(nomesCategorias);
+    }
+
+    private void popularCmbSubgrupo() {
+        ObservableList<String> nomesSubgrupos = FXCollections.observableArrayList();
+        for (int i = 0; i < listSubgrupos.size(); i++) {
+            Subgrupo subGrupo = (Subgrupo) listSubgrupos.get(i);
+            nomesSubgrupos.add(subGrupo.getSubgrupo());
+        }
+        cmbPSubgrupo.getItems().addAll(nomesSubgrupos);
+        cmbSubgrupo.getItems().addAll(nomesSubgrupos);
+    }
+
+    private void popularCmbTipo() {
+        ObservableList<String> nomesTipos = FXCollections.observableArrayList();
+        for (int i = 0; i < listTipos.size(); i++) {
+            Tipo tipo = (Tipo) listTipos.get(i);
+            nomesTipos.add(tipo.getTipo());
+        }
+        cmbPTipo.getItems().addAll(nomesTipos);
+        cmbTipo.getItems().addAll(nomesTipos);
+    }
+
+    private void popularCmbBloqueio() {
+        ObservableList<String> nomesBloqueios = FXCollections.observableArrayList();
+        for (int i = 0; i < listBloqueios.size(); i++) {
+            Bloqueio bloqueio = (Bloqueio) listBloqueios.get(i);
+            nomesBloqueios.add(bloqueio.getBloqueio());
+        }
+        cmbPBloqueio.getItems().addAll(nomesBloqueios);
+        cmbBloqueio.getItems().addAll(nomesBloqueios);
+    }
+
+    private void popularCmbUnMedida() {
+        ObservableList<String> nomesUnMedida = FXCollections.observableArrayList();
+        for (int i = 0; i < listUnMedidas.size(); i++) {
+            UnMedida unMedida = (UnMedida) listUnMedidas.get(i);
+            nomesUnMedida.add(unMedida.getNome());
+        }
+        cmbUnMedida.getItems().addAll(nomesUnMedida);
+    }
+
+    private void limparTabGeral() {
+        lblId.setText("X");
+        tfdProduto.setText("");
+        tfdCusto.setText("");
+        tfdUltCusto.setText("");
+        tfdValor.setText("");
+        tfdEstMax.setText("");
+        tfdEstMin.setText("");
+        cmbGrupo.getSelectionModel().clearSelection();
+        cmbSubgrupo.getSelectionModel().clearSelection();
+        cmbCategoria.getSelectionModel().clearSelection();
+        cmbTipo.getSelectionModel().clearSelection();
+        cmbBloqueio.getSelectionModel().clearSelection();
+        cmbUnMedida.getSelectionModel().clearSelection();
     }
 
     @Override
@@ -200,5 +510,10 @@ public class cadastrarProdutoController implements Initializable {
         configuraColunas();
         configuraBindings();
         popularCmbGrupo();
+        popularCmbCategoria();
+        popularCmbSubgrupo();
+        popularCmbTipo();
+        popularCmbBloqueio();
+        popularCmbUnMedida();
     }
 }

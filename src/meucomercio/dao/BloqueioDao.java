@@ -1,31 +1,28 @@
 package meucomercio.dao;
 
 import apoio.ConexaoBD;
-import com.sun.prism.paint.Gradient;
-import meucomercio.entidades.UnMedida;
+import meucomercio.entidades.Bloqueio;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import meucomercio.entidades.Grupo;
 
 /**
  * Created by leandro on 12/07/16.
  */
-public class UnMedidaDao implements daos.IDAO {
+public class BloqueioDao implements daos.IDAO {
 
     @Override
     public int salvar(Object o) {
-        UnMedida unMedida = (UnMedida) o;
+        Bloqueio bloqueio = (Bloqueio) o;
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "INSERT INTO unidade VALUES"
+            String sql = "INSERT INTO bloqueio VALUES"
                     + "(DEFAULT, "
-                    + "'" + unMedida.getNome() + "', "
-                    + "'" + unMedida.getSigla()
+                    + "'" + bloqueio.getBloqueio()
                     + "') RETURNING id";
-            System.out.println("sql: " + sql);
+            //System.out.println("sql: " + sql);
 
             ResultSet rs = st.executeQuery(sql);
             int id = 0;
@@ -34,25 +31,24 @@ public class UnMedidaDao implements daos.IDAO {
             }
             return id;
         } catch (Exception e) {
-            System.out.println("Erro ao salvar Unidade de Medida = " + e);
+            System.out.println("Erro ao salvar Bloqueio = " + e);
             return 0;
         }
     }
 
     @Override
     public boolean atualizar(Object o) {
-        UnMedida unMedida = (UnMedida) o;
+        Bloqueio bloqueio = (Bloqueio) o;
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-            String sql = "UPDATE unidade SET "
-                    + "unidade = '" + unMedida.getNome()+ "', "
-                    + "sigla = '" + unMedida.getSigla()
-                    + "' WHERE id = " + unMedida.getId();
+            String sql = "UPDATE bloqueio SET "
+                    + "bloqueio = '" + bloqueio.getBloqueio()
+                    + "' WHERE id = " + bloqueio.getId();
             System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
             return true;
         } catch (Exception e) {
-            System.out.println("Erro Atualizar Unidade de Medida = " + e);
+            System.out.println("Erro Atualizar Bloqueio = " + e);
             return false;
         }
     }
@@ -61,64 +57,62 @@ public class UnMedidaDao implements daos.IDAO {
     public boolean excluir(int id) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-            String sql = "DELETE FROM unidade WHERE "
+            String sql = "DELETE FROM bloqueio WHERE "
                     + "id  = " + id + "";
             //  System.out.println("sql: " + sql);
             st.execute(sql);
             return true;
         } catch (Exception e) {
-            System.out.println("Erro ao excliuir unMedida = " + e);
+            System.out.println("Erro ao excliuir bloqueio = " + e);
             return false;
         }
     }
 
     @Override
     public ArrayList<Object> consultarTodos() {
-        ArrayList unMedidas = new ArrayList();
+        ArrayList bloqueios = new ArrayList();
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "SELECT * FROM unidade ORDER BY 1";
+            String sql = "SELECT * FROM Bloqueio ORDER BY 1";
             // System.out.println("sql: " + sql);
 
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
-                UnMedida tmpUnMedida = new UnMedida();
-                tmpUnMedida.setId(String.valueOf(resultado.getInt("id")));
-                tmpUnMedida.setNome(resultado.getString("unidade"));
-                tmpUnMedida.setSigla(resultado.getString("sigla"));
-                unMedidas.add(tmpUnMedida);
+                Bloqueio tmpBloqueio = new Bloqueio();
+                tmpBloqueio.setId(String.valueOf(resultado.getInt("id")));
+                tmpBloqueio.setBloqueio(resultado.getString("bloqueio"));
+                bloqueios.add(tmpBloqueio);
             }
         } catch (Exception e) {
-            System.out.println("Erro consultar Unidade de Medida = " + e);
+            System.out.println("Erro consultar Bloqueio= " + e);
             return null;
         }
-        return unMedidas;
+        return bloqueios;
     }
 
     @Override
-    public ArrayList<Object> consultar(String unMedida) {
-        ArrayList unMedidas = new ArrayList();
+    public ArrayList<Object> consultar(String bloqueio) {
+        ArrayList bloqueios = new ArrayList();
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "SELECT * FROM unidade WHERE "
-                    + "unidade iLIKE '%" + unMedida + "%' ORDER BY 1;";
+            String sql = "SELECT * FROM Bloqueio WHERE "
+                    + "bloqueio iLIKE '%" + bloqueio + "%' ORDER BY 1;";
             System.out.println("sql: " + sql);
 
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
-                UnMedida tmpUnMedida = new UnMedida();
-                tmpUnMedida.setId(String.valueOf(resultado.getInt("id")));
-                tmpUnMedida.setNome(resultado.getString("unidade"));
-                tmpUnMedida.setSigla(resultado.getString("sigla"));
-                unMedidas.add(tmpUnMedida);
+                Bloqueio tmpBloqueio = new Bloqueio();
+                tmpBloqueio.setId(String.valueOf(resultado.getInt("id")));
+                tmpBloqueio.setBloqueio(resultado.getString("bloqueio"));
+                bloqueios.add(tmpBloqueio);
             }
         } catch (Exception e) {
-            System.out.println("Erro consultar Unidade de Medida = " + e);
+            System.out.println("Erro consultar Bloqueio= " + e);
             return null;
         }
-        return unMedidas;
+        return bloqueios;
     }
 
     @Override
@@ -126,29 +120,28 @@ public class UnMedidaDao implements daos.IDAO {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "SELECT * FROM unidade WHERE "
+            String sql = "SELECT * FROM Bloqueio WHERE "
                     + "id = " + id + " ORDER BY 1;";
 
             // System.out.println("sql: " + sql);
             ResultSet resultado = st.executeQuery(sql);
 
             if (resultado.next()) {
-                UnMedida tmpUnMedida = new UnMedida();
-                tmpUnMedida.setId(String.valueOf(resultado.getInt("id")));
-                tmpUnMedida.setNome(resultado.getString("unidade"));
-                tmpUnMedida.setSigla(resultado.getString("sigla"));
-                return tmpUnMedida;
+                Bloqueio tmpBloqueio = new Bloqueio();
+                tmpBloqueio.setId(String.valueOf(resultado.getInt("id")));
+                tmpBloqueio.setBloqueio(resultado.getString("bloqueio"));
+                return tmpBloqueio;
             } else {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Erro consultar UnMedida= " + e);
+            System.out.println("Erro consultar Bloqueio= " + e);
             return e.toString();
         }
     }
 
     @Override
-    public Object consultarNome(String unidade) {
+    public Object consultarNome(String nome) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
