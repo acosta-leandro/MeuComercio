@@ -18,6 +18,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import jidefx.scene.control.decoration.DecorationPane;
+import meucomercio.apoio.Validation;
 import meucomercio.dao.GrupoDao;
 import meucomercio.entidades.Grupo;
 
@@ -32,6 +35,7 @@ public class cadastrarUnMedidaController implements Initializable {
     private UnMedida unMedida = new UnMedida();
     private List<UnMedida> listUnMedida;
     private ObservableList<UnMedida> observableListUnMedida;
+    private boolean atualizando = false;
 
     @FXML
     private TableView<UnMedida> tblUnMedida;
@@ -50,9 +54,7 @@ public class cadastrarUnMedidaController implements Initializable {
     @FXML
     private Button btnCancelar;
     @FXML
-    private Button btnAtualizar;
-    @FXML
-    private Button btnSalvar;
+    private Button btnConfirmar;
     @FXML
     private Button btnFechar;
     @FXML
@@ -67,6 +69,10 @@ public class cadastrarUnMedidaController implements Initializable {
     private TextField tfdPesquisa;
     @FXML
     private TitledPane titledPane;
+    @FXML
+    private AnchorPane anchor;
+    @FXML
+    private AnchorPane root;
 
     @FXML
     private void handleBtnPesquisar() {
@@ -98,12 +104,13 @@ public class cadastrarUnMedidaController implements Initializable {
     }
 
     @FXML
-    private void handleBtnSalvar() {
-        UnMedida unMedida = new UnMedida();
-        unMedida.setNome(tfdNome.getText());
-        unMedida.setSigla(tfdSigla.getText());
-        unMedidaDao.salvar(unMedida);
-        handleBtnPesquisar();
+    private void handleBtnConfirmar() {
+        if (atualizando) {
+            unMedidaDao.atualizar(unMedida);
+        } else {
+            unMedidaDao.salvar(unMedida);
+        }
+        atualizando = false;
         handleBtnCancelar();
     }
 
@@ -115,14 +122,6 @@ public class cadastrarUnMedidaController implements Initializable {
         tfdSigla.setText("");
         tblUnMedida.setDisable(false);
         btnPesquisar.setDisable(false);
-        handleBtnPesquisar();
-    }
-
-    @FXML
-    private void handleBtnAtualizar() {
-        tblUnMedida.setDisable(false);
-        btnPesquisar.setDisable(false);
-        unMedidaDao.atualizar(unMedida);
         handleBtnPesquisar();
     }
 
@@ -140,20 +139,10 @@ public class cadastrarUnMedidaController implements Initializable {
 
     // configura a lógica da tela
     private void configuraBindings() {
-        //bids de campos
+        //binds de campos
         unMedida.idProperty().bind(lblId.textProperty());
         unMedida.nomeProperty().bind(tfdNome.textProperty());
-         unMedida.siglaProperty().bind(tfdSigla.textProperty());
-        // Verifica se os campos Obrigatorios estão vazios
-        BooleanBinding camposObrigatorios = tfdNome.textProperty().isEmpty().or(tfdSigla.textProperty().isEmpty());
-        // indica se há algo selecionado na tabela
-        BooleanBinding algoSelecionado = tblUnMedida.getSelectionModel().selectedItemProperty().isNull();
-        // alguns botões só são habilitados se algo foi selecionado na tabela
-        btnRemover.disableProperty().bind(algoSelecionado);
-        btnAtualizar.disableProperty().bind(algoSelecionado);
-        // o botão salvar/cancelar só é habilitado se as informações foram preenchidas e não tem nada na tela
-        btnSalvar.disableProperty().bind(algoSelecionado.not().or(camposObrigatorios));
-        btnCancelar.disableProperty().bind(camposObrigatorios);
+        unMedida.siglaProperty().bind(tfdSigla.textProperty());
         // quando algo é selecionado na tabela, preenchemos os campos de entrada com os valores para o 
         tblUnMedida.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<UnMedida>() {
             @Override
@@ -162,6 +151,7 @@ public class cadastrarUnMedidaController implements Initializable {
                     tfdNome.textProperty().bindBidirectional(newValue.nomeProperty());
                     lblId.textProperty().bind(Bindings.convert(newValue.idProperty()));
                     tfdSigla.textProperty().bindBidirectional(newValue.siglaProperty());
+                    atualizando = true;
                     tblUnMedida.setDisable(true);
                     btnPesquisar.setDisable(true);
                 } else {
@@ -176,8 +166,22 @@ public class cadastrarUnMedidaController implements Initializable {
         });
     }
 
+    private void validar() {
+        DecorationPane decorationPane = new DecorationPane(anchor);
+        root.getChildren().add(decorationPane);
+        Validation.validate(tfdNome, Validation.VARCHAR25);
+        Validation.validate(tfdSigla, Validation.SIGLA);
+    }
+
+    private void liberarBotoes() {
+        btnConfirmar.disableProperty().bind(Validation.validGroup.not());
+        btnRemover.disableProperty().bind(tblUnMedida.getSelectionModel().selectedItemProperty().isNull());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        validar();
+        liberarBotoes();
         configuraColunas();
         configuraBindings();
     }

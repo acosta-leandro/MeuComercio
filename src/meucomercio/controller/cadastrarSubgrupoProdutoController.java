@@ -18,8 +18,12 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import jidefx.scene.control.decoration.DecorationPane;
+import meucomercio.apoio.Validation;
 import meucomercio.dao.GrupoDao;
 import meucomercio.entidades.Grupo;
+import sun.plugin.javascript.navig.Anchor;
 
 /**
  * Created by leandro on 04/07/16.
@@ -32,6 +36,7 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
     private Subgrupo subgrupo = new Subgrupo();
     private List<Subgrupo> listSubgrupo;
     private ObservableList<Subgrupo> observableListSubgrupo;
+    private boolean atualizando = false;
 
     @FXML
     private TableView<Subgrupo> tblSubgrupo;
@@ -50,9 +55,7 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
     @FXML
     private Button btnCancelar;
     @FXML
-    private Button btnAtualizar;
-    @FXML
-    private Button btnSalvar;
+    private Button btnConfirmar;
     @FXML
     private Button btnFechar;
     @FXML
@@ -67,7 +70,10 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
     private TitledPane titledPane;
     @FXML
     private ComboBox cmbGrupo;
-
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private AnchorPane anchor;
 
     @FXML
     private void handleBtnPesquisar() {
@@ -99,13 +105,15 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
     }
 
     @FXML
-    private void handleBtnSalvar() {
-        Subgrupo subgrupo = new Subgrupo();
-        subgrupo.setSubgrupo(tfdSubgrupo.getText());
-        Grupo grupo = (Grupo) new GrupoDao().consultarNome(cmbGrupo.getSelectionModel().getSelectedItem().toString());
-        subgrupo.setGrupoId(grupo.getId());
-        subgrupoDao.salvar(subgrupo);
-        handleBtnPesquisar();
+    private void handleBtnConfirmar() {
+        if (atualizando) {
+            subgrupoDao.atualizar(subgrupo);
+        } else {
+            Grupo grupo = (Grupo) new GrupoDao().consultarNome(cmbGrupo.getSelectionModel().getSelectedItem().toString());
+            subgrupo.setGrupoId(grupo.getId());
+            subgrupoDao.salvar(subgrupo);
+        }
+        atualizando = false;
         handleBtnCancelar();
     }
 
@@ -117,14 +125,6 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
         cmbGrupo.getSelectionModel().clearSelection();
         tblSubgrupo.setDisable(false);
         btnPesquisar.setDisable(false);
-        handleBtnPesquisar();
-    }
-
-    @FXML
-    private void handleBtnAtualizar() {
-        tblSubgrupo.setDisable(false);
-        btnPesquisar.setDisable(false);
-        subgrupoDao.atualizar(subgrupo);
         handleBtnPesquisar();
     }
 
@@ -145,16 +145,6 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
         //bids de campos
         subgrupo.idProperty().bind(lblId.textProperty());
         subgrupo.subgrupoProperty().bind(tfdSubgrupo.textProperty());
-        // Verifica se os campos Obrigatorios estão vazios
-        BooleanBinding camposObrigatorios = tfdSubgrupo.textProperty().isEmpty();
-        // indica se há algo selecionado na tabela
-        BooleanBinding algoSelecionado = tblSubgrupo.getSelectionModel().selectedItemProperty().isNull();
-        // alguns botões só são habilitados se algo foi selecionado na tabela
-        btnRemover.disableProperty().bind(algoSelecionado);
-        btnAtualizar.disableProperty().bind(algoSelecionado);
-        // o botão salvar/cancelar só é habilitado se as informações foram preenchidas e não tem nada na tela
-        btnSalvar.disableProperty().bind(algoSelecionado.not().or(camposObrigatorios));
-        btnCancelar.disableProperty().bind(camposObrigatorios);
         // quando algo é selecionado na tabela, preenchemos os campos de entrada com os valores para o 
         tblSubgrupo.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<Subgrupo>() {
             @Override
@@ -165,6 +155,7 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
                     cmbGrupo.getSelectionModel().select(newValue.getGrupoNome());
                     tblSubgrupo.setDisable(true);
                     btnPesquisar.setDisable(true);
+                    atualizando = true;
                 } else {
                     lblId.textProperty().unbind();
                     tfdSubgrupo.textProperty().unbind();
@@ -184,6 +175,18 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
         });
     }
 
+    private void validar() {
+        DecorationPane decorationPane = new DecorationPane(anchor);
+        root.getChildren().add(decorationPane);
+        Validation.validate(tfdSubgrupo, Validation.VARCHAR25);
+        Validation.validate(cmbGrupo);
+    }
+
+    private void liberarBotoes() {
+        btnConfirmar.disableProperty().bind(Validation.validGroup.not());
+        btnRemover.disableProperty().bind(tblSubgrupo.getSelectionModel().selectedItemProperty().isNull());
+    }
+
     private void popularCmbGrupo() {
         ObservableList<String> nomesProdutos = FXCollections.observableArrayList();
         ArrayList<Object> listProduto = new GrupoDao().consultarTodos(); //Aqui você tem uma lista de todos seu produtos
@@ -194,10 +197,10 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
         cmbGrupo.getItems().addAll(nomesProdutos);
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("dadadada");
+        validar();
+        liberarBotoes();
         configuraColunas();
         configuraBindings();
         popularCmbGrupo();

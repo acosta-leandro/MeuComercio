@@ -6,20 +6,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.Accordion;
 import meucomercio.MeuComercio;
 
 /**
  * Created by leandro on 05/07/16.
  */
-public class principalController {
+public class principalController implements Initializable {
 
     private static principalController instance;
 
@@ -41,6 +37,9 @@ public class principalController {
 
     @FXML
     private Accordion accordion;
+
+    @FXML
+    private AnchorPane anchorPane;
 
     @FXML
     private MenuItem MenuItemProduto;
@@ -153,5 +152,10 @@ public class principalController {
             cadastrarBloqueioIsAberto = false;
         }
         accordion.getPanes().remove(accordion.getExpandedPane());
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
     }
 }

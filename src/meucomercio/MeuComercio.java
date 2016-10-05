@@ -49,13 +49,6 @@ public class MeuComercio extends Application {
         this.stage = stage;
         System.out.println("1");
         iniciaTelas(primaria);
-//        FXMLLoader loader = new FXMLLoader(cadastrarCategoriaProdutoController.class.getResource("meucomercio.view/principal.fxml"));
-//        Parent root = (Parent) loader.load();
-//        cadastrarCategoriaProdutoController control = (cadastrarCategoriaProdutoController) loader.getController();
-//         Parent root = FXMLLoader.load(getClass().getResource("view/principal.fxml"));   
-//        scene = new Scene(root);
-//        stage.setTitle("Meu Comercio");
-//        stage.setScene(scene);
         stage.show();
 
     }

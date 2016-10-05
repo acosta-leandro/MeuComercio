@@ -18,6 +18,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import jidefx.scene.control.decoration.DecorationPane;
+import meucomercio.apoio.Validation;
 
 /**
  * Created by leandro on 04/07/16.
@@ -30,6 +33,7 @@ public class cadastrarTipoProdutoController implements Initializable {
     private Tipo tipo = new Tipo();
     private List<Tipo> listTipo;
     private ObservableList<Tipo> observableListTipo;
+    private boolean atualizando = false;
 
     @FXML
     private TableView<Tipo> tblTipo;
@@ -46,9 +50,7 @@ public class cadastrarTipoProdutoController implements Initializable {
     @FXML
     private Button btnCancelar;
     @FXML
-    private Button btnAtualizar;
-    @FXML
-    private Button btnSalvar;
+    private Button btnConfirmar;
     @FXML
     private Button btnFechar;
     @FXML
@@ -61,7 +63,10 @@ public class cadastrarTipoProdutoController implements Initializable {
     private TextField tfdPesquisa;
     @FXML
     private TitledPane titledPane;
-
+    @FXML
+    private AnchorPane anchor;
+    @FXML
+    private AnchorPane root;
 
     @FXML
     private void handleBtnPesquisar() {
@@ -95,11 +100,12 @@ public class cadastrarTipoProdutoController implements Initializable {
     }
 
     @FXML
-    private void handleBtnSalvar() {
-        Tipo tipo = new Tipo();
-        tipo.setTipo(tfdTipo.getText());
-        tipoDao.salvar(tipo);
-        handleBtnPesquisar();
+    private void handleBtnConfirmar() {
+        if (atualizando) {
+            tipoDao.atualizar(tipo);
+        } else {
+            tipoDao.salvar(tipo);
+        }
         handleBtnCancelar();
     }
 
@@ -110,14 +116,6 @@ public class cadastrarTipoProdutoController implements Initializable {
         tfdTipo.setText("");
         tblTipo.setDisable(false);
         btnPesquisar.setDisable(false);
-        handleBtnPesquisar();
-    }
-
-    @FXML
-    private void handleBtnAtualizar() {
-        tblTipo.setDisable(false);
-        btnPesquisar.setDisable(false);
-        tipoDao.atualizar(tipo);
         handleBtnPesquisar();
     }
 
@@ -137,16 +135,6 @@ public class cadastrarTipoProdutoController implements Initializable {
         //bids de campos
         tipo.idProperty().bind(lblId.textProperty());
         tipo.tipoProperty().bind(tfdTipo.textProperty());
-        // Verifica se os campos Obrigatorios estão vazios
-        BooleanBinding camposObrigatorios = tfdTipo.textProperty().isEmpty();
-        // indica se há algo selecionado na tabela
-        BooleanBinding algoSelecionado = tblTipo.getSelectionModel().selectedItemProperty().isNull();
-        // alguns botões só são habilitados se algo foi selecionado na tabela
-        btnRemover.disableProperty().bind(algoSelecionado);
-        btnAtualizar.disableProperty().bind(algoSelecionado);
-        // o botão salvar/cancelar só é habilitado se as informações foram preenchidas e não tem nada na tela
-        btnSalvar.disableProperty().bind(algoSelecionado.not().or(camposObrigatorios));
-        btnCancelar.disableProperty().bind(camposObrigatorios);
         // quando algo é selecionado na tabela, preenchemos os campos de entrada com os valores para o 
         tblTipo.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<Tipo>() {
             @Override
@@ -166,9 +154,22 @@ public class cadastrarTipoProdutoController implements Initializable {
         });
     }
 
+    private void validar() {
+        DecorationPane decorationPane = new DecorationPane(anchor);
+        root.getChildren().add(decorationPane);
+        Validation.validate(tfdTipo, Validation.VARCHAR25);
+    }
+
+    private void liberarBotoes() {
+        btnConfirmar.disableProperty().bind(Validation.validGroup.not());
+        btnRemover.disableProperty().bind(tblTipo.getSelectionModel().selectedItemProperty().isNull());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         configuraColunas();
         configuraBindings();
+        validar();
+        liberarBotoes();
     }
 }
