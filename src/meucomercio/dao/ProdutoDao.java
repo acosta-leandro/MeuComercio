@@ -138,9 +138,9 @@ public class ProdutoDao implements daos.IDAO {
                 tmpProduto.setUnidadeId(String.valueOf(resultado.getInt("unidade_id")));
                 UnMedida tmpUnMedida = (UnMedida) new UnMedidaDao().consultarId(Integer.valueOf(tmpProduto.getUnidadeId()));
                 tmpProduto.setUnidadeNome(tmpUnMedida.getNome());
-                tmpProduto.setCusto(resultado.getString("custo"));
-                tmpProduto.setUltCusto(resultado.getString("ult_custo"));
-                tmpProduto.setValor(resultado.getString("valor"));
+                tmpProduto.setCusto(resultado.getString("custo").replace(".", ""));
+                tmpProduto.setUltCusto(resultado.getString("ult_custo").replace(".", ""));
+                tmpProduto.setValor(resultado.getString("valor").replace(".", ""));
                 tmpProduto.setEstMax(resultado.getString("est_max"));
                 tmpProduto.setEstMin(resultado.getString("est_min"));
                 produtos.add(tmpProduto);
@@ -250,9 +250,9 @@ public class ProdutoDao implements daos.IDAO {
                 tmpProduto.setUnidadeId(String.valueOf(resultado.getInt("unidade_id")));
                 UnMedida tmpUnMedida = (UnMedida) new UnMedidaDao().consultarId(Integer.valueOf(tmpProduto.getUnidadeId()));
                 tmpProduto.setUnidadeNome(tmpUnMedida.getNome());
-                tmpProduto.setCusto(resultado.getString("custo"));
-                tmpProduto.setUltCusto(resultado.getString("ult_custo"));
-                tmpProduto.setValor(resultado.getString("valor"));
+                tmpProduto.setCusto(resultado.getString("custo").replace(".", ""));
+                tmpProduto.setUltCusto(resultado.getString("ult_custo").replace(".", ""));
+                tmpProduto.setValor(resultado.getString("valor").replace(".", ""));
                 tmpProduto.setEstMax(resultado.getString("est_max"));
                 tmpProduto.setEstMin(resultado.getString("est_min"));
                 produtos.add(tmpProduto);
