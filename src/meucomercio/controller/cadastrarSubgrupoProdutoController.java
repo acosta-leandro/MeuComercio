@@ -16,14 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import jidefx.scene.control.decoration.DecorationPane;
 import meucomercio.apoio.Validation;
 import meucomercio.dao.GrupoDao;
 import meucomercio.entidades.Grupo;
-import sun.plugin.javascript.navig.Anchor;
 
 /**
  * Created by leandro on 04/07/16.

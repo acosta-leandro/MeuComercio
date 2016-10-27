@@ -25,6 +25,16 @@
                         <MenuItem fx:id="MenuItemUnMedida" mnemonicParsing="false" onAction="#handleMenuItemCadastrarUnMedida" text="Un Medida" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="Comandas">
+                    <items>
+                      <MenuItem fx:id="MenuItemControlarComandas" mnemonicParsing="false" onAction="#handleMenuItemControlarComandas" text="Controlar Comandas" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Vender Produto">
+                     <items>
+                        <MenuItem fx:id="MenuItemVenderProduto" mnemonicParsing="false" onAction="#handleMenuItemVenderProduto" text="Vender Produto" />
+                     </items>
+                  </Menu>
                </menus>
                <opaqueInsets>
                   <Insets />

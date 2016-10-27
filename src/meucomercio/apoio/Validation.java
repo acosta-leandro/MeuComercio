@@ -35,8 +35,9 @@ public class Validation {
     public static String CPF = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}";
     public static String CNPJ = "[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}/[0-9]{4}-[0-9]{2}";
     public static String INTEIRO = "[0-9]{1,9}";
-    public static String REAL = "[0-9]{1,6}(|((\\,|\\.)([0-9]{1,2})))";
+    public static String MONEY = "[0-9]{1,6}(|((\\,|)([0-9]{1,2})))";
     public static String SIGLA = ".{1,3}";
+ 
 
     /**
      * Configura campo FormattedTextField para se comportar com DDD e telefone.

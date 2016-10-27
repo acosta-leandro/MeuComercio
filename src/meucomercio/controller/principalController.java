@@ -34,6 +34,8 @@ public class principalController implements Initializable {
     private boolean cadastrarTipoIsAberto = false;
     private boolean cadastrarProdutoIsAberto = false;
     private boolean cadastrarBloqueioIsAberto = false;
+    private boolean venderProdutoIsAberto = false;
+    private boolean controlarComandasIsAberto = false;
 
     @FXML
     private Accordion accordion;
@@ -58,6 +60,12 @@ public class principalController implements Initializable {
 
     @FXML
     private MenuItem MenuItemBloqueio;
+
+    @FXML
+    private MenuItem MenuItemVenderProduto;
+
+    @FXML
+    private MenuItem MenuItemControlarComandas;
 
     @FXML
     public void handleMenuItemCadastrarCategoria() throws IOException {
@@ -122,10 +130,30 @@ public class principalController implements Initializable {
     @FXML
     public void handleMenuItemCadastrarBloqueio() throws IOException {
         if (!cadastrarBloqueioIsAberto) {
-            TitledPane cadastrarProduto = FXMLLoader.load(MeuComercio.class.getResource("view/cadastrarBloqueioProduto.fxml"));
-            accordion.getPanes().add(cadastrarProduto);
-            accordion.setExpandedPane(cadastrarProduto);
+            TitledPane cadastrarBloqueio = FXMLLoader.load(MeuComercio.class.getResource("view/cadastrarBloqueioProduto.fxml"));
+            accordion.getPanes().add(cadastrarBloqueio);
+            accordion.setExpandedPane(cadastrarBloqueio);
             cadastrarBloqueioIsAberto = true;
+        }
+    }
+
+    @FXML
+    public void handleMenuItemControlarComandas() throws IOException {
+        if (!controlarComandasIsAberto) {
+            TitledPane controlarComandas = FXMLLoader.load(MeuComercio.class.getResource("view/controlarComandas.fxml"));
+            accordion.getPanes().add(controlarComandas);
+            accordion.setExpandedPane(controlarComandas);
+            controlarComandasIsAberto = true;
+        }
+    }
+
+    @FXML
+    public void handleMenuItemVenderProduto() throws IOException {
+        if (!venderProdutoIsAberto) {
+            TitledPane venderProduto = FXMLLoader.load(MeuComercio.class.getResource("view/venderProduto.fxml"));
+            accordion.getPanes().add(venderProduto);
+            accordion.setExpandedPane(venderProduto);
+            venderProdutoIsAberto = true;
         }
     }
 
@@ -150,6 +178,12 @@ public class principalController implements Initializable {
         }
         if (tela.equals("cadastrarBloqueioProduto")) {
             cadastrarBloqueioIsAberto = false;
+        }
+        if (tela.equals("cadastrarVenderProdutos")) {
+            venderProdutoIsAberto = false;
+        }
+        if (tela.equals("controlarComandas")) {
+            controlarComandasIsAberto = false;
         }
         accordion.getPanes().remove(accordion.getExpandedPane());
     }

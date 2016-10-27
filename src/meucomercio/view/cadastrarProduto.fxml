@@ -105,115 +105,119 @@
                </content>
             </Tab>
           <Tab fx:id="tabGeral" text="Geral">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <content>
+                  <AnchorPane fx:id="root" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <GridPane layoutX="7.0" layoutY="14.0" prefHeight="241.0" prefWidth="255.0">
+                        <AnchorPane fx:id="anchor" minHeight="0.0" minWidth="0.0" prefHeight="475.0" prefWidth="1085.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label text="ID" />
-                              <Label text="Produto" GridPane.rowIndex="1" />
-                              <TextField fx:id="tfdProduto" prefHeight="25.0" prefWidth="136.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets left="15.0" />
-                                 </GridPane.margin>
-                              </TextField>
-                              <ComboBox fx:id="cmbGrupo" prefHeight="25.0" prefWidth="165.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <GridPane.margin>
-                                    <Insets left="15.0" />
-                                 </GridPane.margin>
-                              </ComboBox>
-                              <ComboBox fx:id="cmbSubgrupo" prefHeight="25.0" prefWidth="163.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <GridPane.margin>
-                                    <Insets left="15.0" />
-                                 </GridPane.margin>
-                              </ComboBox>
-                              <Label text="Grupo" GridPane.rowIndex="2" />
-                              <Label text="Subgrupo" GridPane.rowIndex="3" />
-                              <ComboBox fx:id="cmbCategoria" prefHeight="25.0" prefWidth="163.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                 <GridPane.margin>
-                                    <Insets left="15.0" />
-                                 </GridPane.margin>
-                              </ComboBox>
-                              <Label text="Categoria" GridPane.rowIndex="4" />
-                              <ComboBox fx:id="cmbTipo" prefHeight="25.0" prefWidth="171.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                 <GridPane.margin>
-                                    <Insets left="15.0" />
-                                 </GridPane.margin>
-                              </ComboBox>
-                              <ComboBox fx:id="cmbBloqueio" prefHeight="25.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                                 <GridPane.margin>
-                                    <Insets left="15.0" />
-                                 </GridPane.margin>
-                              </ComboBox>
-                              <Label text="Tipo" GridPane.rowIndex="5" />
-                              <Label text="Bloqueio" GridPane.rowIndex="6" />
-                              <ComboBox fx:id="cmbUnMedida" prefHeight="25.0" prefWidth="161.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
-                                 <GridPane.margin>
-                                    <Insets left="15.0" />
-                                 </GridPane.margin>
-                              </ComboBox>
-                              <Label text="Un Medida" GridPane.rowIndex="7" />
-                              <Label fx:id="lblId" text="X" GridPane.columnIndex="1">
-                                 <GridPane.margin>
-                                    <Insets left="15.0" />
-                                 </GridPane.margin>
-                              </Label>
+                              <GridPane layoutX="7.0" layoutY="14.0" prefHeight="241.0" prefWidth="255.0">
+                                 <children>
+                                    <Label text="ID" />
+                                    <Label text="Produto" GridPane.rowIndex="1" />
+                                    <TextField fx:id="tfdProduto" prefHeight="25.0" prefWidth="136.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </TextField>
+                                    <ComboBox fx:id="cmbGrupo" prefHeight="25.0" prefWidth="165.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </ComboBox>
+                                    <ComboBox fx:id="cmbSubgrupo" prefHeight="25.0" prefWidth="163.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </ComboBox>
+                                    <Label text="Grupo" GridPane.rowIndex="2" />
+                                    <Label text="Subgrupo" GridPane.rowIndex="3" />
+                                    <ComboBox fx:id="cmbCategoria" prefHeight="25.0" prefWidth="163.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </ComboBox>
+                                    <Label text="Categoria" GridPane.rowIndex="4" />
+                                    <ComboBox fx:id="cmbTipo" prefHeight="25.0" prefWidth="171.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </ComboBox>
+                                    <ComboBox fx:id="cmbBloqueio" prefHeight="25.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </ComboBox>
+                                    <Label text="Tipo" GridPane.rowIndex="5" />
+                                    <Label text="Bloqueio" GridPane.rowIndex="6" />
+                                    <ComboBox fx:id="cmbUnMedida" prefHeight="25.0" prefWidth="161.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </ComboBox>
+                                    <Label text="Un Medida" GridPane.rowIndex="7" />
+                                    <Label fx:id="lblId" text="X" GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                 </children>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="92.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="269.0" minWidth="10.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane layoutX="327.0" layoutY="45.0" prefHeight="180.0" prefWidth="255.0">
+                                 <children>
+                                    <Label text="Custo" />
+                                    <Label text="Ult. Custo" GridPane.rowIndex="1" />
+                                    <Label text="Est Max" GridPane.rowIndex="3" />
+                                    <Label text="Valor" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label text="Est Min" GridPane.rowIndex="4">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField fx:id="tfdCusto" depthTest="DISABLE" prefHeight="22.0" prefWidth="124.0" GridPane.columnIndex="1" />
+                                    <TextField fx:id="tfdUltCusto" prefHeight="25.0" prefWidth="108.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="tfdEstMax" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="tfdEstMin" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField fx:id="tfdValor" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                 </children>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.0" minWidth="10.0" prefWidth="84.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <Button fx:id="btnConfirmar" layoutX="391.0" layoutY="414.0" mnemonicParsing="false" onAction="#handleBtnConfirmar" prefHeight="25.0" prefWidth="90.0" text="Confirmar" />
+                              <Button fx:id="btnCancelar" layoutX="492.0" layoutY="414.0" mnemonicParsing="false" onAction="#handleBtnCancelar" prefHeight="25.0" prefWidth="90.0" text="Cancelar" />
+                              <Button fx:id="btnRemover" layoutX="291.0" layoutY="414.0" mnemonicParsing="false" onAction="#handleBtnRemover" prefHeight="25.0" prefWidth="90.0" text="Remover" />
                            </children>
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="92.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="269.0" minWidth="10.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                        </GridPane>
-                        <GridPane layoutX="327.0" layoutY="45.0" prefHeight="180.0" prefWidth="255.0">
-                           <children>
-                              <Label text="Custo" />
-                              <Label text="Ult. Custo" GridPane.rowIndex="1" />
-                              <Label text="Est Max" GridPane.rowIndex="3" />
-                              <Label text="Valor" GridPane.rowIndex="2">
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label text="Est Min" GridPane.rowIndex="4">
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Label>
-                              <TextField fx:id="tfdCusto" depthTest="DISABLE" prefHeight="22.0" prefWidth="124.0" GridPane.columnIndex="1" />
-                              <TextField fx:id="tfdUltCusto" prefHeight="25.0" prefWidth="108.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <TextField fx:id="tfdEstMax" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <TextField fx:id="tfdEstMin" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <TextField fx:id="tfdValor" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                           </children>
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.0" minWidth="10.0" prefWidth="84.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                        </GridPane>
-                        <Button fx:id="btnConfirmar" layoutX="391.0" layoutY="414.0" mnemonicParsing="false" onAction="#handleBtnConfirmar" prefHeight="25.0" prefWidth="90.0" text="Confirmar" />
-                        <Button fx:id="btnCancelar" layoutX="492.0" layoutY="414.0" mnemonicParsing="false" onAction="#handleBtnCancelar" prefHeight="25.0" prefWidth="90.0" text="Cancelar" />
-                        <Button fx:id="btnRemover" layoutX="291.0" layoutY="414.0" mnemonicParsing="false" onAction="#handleBtnRemover" prefHeight="25.0" prefWidth="90.0" text="Remover" />
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
-            </content>
+               </content>
           </Tab>
         </tabs>
       </TabPane>

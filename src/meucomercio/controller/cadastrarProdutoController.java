@@ -15,7 +15,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import jidefx.scene.control.decoration.DecorationPane;
+import meucomercio.apoio.Validation;
 import meucomercio.dao.BloqueioDao;
 import meucomercio.dao.CategoriaDao;
 import meucomercio.dao.GrupoDao;
@@ -134,6 +139,10 @@ public class cadastrarProdutoController implements Initializable {
     private ComboBox cmbUnMedida;
     @FXML
     private TextField tfdPProduto;
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private AnchorPane anchor;
 
     @FXML
     private void handleBtnPesquisar() {
@@ -375,17 +384,44 @@ public class cadastrarProdutoController implements Initializable {
                 }
             }
         });
+        //Remover R$ quando for alterar valor
+        tfdCusto.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                if (newPropertyValue) { //ganhou foco
+                    if (!tfdCusto.getText().isEmpty() && tfdCusto.getText(0, 2).equals("R$")) {
+                        tfdCusto.setText(tfdCusto.getText(2, tfdCusto.getLength()));
+                    }
+                }
+            }
+        });
+        tfdUltCusto.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                if (newPropertyValue) { //ganhou foco
+                    if (!tfdUltCusto.getText().isEmpty() && tfdUltCusto.getText(0, 2).equals("R$")) {
+                        tfdUltCusto.setText(tfdUltCusto.getText(2, tfdUltCusto.getLength()));
+                    }
+                }
+            }
+        });
+        tfdValor.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                if (newPropertyValue) { //ganhou foco
+                    if (!tfdValor.getText().isEmpty() && tfdValor.getText(0, 2).equals("R$")) {
+                        tfdValor.setText(tfdValor.getText(2, tfdValor.getLength()));
+                    }
+                }
+            }
+        });
 
-        // Verifica se os campos Obrigatorios estão vazios
-        //BooleanBinding camposObrigatorios = tfdProduto.textProperty().isEmpty();
         // indica se há algo selecionado na tabela
-         BooleanBinding algoSelecionado = tblProduto.getSelectionModel().selectedItemProperty().isNull();
+        BooleanBinding algoSelecionado = tblProduto.getSelectionModel().selectedItemProperty().isNull();
         // alguns botões só são habilitados se algo foi selecionado na tabela
         btnRemover.disableProperty().bind(algoSelecionado);
 
-        // o botão salvar/cancelar só é habilitado se as informações foram preenchidas e não tem nada na tela
-        //    btnConfirmar.disableProperty().bind(algoSelecionado.not().or(camposObrigatorios));
-       // btnCancelar.disableProperty().bind(camposObrigatorios);
+       
         // quando algo é selecionado na tabela, preenchemos os campos de entrada com os valores para o 
         tblProduto.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<Produto>() {
             @Override
@@ -505,6 +541,29 @@ public class cadastrarProdutoController implements Initializable {
         cmbUnMedida.getSelectionModel().clearSelection();
     }
 
+    private void validar() {
+        DecorationPane decorationPane = new DecorationPane(anchor);
+        root.getChildren().add(decorationPane);
+        Validation.validate(cmbBloqueio);
+        Validation.validate(cmbCategoria);
+        Validation.validate(cmbGrupo);
+        Validation.validate(cmbSubgrupo);
+        Validation.validate(cmbTipo);
+        Validation.validate(cmbUnMedida);
+        Validation.validate(tfdProduto, Validation.VARCHAR25);
+        Validation.validate(tfdCusto, Validation.MONEY);
+        Validation.validate(tfdEstMax, Validation.VARCHAR25);
+        Validation.validate(tfdEstMin, Validation.VARCHAR25);
+        Validation.validate(tfdUltCusto, Validation.VARCHAR25);
+        Validation.validate(tfdValor, Validation.VARCHAR25);
+
+    }
+
+    private void liberarBotoes() {
+        btnConfirmar.disableProperty().bind(Validation.validGroup.not());
+        btnRemover.disableProperty().bind(tblProduto.getSelectionModel().selectedItemProperty().isNull());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         configuraColunas();
@@ -515,5 +574,7 @@ public class cadastrarProdutoController implements Initializable {
         popularCmbTipo();
         popularCmbBloqueio();
         popularCmbUnMedida();
+        validar();
+        liberarBotoes();
     }
 }

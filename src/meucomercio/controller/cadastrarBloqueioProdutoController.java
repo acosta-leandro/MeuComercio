@@ -18,6 +18,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import jidefx.scene.control.decoration.DecorationPane;
+import meucomercio.apoio.Validation;
 
 /**
  * Created by leandro on 04/07/16.
@@ -30,6 +33,7 @@ public class cadastrarBloqueioProdutoController implements Initializable {
     private Bloqueio bloqueio = new Bloqueio();
     private List<Bloqueio> listBloqueio;
     private ObservableList<Bloqueio> observableListBloqueio;
+    private boolean atualizando = false;
 
     @FXML
     private TableView<Bloqueio> tblBloqueio;
@@ -48,7 +52,7 @@ public class cadastrarBloqueioProdutoController implements Initializable {
     @FXML
     private Button btnAtualizar;
     @FXML
-    private Button btnSalvar;
+    private Button btnConfirmar;
     @FXML
     private Button btnFechar;
     @FXML
@@ -61,7 +65,10 @@ public class cadastrarBloqueioProdutoController implements Initializable {
     private TextField tfdPesquisa;
     @FXML
     private TitledPane titledPane;
-
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private AnchorPane anchor;
 
     @FXML
     private void handleBtnPesquisar() {
@@ -95,11 +102,13 @@ public class cadastrarBloqueioProdutoController implements Initializable {
     }
 
     @FXML
-    private void handleBtnSalvar() {
-        Bloqueio bloqueio = new Bloqueio();
-        bloqueio.setBloqueio(tfdBloqueio.getText());
-        bloqueioDao.salvar(bloqueio);
-        handleBtnPesquisar();
+    private void handleBtnConfirmar() {
+        if (atualizando) {
+            bloqueioDao.atualizar(bloqueio);
+        } else {
+            bloqueioDao.salvar(bloqueio);
+        }
+        atualizando = false;
         handleBtnCancelar();
     }
 
@@ -137,16 +146,6 @@ public class cadastrarBloqueioProdutoController implements Initializable {
         //bids de campos
         bloqueio.idProperty().bind(lblId.textProperty());
         bloqueio.bloqueioProperty().bind(tfdBloqueio.textProperty());
-        // Verifica se os campos Obrigatorios estão vazios
-        BooleanBinding camposObrigatorios = tfdBloqueio.textProperty().isEmpty();
-        // indica se há algo selecionado na tabela
-        BooleanBinding algoSelecionado = tblBloqueio.getSelectionModel().selectedItemProperty().isNull();
-        // alguns botões só são habilitados se algo foi selecionado na tabela
-        btnRemover.disableProperty().bind(algoSelecionado);
-        btnAtualizar.disableProperty().bind(algoSelecionado);
-        // o botão salvar/cancelar só é habilitado se as informações foram preenchidas e não tem nada na tela
-        btnSalvar.disableProperty().bind(algoSelecionado.not().or(camposObrigatorios));
-        btnCancelar.disableProperty().bind(camposObrigatorios);
         // quando algo é selecionado na tabela, preenchemos os campos de entrada com os valores para o 
         tblBloqueio.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<Bloqueio>() {
             @Override
@@ -156,6 +155,7 @@ public class cadastrarBloqueioProdutoController implements Initializable {
                     lblId.textProperty().bind(Bindings.convert(newValue.idProperty()));
                     tblBloqueio.setDisable(true);
                     btnPesquisar.setDisable(true);
+                    atualizando = true;
                 } else {
                     lblId.textProperty().unbind();
                     tfdBloqueio.textProperty().unbind();
@@ -166,8 +166,21 @@ public class cadastrarBloqueioProdutoController implements Initializable {
         });
     }
 
+    private void validar() {
+        DecorationPane decorationPane = new DecorationPane(anchor);
+        root.getChildren().add(decorationPane);
+        Validation.validate(tfdBloqueio, Validation.VARCHAR25);
+    }
+
+    private void liberarBotoes() {
+        btnConfirmar.disableProperty().bind(Validation.validGroup.not());
+        btnRemover.disableProperty().bind(tblBloqueio.getSelectionModel().selectedItemProperty().isNull());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        validar();
+        liberarBotoes();
         configuraColunas();
         configuraBindings();
     }
