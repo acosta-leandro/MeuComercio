@@ -47,7 +47,6 @@ public class controlarComandasController implements Initializable {
         stage.setTitle("Nova Comanda"); 
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
-        stage.show();
     }
 
     @FXML
