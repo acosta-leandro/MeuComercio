@@ -40,13 +40,14 @@ public class controlarComandasController implements Initializable {
 
     @FXML
     private void handleBtnF1NovaComanda() throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(MeuComercio.class.getResource("view/editarComanda.fxml"));
-//        Parent root1 = (Parent) fxmlLoader.load();
-//        Stage stage = new Stage();
-//        stage.setScene(new Scene(root1));
-//        stage.setTitle("Nova Comanda"); 
-//        stage.initModality(Modality.APPLICATION_MODAL);
-//        stage.setResizable(false);
+        FXMLLoader fxmlLoader = new FXMLLoader(MeuComercio.class.getResource("view/editarComanda.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.setTitle("Nova Comanda");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
+        stage.show();
     }
 
     @FXML
@@ -55,7 +56,7 @@ public class controlarComandasController implements Initializable {
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(root1));
-        stage.setTitle("Nova Comanda"); 
+        stage.setTitle("Nova Comanda");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
     }

@@ -1,0 +1,53 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 28/10/2016, 10:02:39
+    Author     : Leandro Acosta <leandro.acosta292@hotmail.com>
+*/
+
+/***FUNDO***/
+.root {
+    -fx-background-color: #FFF;
+}
+
+/***TEXTFIELD***/
+.text-field {
+    -fx-background-color: #fff;
+    -fx-border-color: #eaeaea;
+    -fx-text-fill: #7a7a7a;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-highlight-fill: #ebebcc;
+    -fx-highlight-text-fill: #000000;
+}
+.text-field:focused {
+    -fx-border-color: #7acff5;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
+
+/***TOPBAR***/
+.menubar {
+    -fx-background-color: #000000;
+    -fx-background-radius: 4px;
+    -fx-background-insets: 0;
+    -fx-padding: 0.667em 0.75em 0.667em 0.75em;
+    -fx-effect: dropshadow(three-pass-box, rgba(72, 72, 72, 0.4), 4, 0.0, 0, 2);
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+}
+
+/******/
+
+/******/
+
+/******/
+
+/******/
+
+/******/
+
+/******/

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="root1" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="meucomercio.controller.editarComandaController">
+<AnchorPane fx:id="root" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="meucomercio.controller.editarComandaController">
    <children>
       <AnchorPane fx:id="anchor" blendMode="SRC_ATOP" minHeight="0.0" minWidth="0.0" prefHeight="237.0" prefWidth="463.0">
          <children>
