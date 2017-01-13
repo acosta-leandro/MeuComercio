@@ -145,4 +145,9 @@ public class Validation {
         }
         validateGroup((Pane) field.getParent());
     }
+    //validar sempre true
+    public static void validateTrue(TextField field) {
+        addDecoration(true, field);
+    }
+    
 }

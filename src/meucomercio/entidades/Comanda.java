@@ -52,7 +52,7 @@ public class Comanda {
     public String getDtEncerramento() {
         return dtEncerramento.get();
     }
-    public StringProperty dtEncerramento() {
+    public StringProperty dtEncerramentoProperty() {
         return dtEncerramento;
     }
     public void setDtEncerramento(String dtEncerramento) {
@@ -63,12 +63,24 @@ public class Comanda {
     public String getEstado() {
         return estado.get();
     }
-    public StringProperty estado() {
+    public StringProperty estadoProperty() {
         return estado;
     }
     public void setEstado(String estado) {
         this.estado.set(estado);
     }  
+    
+    //nome
+    public String getNome() {
+        return nome.get();
+    }
+    public StringProperty nomeProperty() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome.set(nome);
+    } 
+    
     
 
     StringProperty id = new SimpleStringProperty();
@@ -76,6 +88,6 @@ public class Comanda {
     StringProperty dtAbertura = new SimpleStringProperty();
     StringProperty dtEncerramento = new SimpleStringProperty();
     StringProperty estado = new SimpleStringProperty();
-    
+    StringProperty nome = new SimpleStringProperty();
     
 }

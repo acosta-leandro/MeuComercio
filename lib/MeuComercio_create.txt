@@ -1,0 +1,169 @@
+-- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2017-01-05 16:57:27.625
+
+-- tables
+-- Table: Bloqueio
+CREATE TABLE Bloqueio (
+    id serial  NOT NULL,
+    bloqueio varchar(25)  NULL,
+    CONSTRAINT Bloqueio_pk PRIMARY KEY (id)
+);
+
+-- Table: Categoria
+CREATE TABLE Categoria (
+    id serial  NOT NULL,
+    categoria varchar(25)  NULL,
+    CONSTRAINT Categoria_pk PRIMARY KEY (id)
+);
+
+-- Table: Comanda
+CREATE TABLE Comanda (
+    id serial  NOT NULL,
+    nome varchar(25)  NOT NULL,
+    dt_abertura timestamp  NOT NULL,
+    dt_encerramento timestamp  NULL,
+    estado varchar(25)  NOT NULL,
+    valor money  NULL,
+    CONSTRAINT Comanda_pk PRIMARY KEY (id)
+);
+
+-- Table: Grupo
+CREATE TABLE Grupo (
+    id serial  NOT NULL,
+    grupo varchar(25)  NULL,
+    CONSTRAINT Grupo_pk PRIMARY KEY (id)
+);
+
+-- Table: Produto
+CREATE TABLE Produto (
+    id serial  NOT NULL,
+    grupo_id int  NOT NULL,
+    produto varchar(25)  NULL,
+    subgrupo_id int  NOT NULL,
+    categoria_id int  NOT NULL,
+    bloqueio_id int  NOT NULL,
+    tipo_id int  NOT NULL,
+    unidade_id int  NOT NULL,
+    custo money  NOT NULL,
+    ult_custo money  NOT NULL,
+    valor money  NOT NULL,
+    est_max int  NOT NULL,
+    est_min int  NOT NULL,
+    CONSTRAINT Produto_pk PRIMARY KEY (id)
+);
+
+-- Table: Produto_Comanda
+CREATE TABLE Produto_Comanda (
+    id int  NOT NULL,
+    produto_id int  NOT NULL,
+    comanda_id int  NOT NULL,
+    CONSTRAINT Produto_Comanda_pk PRIMARY KEY (id)
+);
+
+-- Table: Subgrupo
+CREATE TABLE Subgrupo (
+    id serial  NOT NULL,
+    subgrupo varchar(25)  NULL,
+    grupo_id int  NOT NULL,
+    CONSTRAINT Subgrupo_pk PRIMARY KEY (id)
+);
+
+-- Table: Tipo
+CREATE TABLE Tipo (
+    id serial  NOT NULL,
+    tipo varchar(25)  NULL,
+    CONSTRAINT Tipo_pk PRIMARY KEY (id)
+);
+
+-- Table: Unidade
+CREATE TABLE Unidade (
+    id serial  NOT NULL,
+    unidade varchar(25)  NULL,
+    sigla varchar(3)  NULL,
+    CONSTRAINT Unidade_pk PRIMARY KEY (id)
+);
+
+-- Table: Usuario
+CREATE TABLE Usuario (
+    id serial  NOT NULL,
+    login varchar(25)  NOT NULL,
+    senha varchar(25)  NOT NULL,
+    nome varchar(50)  NOT NULL,
+    CONSTRAINT Usuario_pk PRIMARY KEY (id)
+);
+
+-- foreign keys
+-- Reference: Produto_Bloqueio (table: Produto)
+ALTER TABLE Produto ADD CONSTRAINT Produto_Bloqueio
+    FOREIGN KEY (bloqueio_id)
+    REFERENCES Bloqueio (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Produto_Categoria (table: Produto)
+ALTER TABLE Produto ADD CONSTRAINT Produto_Categoria
+    FOREIGN KEY (categoria_id)
+    REFERENCES Categoria (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Produto_Comanda_Comanda (table: Produto_Comanda)
+ALTER TABLE Produto_Comanda ADD CONSTRAINT Produto_Comanda_Comanda
+    FOREIGN KEY (comanda_id)
+    REFERENCES Comanda (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Produto_Comanda_Produto (table: Produto_Comanda)
+ALTER TABLE Produto_Comanda ADD CONSTRAINT Produto_Comanda_Produto
+    FOREIGN KEY (produto_id)
+    REFERENCES Produto (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Produto_Grupo (table: Produto)
+ALTER TABLE Produto ADD CONSTRAINT Produto_Grupo
+    FOREIGN KEY (grupo_id)
+    REFERENCES Grupo (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Produto_Subgrupo (table: Produto)
+ALTER TABLE Produto ADD CONSTRAINT Produto_Subgrupo
+    FOREIGN KEY (subgrupo_id)
+    REFERENCES Subgrupo (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Produto_Tipo (table: Produto)
+ALTER TABLE Produto ADD CONSTRAINT Produto_Tipo
+    FOREIGN KEY (tipo_id)
+    REFERENCES Tipo (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Produto_Unidade (table: Produto)
+ALTER TABLE Produto ADD CONSTRAINT Produto_Unidade
+    FOREIGN KEY (unidade_id)
+    REFERENCES Unidade (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Subgrupo_Grupo (table: Subgrupo)
+ALTER TABLE Subgrupo ADD CONSTRAINT Subgrupo_Grupo
+    FOREIGN KEY (grupo_id)
+    REFERENCES Grupo (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- End of file.
+

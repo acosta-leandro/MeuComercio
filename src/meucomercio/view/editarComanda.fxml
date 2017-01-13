@@ -12,13 +12,13 @@
 
 <AnchorPane fx:id="root" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="meucomercio.controller.editarComandaController">
    <children>
-      <AnchorPane fx:id="anchor" blendMode="SRC_ATOP" minHeight="0.0" minWidth="0.0" prefHeight="237.0" prefWidth="463.0">
+      <AnchorPane fx:id="anchor" blendMode="SRC_ATOP" minHeight="0.0" minWidth="0.0" prefHeight="233.0" prefWidth="463.0">
          <children>
             <GridPane layoutX="18.0" layoutY="10.0" prefHeight="164.0" prefWidth="422.0">
                <children>
                   <Label text="Nº" />
-                  <Label text="Nome" GridPane.rowIndex="1" />
-                  <TextField fx:id="tfdNome" promptText="*" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label text="Nome" GridPane.rowIndex="2" />
+                  <TextField fx:id="tfdNome" promptText="*" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="15.0" right="15.0" />
                      </GridPane.margin>
@@ -28,12 +28,12 @@
                         <Insets left="15.0" right="15.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField fx:id="tfdAbertura" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextField fx:id="tfdAbertura" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="15.0" right="15.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Label text="Abertura" GridPane.rowIndex="2" />
+                  <Label text="Abertura" GridPane.rowIndex="1" />
                   <ComboBox fx:id="cmbEstado" prefHeight="25.0" prefWidth="305.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="15.0" right="15.0" />
@@ -52,7 +52,6 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
             </GridPane>
-            <Button fx:id="btnCancelar" layoutX="194.0" layoutY="194.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnCancelar" prefHeight="25.0" prefWidth="90.0" text="Cancelar" />
             <Button fx:id="btnConfirmar" layoutX="336.0" layoutY="194.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnConfirmar" prefHeight="21.0" prefWidth="90.0" text="Confirmar" />
          </children>
       </AnchorPane>

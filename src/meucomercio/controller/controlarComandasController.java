@@ -4,7 +4,13 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPopup;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,9 +20,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -26,8 +35,13 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import meucomercio.MeuComercio;
 import static meucomercio.MeuComercio.stage;
+import meucomercio.dao.ComandaDao;
+import meucomercio.entidades.Comanda;
 
 public class controlarComandasController implements Initializable {
+
+    ComandaDao comandaDao = new ComandaDao();
+    private static principalController princCont = principalController.getInstance();
 
     @FXML
     private TitledPane titledPane;
@@ -37,6 +51,59 @@ public class controlarComandasController implements Initializable {
 
     @FXML
     private Button btnF1NovaComanda;
+
+    @FXML
+    private Button btnF2AlterarComanda;
+
+    @FXML
+    private Button btnF5ListarTodos;
+
+    @FXML
+    private TableView<Comanda> tblComandas;
+
+    @FXML
+    private TableColumn<Comanda, String> tblColId;
+
+    @FXML
+    private TableColumn<Comanda, String> tblColNome;
+
+    @FXML
+    private TableColumn<Comanda, String> tblColEntrada;
+
+    @FXML
+    private TableColumn<Comanda, String> tblColEncerramento;
+
+    @FXML
+    private TableColumn<Comanda, String> tblColValor;
+
+    @FXML
+    private TableColumn<Comanda, String> tblColStatus;
+
+    private void configuraColunas() {
+        tblColId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tblColNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        tblColEntrada.setCellValueFactory(new PropertyValueFactory<>("dtAbertura"));
+        tblColEncerramento.setCellValueFactory(new PropertyValueFactory<>("dtEncerramento"));
+        tblColValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        tblColStatus.setCellValueFactory(new PropertyValueFactory<>("estado"));
+    }
+
+    private void configuraBindings() {
+        tblComandas.setRowFactory(tv -> {
+            TableRow<Comanda> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    try {                    
+                        handleBtnF2AlterarComanda();
+                    } catch (IOException ex) {
+                        Logger.getLogger(controlarComandasController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            return row;
+        });
+        btnF2AlterarComanda.disableProperty().bind(Bindings.isEmpty(tblComandas.getSelectionModel().getSelectedItems()));
+    }
 
     @FXML
     private void handleBtnF1NovaComanda() throws IOException {
@@ -51,19 +118,37 @@ public class controlarComandasController implements Initializable {
     }
 
     @FXML
-    private void handleBtnFechar() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MeuComercio.class.getResource("view/cadastrarGrupoProduto.fxml"));
-        Parent root1 = (Parent) fxmlLoader.load();
+    private void handleBtnF2AlterarComanda() throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(MeuComercio.class.getResource("view/editarComanda.fxml"));
+        AnchorPane anchorPane = loader.load();
+        // Get the Controller from the FXMLLoader
+        editarComandaController controller = loader.getController();
+        controller.editarComanda(tblComandas.getSelectionModel().getSelectedItem());
+        // Set data in the controller
+        Scene scene = new Scene(anchorPane);
         Stage stage = new Stage();
-        stage.setScene(new Scene(root1));
-        stage.setTitle("Nova Comanda");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    @FXML
+    private void handleBtnF5ListarTodos() throws IOException {
+        ArrayList comandas = comandaDao.consultarTodos();
+        ObservableList<Comanda> tmplistProdutos = FXCollections.observableArrayList(comandas);
+        tblComandas.setItems(tmplistProdutos);
+    }
+
+    @FXML
+    private void handleBtnFechar() {
+        princCont.fecharTittledPane("controlarComanda");
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        configuraColunas();
+        configuraBindings();
     }
 
 }

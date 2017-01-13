@@ -35,6 +35,11 @@
                         <MenuItem fx:id="MenuItemVenderProduto" mnemonicParsing="false" onAction="#handleMenuItemVenderProduto" text="Vender Produto" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="Fazer Pedido">
+                     <items>
+                        <MenuItem fx:id="MenuItemFazerPedido" mnemonicParsing="false" onAction="#handleMenuItemFazerPedido" text="Fazer Pedido" />
+                     </items>
+                  </Menu>
                </menus>
                <opaqueInsets>
                   <Insets />

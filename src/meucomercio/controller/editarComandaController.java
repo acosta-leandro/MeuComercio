@@ -6,12 +6,18 @@
 package meucomercio.controller;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -46,14 +52,7 @@ public class editarComandaController implements Initializable {
     @FXML
     private ComboBox cmbEstado;
     @FXML
-    private Button btnCancelar;
-    @FXML
     private Button btnConfirmar;
-
-    @FXML
-    private void handleBtnCancelar() {
-        // this.finalize();
-    }
 
     @FXML
     private void handleBtnConfirmar() {
@@ -69,7 +68,8 @@ public class editarComandaController implements Initializable {
     private void configuraBindings() {
         //bids de campos
         comanda.idProperty().bind(lblId.textProperty());
-        comanda.dtAberturaProperty().bind(tfdAbertura.textProperty());
+        comanda.nomeProperty().bindBidirectional(tfdNome.textProperty());
+        comanda.dtAberturaProperty().bindBidirectional(tfdAbertura.textProperty());
         cmbEstado.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -79,27 +79,34 @@ public class editarComandaController implements Initializable {
             }
         });
     }
-        private void validar() {
-            DecorationPane decorationPane = new DecorationPane(anchor);
-            root.getChildren().add(decorationPane);
-            Validation.validate(tfdNome, Validation.VARCHAR25);
-            Validation.validate(tfdAbertura, Validation.VARCHAR25);
-            Validation.validate(cmbEstado);
-        }
-        private void liberarBotoes() {
-            btnConfirmar.disableProperty().bind(Validation.validGroup.not());
-        }
+
+    private void validar() {
+        DecorationPane decorationPane = new DecorationPane(anchor);
+        root.getChildren().add(decorationPane);
+        Validation.validate(tfdNome, Validation.VARCHAR25);
+        Validation.validateTrue(tfdAbertura);
+        Validation.validate(cmbEstado);
+    }
+
+    private void liberarBotoes() {
+        btnConfirmar.disableProperty().bind(Validation.validGroup.not());
+    }
 
     private void popularCmbEstado() {
         ObservableList<String> estados = FXCollections.observableArrayList();
         estados.add("Aguardando Pedido");
-        estados.add("Consumindo");
-        estados.add("Aguardando 15m");
-        estados.add("Aguardando 30m");
         estados.add("Atender");
+        estados.add("Consumindo");
         estados.add("Solicitou Conta");
         estados.add("Fechado");
         cmbEstado.getItems().addAll(estados);
+    }
+
+    private void abertura() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date = new Date();
+        //System.out.println(dateFormat.format(date));
+        tfdAbertura.setText(dateFormat.format(date));
     }
 
     /**
@@ -107,10 +114,19 @@ public class editarComandaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       popularCmbEstado();
-       validar();
-      liberarBotoes();
-//       configuraBindings();
+        popularCmbEstado();
+        validar();
+        liberarBotoes();
+        configuraBindings();
+        abertura();
+    }
+
+    public void editarComanda(Comanda comanda) {
+        this.comanda = comanda;
+        tfdNome.setText(comanda.getNome());
+        tfdAbertura.setText(comanda.getDtAbertura());
+        lblId.setText(comanda.getId());
+        cmbEstado.getSelectionModel().select(comanda.getEstado());
     }
 
 }

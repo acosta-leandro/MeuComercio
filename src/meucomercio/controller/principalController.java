@@ -36,6 +36,7 @@ public class principalController implements Initializable {
     private boolean cadastrarBloqueioIsAberto = false;
     private boolean venderProdutoIsAberto = false;
     private boolean controlarComandasIsAberto = false;
+    private boolean fazerPedidoIsAberto = false;
 
     @FXML
     private Accordion accordion;
@@ -66,6 +67,9 @@ public class principalController implements Initializable {
 
     @FXML
     private MenuItem MenuItemControlarComandas;
+    
+    @FXML
+    private MenuItem MenuItemFazerPedido;
 
     @FXML
     public void handleMenuItemCadastrarCategoria() throws IOException {
@@ -156,6 +160,15 @@ public class principalController implements Initializable {
             venderProdutoIsAberto = true;
         }
     }
+    @FXML
+    public void handleMenuItemFazerPedido() throws IOException {
+        if (!fazerPedidoIsAberto) {
+            TitledPane fazerPedido = FXMLLoader.load(MeuComercio.class.getResource("view/fazerPedido.fxml"));
+            accordion.getPanes().add(fazerPedido);
+            accordion.setExpandedPane(fazerPedido);
+            fazerPedidoIsAberto = true;
+        }
+    }
 
     public void fecharTittledPane(String tela) {
         if (tela.equals("cadastrarCategoriaProduto")) {
@@ -184,6 +197,9 @@ public class principalController implements Initializable {
         }
         if (tela.equals("controlarComandas")) {
             controlarComandasIsAberto = false;
+        }
+        if (tela.equals("fazerPedido")) {
+            fazerPedidoIsAberto = false;
         }
         accordion.getPanes().remove(accordion.getExpandedPane());
     }
