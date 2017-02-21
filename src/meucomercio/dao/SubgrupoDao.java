@@ -177,4 +177,30 @@ public class SubgrupoDao implements daos.IDAO {
             return e.toString();
         }
     }
+
+    public ArrayList<Object>  consultarIdGrupo(int idGrupo) {
+        ArrayList subgrupos = new ArrayList();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM Subgrupo WHERE "
+                    + "grupo_id =" + idGrupo + " ORDER BY 1;";
+            System.out.println("sql: " + sql);
+
+            ResultSet resultado = st.executeQuery(sql);
+            while (resultado.next()) {
+                Subgrupo tmpSubgrupo = new Subgrupo();
+                tmpSubgrupo.setId(String.valueOf(resultado.getInt("id")));
+                tmpSubgrupo.setSubgrupo(resultado.getString("subgrupo"));
+                tmpSubgrupo.setGrupoId(String.valueOf(resultado.getInt("grupo_id")));
+                Grupo tmpGrupo = (Grupo) new GrupoDao().consultarId(Integer.valueOf(tmpSubgrupo.getGrupoId()));
+                tmpSubgrupo.setGrupoNome(tmpGrupo.getGrupo());
+                subgrupos.add(tmpSubgrupo);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Subgrupo= " + e);
+            return null;
+        }
+        return subgrupos;
+    }
 }

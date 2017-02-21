@@ -51,6 +51,9 @@ public class controlarComandasController implements Initializable {
 
     @FXML
     private Button btnF1NovaComanda;
+    
+    @FXML
+    private Button btnTodosItens;
 
     @FXML
     private Button btnF2AlterarComanda;
@@ -104,6 +107,18 @@ public class controlarComandasController implements Initializable {
         });
         btnF2AlterarComanda.disableProperty().bind(Bindings.isEmpty(tblComandas.getSelectionModel().getSelectedItems()));
     }
+    
+    @FXML
+    private void handleBtnTodosItens() throws IOException {
+    FXMLLoader fxmlLoader = new FXMLLoader(MeuComercio.class.getResource("view/listarProdutos.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.setTitle("Listar Produtos");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
+        stage.show();
+}
 
     @FXML
     private void handleBtnF1NovaComanda() throws IOException {
@@ -129,8 +144,7 @@ public class controlarComandasController implements Initializable {
         Scene scene = new Scene(anchorPane);
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.show();
-
+        stage.show();        
     }
 
     @FXML

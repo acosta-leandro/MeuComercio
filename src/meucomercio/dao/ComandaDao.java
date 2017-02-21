@@ -98,7 +98,7 @@ public class ComandaDao implements daos.IDAO {
                 tmpComanda.setEstado(String.valueOf(resultado.getString("estado")));
                 tmpComanda.setValor(String.valueOf(resultado.getString("valor")));
                 comandas.add(tmpComanda);
-                
+
             }
         } catch (Exception e) {
             System.out.println("Erro consultar Comanda= " + e);
@@ -140,18 +140,24 @@ public class ComandaDao implements daos.IDAO {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * FROM Comanda WHERE "
-                    + "id = " + id + " ORDER BY 1;";
+                    + "id = " + id + ";";
 
-            // System.out.println("sql: " + sql);
+             System.out.println("sql: " + sql);
             ResultSet resultado = st.executeQuery(sql);
 
             if (resultado.next()) {
                 Comanda tmpComanda = new Comanda();
                 tmpComanda.setId(String.valueOf(resultado.getInt("id")));
-//                tmpComanda.setComanda(resultado.getString("comanda"));
-//                tmpComanda.setGrupoId(String.valueOf(resultado.getInt("grupo_id")));
-//                Grupo tmpGrupo = (Grupo) new GrupoDao().consultarId(Integer.valueOf(tmpComanda.getGrupoId()));
-//                tmpComanda.setGrupoNome(tmpGrupo.getGrupo());
+                tmpComanda.setNome(resultado.getString("nome"));
+                System.out.println("tbmp"+tmpComanda.getNome());
+                tmpComanda.setDtAbertura(String.valueOf(resultado.getTime("dt_abertura")));
+                if (String.valueOf(resultado.getDate("dt_encerramento")).equals("null")) {
+                    tmpComanda.setDtEncerramento("Aberto");
+                } else {
+                    tmpComanda.setDtEncerramento(String.valueOf(resultado.getDate("dt_encerramento")));
+                }
+                tmpComanda.setEstado(String.valueOf(resultado.getString("estado")));
+                tmpComanda.setValor(String.valueOf(resultado.getString("valor")));
                 return tmpComanda;
             } else {
                 return null;
@@ -186,7 +192,7 @@ public class ComandaDao implements daos.IDAO {
             return e.toString();
         }
     }
-    
+
     public ArrayList<Object> consultarComandasAbertas() {
         ArrayList comandas = new ArrayList();
         try {
@@ -212,7 +218,7 @@ public class ComandaDao implements daos.IDAO {
                 tmpComanda.setEstado(String.valueOf(resultado.getString("estado")));
                 tmpComanda.setValor(String.valueOf(resultado.getString("valor")));
                 comandas.add(tmpComanda);
-                
+
             }
         } catch (Exception e) {
             System.out.println("Erro consultar Comanda= " + e);

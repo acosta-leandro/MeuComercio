@@ -54,7 +54,7 @@ CREATE TABLE Produto (
 
 -- Table: Produto_Comanda
 CREATE TABLE Produto_Comanda (
-    id int  NOT NULL,
+    id serial  NOT NULL,
     produto_id int  NOT NULL,
     comanda_id int  NOT NULL,
     CONSTRAINT Produto_Comanda_pk PRIMARY KEY (id)

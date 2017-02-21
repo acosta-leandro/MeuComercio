@@ -421,7 +421,6 @@ public class cadastrarProdutoController implements Initializable {
         // alguns botões só são habilitados se algo foi selecionado na tabela
         btnRemover.disableProperty().bind(algoSelecionado);
 
-       
         // quando algo é selecionado na tabela, preenchemos os campos de entrada com os valores para o 
         tblProduto.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<Produto>() {
             @Override
@@ -463,6 +462,14 @@ public class cadastrarProdutoController implements Initializable {
                 }
             }
         });
+        cmbGrupo.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                cmbSubgrupo.getItems().clear();
+                popularCmbSubgrupo((String) cmbGrupo.getSelectionModel().getSelectedItem());
+                }
+        });
+
     }
 
     private void popularCmbGrupo() {
@@ -486,11 +493,13 @@ public class cadastrarProdutoController implements Initializable {
         cmbCategoria.getItems().addAll(nomesCategorias);
     }
 
-    private void popularCmbSubgrupo() {
+    private void popularCmbSubgrupo(String grupo) {
         ObservableList<String> nomesSubgrupos = FXCollections.observableArrayList();
         for (int i = 0; i < listSubgrupos.size(); i++) {
             Subgrupo subGrupo = (Subgrupo) listSubgrupos.get(i);
-            nomesSubgrupos.add(subGrupo.getSubgrupo());
+            if (subGrupo.getGrupoNome().equalsIgnoreCase(grupo)) {
+                nomesSubgrupos.add(subGrupo.getSubgrupo());
+            }
         }
         cmbPSubgrupo.getItems().addAll(nomesSubgrupos);
         cmbSubgrupo.getItems().addAll(nomesSubgrupos);
@@ -570,7 +579,7 @@ public class cadastrarProdutoController implements Initializable {
         configuraBindings();
         popularCmbGrupo();
         popularCmbCategoria();
-        popularCmbSubgrupo();
+//        popularCmbSubgrupo();
         popularCmbTipo();
         popularCmbBloqueio();
         popularCmbUnMedida();

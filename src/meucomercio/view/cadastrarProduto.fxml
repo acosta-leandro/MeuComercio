@@ -178,10 +178,10 @@
                               </GridPane>
                               <GridPane layoutX="327.0" layoutY="45.0" prefHeight="180.0" prefWidth="255.0">
                                  <children>
-                                    <Label text="Custo" />
-                                    <Label text="Ult. Custo" GridPane.rowIndex="1" />
+                                    <Label text="Custo" GridPane.rowIndex="1" />
+                                    <Label text="Ult. Custo" GridPane.rowIndex="2" />
                                     <Label text="Est Max" GridPane.rowIndex="3" />
-                                    <Label text="Valor" GridPane.rowIndex="2">
+                                    <Label text="Valor">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
@@ -191,11 +191,11 @@
                                           <Insets />
                                        </GridPane.margin>
                                     </Label>
-                                    <TextField fx:id="tfdCusto" depthTest="DISABLE" prefHeight="22.0" prefWidth="124.0" GridPane.columnIndex="1" />
-                                    <TextField fx:id="tfdUltCusto" prefHeight="25.0" prefWidth="108.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="tfdValor" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" />
+                                    <TextField fx:id="tfdCusto" depthTest="DISABLE" prefHeight="22.0" prefWidth="124.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="tfdUltCusto" prefHeight="25.0" prefWidth="108.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <TextField fx:id="tfdEstMax" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <TextField fx:id="tfdEstMin" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <TextField fx:id="tfdValor" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                  </children>
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" />
