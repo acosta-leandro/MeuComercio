@@ -85,9 +85,7 @@ public class cancelarPedidoController implements Initializable {
 
     @FXML
     void handleBtnCancelar() {
-        System.out.println("alfa");
         if (tblPedidos.getSelectionModel().getSelectedItem().getStatus().equalsIgnoreCase("Aberto")) {
-            System.out.println("alta");
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Excluir Categoria");
             alert.setHeaderText("Cancelando Pedido " + tblPedidos.getSelectionModel().getSelectedItem().getIdPedido());

@@ -71,6 +71,7 @@ public class principalController implements Initializable {
     @FXML
     private MenuItem MenuItemFazerPedido;
 
+
     @FXML
     public void handleMenuItemCadastrarCategoria() throws IOException {
         if (!cadastrarCategoriaIsAberto) {
@@ -154,7 +155,7 @@ public class principalController implements Initializable {
     @FXML
     public void handleMenuItemVenderProduto() throws IOException {
         if (!venderProdutoIsAberto) {
-            TitledPane venderProduto = FXMLLoader.load(MeuComercio.class.getResource("view/venderProduto.fxml"));
+            TitledPane venderProduto = FXMLLoader.load(MeuComercio.class.getResource("view/PDV.fxml"));
             accordion.getPanes().add(venderProduto);
             accordion.setExpandedPane(venderProduto);
             venderProdutoIsAberto = true;
