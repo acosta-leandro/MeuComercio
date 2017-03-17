@@ -142,14 +142,14 @@ public class ComandaDao implements daos.IDAO {
             String sql = "SELECT * FROM Comanda WHERE "
                     + "id = " + id + ";";
 
-             System.out.println("sql: " + sql);
+            System.out.println("sql: " + sql);
             ResultSet resultado = st.executeQuery(sql);
 
             if (resultado.next()) {
                 Comanda tmpComanda = new Comanda();
                 tmpComanda.setId(String.valueOf(resultado.getInt("id")));
                 tmpComanda.setNome(resultado.getString("nome"));
-                System.out.println("tbmp"+tmpComanda.getNome());
+                System.out.println("tbmp" + tmpComanda.getNome());
                 tmpComanda.setDtAbertura(String.valueOf(resultado.getTime("dt_abertura")));
                 if (String.valueOf(resultado.getDate("dt_encerramento")).equals("null")) {
                     tmpComanda.setDtEncerramento("Aberto");
@@ -225,5 +225,50 @@ public class ComandaDao implements daos.IDAO {
             return null;
         }
         return comandas;
+    }
+
+    public ArrayList<Object> consultarStatus(String status) {
+        ArrayList comandas = new ArrayList();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM Comanda WHERE "
+                    + "estado = '" + status + "' ORDER BY 1;";
+            System.out.println("sql: " + sql);
+
+            ResultSet resultado = st.executeQuery(sql);
+            while (resultado.next()) {
+                Comanda tmpComanda = new Comanda();
+                tmpComanda.setId(String.valueOf(resultado.getInt("id")));
+                tmpComanda.setNome(resultado.getString("nome"));
+                tmpComanda.setDtAbertura(String.valueOf(resultado.getTime("dt_abertura")));
+                if (String.valueOf(resultado.getDate("dt_encerramento")).equals("null")) {
+                    tmpComanda.setDtEncerramento("Aberto");
+                } else {
+                    tmpComanda.setDtEncerramento(String.valueOf(resultado.getDate("dt_encerramento")));
+                }
+                tmpComanda.setEstado(String.valueOf(resultado.getString("estado")));
+                tmpComanda.setValor(String.valueOf(resultado.getString("valor")));
+                comandas.add(tmpComanda);
+
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Comanda= " + e);
+            return null;
+        }
+        return comandas;
+    }
+
+    public void fecharComanda(int id) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            String sql = "UPDATE comanda SET "
+                    + "estado = 'fechado'"
+                    + " WHERE id = " + id;
+            System.out.println("sql: " + sql);
+            st.executeUpdate(sql);            
+        } catch (Exception e) {
+            System.out.println("Erro Atualizar Comanda = " + e);
+        }
     }
 }
