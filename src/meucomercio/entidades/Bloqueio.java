@@ -34,9 +34,20 @@ public class Bloqueio {
         this.bloqueio.set(bloqueio);
     }
 
+    public String getEstado() {
+        return estado.get();
+    }
+
+    public StringProperty estadoProperty() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado.set(estado);
+    }
+
+    StringProperty estado = new SimpleStringProperty();
     StringProperty id = new SimpleStringProperty();
     StringProperty bloqueio = new SimpleStringProperty();
-
-
 
 }

@@ -67,6 +67,10 @@ public class cadastrarTipoProdutoController implements Initializable {
     private AnchorPane anchor;
     @FXML
     private AnchorPane root;
+    @FXML
+    private ComboBox cmbEstado;
+    @FXML
+    private TableColumn<Tipo, String> tblColEstado;
 
     @FXML
     private void handleBtnPesquisar() {
@@ -165,11 +169,20 @@ public class cadastrarTipoProdutoController implements Initializable {
         btnRemover.disableProperty().bind(tblTipo.getSelectionModel().selectedItemProperty().isNull());
     }
 
+    private void popularCmbEstado() {
+        ObservableList<String> estados = FXCollections.observableArrayList();
+        estados.add("Ativo");
+        estados.add("Desativado");
+        cmbEstado.getItems().addAll(estados);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         configuraColunas();
         configuraBindings();
         validar();
         liberarBotoes();
+        popularCmbEstado();
+        cmbEstado.getSelectionModel().selectFirst();
     }
 }

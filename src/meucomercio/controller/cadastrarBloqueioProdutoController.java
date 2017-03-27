@@ -69,6 +69,10 @@ public class cadastrarBloqueioProdutoController implements Initializable {
     private AnchorPane root;
     @FXML
     private AnchorPane anchor;
+    @FXML
+    private ComboBox cmbEstado;
+    @FXML
+    private TableColumn<Bloqueio, String> tblColEstado;
 
     @FXML
     private void handleBtnPesquisar() {
@@ -138,6 +142,7 @@ public class cadastrarBloqueioProdutoController implements Initializable {
     private void configuraColunas() {
         tblColId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tblColBloqueio.setCellValueFactory(new PropertyValueFactory<>("bloqueio"));
+        tblColEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         handleBtnPesquisar();
     }
 
@@ -156,11 +161,20 @@ public class cadastrarBloqueioProdutoController implements Initializable {
                     tblBloqueio.setDisable(true);
                     btnPesquisar.setDisable(true);
                     atualizando = true;
+                    cmbEstado.getSelectionModel().select(newValue.getEstado());
                 } else {
                     lblId.textProperty().unbind();
                     tfdBloqueio.textProperty().unbind();
                     tfdBloqueio.setText("");
                     lblId.setText("X");
+                }
+            }
+        });
+        cmbEstado.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    bloqueio.setEstado((String) cmbEstado.getSelectionModel().getSelectedItem());
                 }
             }
         });
@@ -176,6 +190,13 @@ public class cadastrarBloqueioProdutoController implements Initializable {
         btnConfirmar.disableProperty().bind(Validation.validGroup.not());
         btnRemover.disableProperty().bind(tblBloqueio.getSelectionModel().selectedItemProperty().isNull());
     }
+    
+    private void popularCmbEstado() {
+        ObservableList<String> estados = FXCollections.observableArrayList();
+        estados.add("Ativo");
+        estados.add("Desativado");
+        cmbEstado.getItems().addAll(estados);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -183,5 +204,7 @@ public class cadastrarBloqueioProdutoController implements Initializable {
         liberarBotoes();
         configuraColunas();
         configuraBindings();
+        popularCmbEstado();
+        cmbEstado.getSelectionModel().selectFirst();
     }
 }

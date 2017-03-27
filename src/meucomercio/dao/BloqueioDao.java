@@ -20,9 +20,10 @@ public class BloqueioDao implements daos.IDAO {
 
             String sql = "INSERT INTO bloqueio VALUES"
                     + "(DEFAULT, "
-                    + "'" + bloqueio.getBloqueio()
+                    + "'" + bloqueio.getBloqueio() + "',"
+                    + "'" + bloqueio.getEstado()
                     + "') RETURNING id";
-            //System.out.println("sql: " + sql);
+            System.out.println("sql: " + sql);
 
             ResultSet rs = st.executeQuery(sql);
             int id = 0;
@@ -42,7 +43,8 @@ public class BloqueioDao implements daos.IDAO {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE bloqueio SET "
-                    + "bloqueio = '" + bloqueio.getBloqueio()
+                    + "bloqueio = '" + bloqueio.getBloqueio() + "',"
+                    + "estado = '" + bloqueio.getEstado()
                     + "' WHERE id = " + bloqueio.getId();
             System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
@@ -82,6 +84,7 @@ public class BloqueioDao implements daos.IDAO {
                 Bloqueio tmpBloqueio = new Bloqueio();
                 tmpBloqueio.setId(String.valueOf(resultado.getInt("id")));
                 tmpBloqueio.setBloqueio(resultado.getString("bloqueio"));
+                tmpBloqueio.setEstado(resultado.getString("estado"));
                 bloqueios.add(tmpBloqueio);
             }
         } catch (Exception e) {
@@ -106,6 +109,7 @@ public class BloqueioDao implements daos.IDAO {
                 Bloqueio tmpBloqueio = new Bloqueio();
                 tmpBloqueio.setId(String.valueOf(resultado.getInt("id")));
                 tmpBloqueio.setBloqueio(resultado.getString("bloqueio"));
+                tmpBloqueio.setEstado(resultado.getString("estado"));
                 bloqueios.add(tmpBloqueio);
             }
         } catch (Exception e) {
@@ -130,6 +134,7 @@ public class BloqueioDao implements daos.IDAO {
                 Bloqueio tmpBloqueio = new Bloqueio();
                 tmpBloqueio.setId(String.valueOf(resultado.getInt("id")));
                 tmpBloqueio.setBloqueio(resultado.getString("bloqueio"));
+                tmpBloqueio.setEstado(resultado.getString("estado"));
                 return tmpBloqueio;
             } else {
                 return null;

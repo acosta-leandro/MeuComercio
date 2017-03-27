@@ -67,6 +67,10 @@ public class cadastrarCategoriaProdutoController implements Initializable {
     private AnchorPane root;
     @FXML
     private AnchorPane anchor;
+    @FXML
+    private ComboBox cmbEstado;
+    @FXML
+    private TableColumn<Categoria, String> tblColEstado;
 
     @FXML
     private void handleBtnPesquisar() {
@@ -166,6 +170,13 @@ public class cadastrarCategoriaProdutoController implements Initializable {
         btnConfirmar.disableProperty().bind(Validation.validGroup.not());
         btnRemover.disableProperty().bind(tblCategoria.getSelectionModel().selectedItemProperty().isNull());
     }
+    
+       private void popularCmbEstado() {
+        ObservableList<String> estados = FXCollections.observableArrayList();
+        estados.add("Ativo");
+        estados.add("Desativado");
+        cmbEstado.getItems().addAll(estados);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -173,5 +184,7 @@ public class cadastrarCategoriaProdutoController implements Initializable {
         liberarBotoes();
         configuraColunas();
         configuraBindings();
+        popularCmbEstado();
+        cmbEstado.getSelectionModel().selectFirst();
     }
 }

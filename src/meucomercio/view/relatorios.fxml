@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TitledPane fx:id="titledPane" animated="false" prefHeight="608.0" prefWidth="1087.0" text="Vender Produto" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="meucomercio.controller.relatoriosController">
+   <graphic>
+      <Button fx:id="btnFechar" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBtnFechar" prefHeight="25.0" prefWidth="33.0" text="X" />
+   </graphic>
+   <content>
+      <AnchorPane fx:id="anchor" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="btnTeste" layoutX="40.0" layoutY="528.0" mnemonicParsing="false" onAction="#handleBtnTeste" text="Button" />
+         </children></AnchorPane>
+   </content>
+</TitledPane>

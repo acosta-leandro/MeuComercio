@@ -73,6 +73,10 @@ public class cadastrarUnMedidaController implements Initializable {
     private AnchorPane anchor;
     @FXML
     private AnchorPane root;
+    @FXML
+    private ComboBox cmbEstado;
+    @FXML
+    private TableColumn<UnMedida, String> tblColEstado;
 
     @FXML
     private void handleBtnPesquisar() {
@@ -177,6 +181,13 @@ public class cadastrarUnMedidaController implements Initializable {
         btnConfirmar.disableProperty().bind(Validation.validGroup.not());
         btnRemover.disableProperty().bind(tblUnMedida.getSelectionModel().selectedItemProperty().isNull());
     }
+    
+       private void popularCmbEstado() {
+        ObservableList<String> estados = FXCollections.observableArrayList();
+        estados.add("Ativo");
+        estados.add("Desativado");
+        cmbEstado.getItems().addAll(estados);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -184,5 +195,7 @@ public class cadastrarUnMedidaController implements Initializable {
         liberarBotoes();
         configuraColunas();
         configuraBindings();
+        popularCmbEstado();
+        cmbEstado.getSelectionModel().selectFirst();
     }
 }

@@ -72,6 +72,10 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
     private AnchorPane root;
     @FXML
     private AnchorPane anchor;
+    @FXML
+    private ComboBox cmbEstado;
+    @FXML
+    private TableColumn<Subgrupo, String> tblColEstado;
 
     @FXML
     private void handleBtnPesquisar() {
@@ -194,6 +198,13 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
         }
         cmbGrupo.getItems().addAll(nomesProdutos);
     }
+    
+       private void popularCmbEstado() {
+        ObservableList<String> estados = FXCollections.observableArrayList();
+        estados.add("Ativo");
+        estados.add("Desativado");
+        cmbEstado.getItems().addAll(estados);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -202,5 +213,7 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
         configuraColunas();
         configuraBindings();
         popularCmbGrupo();
+        popularCmbEstado();
+        cmbEstado.getSelectionModel().selectFirst();
     }
 }

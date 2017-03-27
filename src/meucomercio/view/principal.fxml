@@ -40,6 +40,11 @@
                         <MenuItem fx:id="MenuItemFazerPedido" mnemonicParsing="false" onAction="#handleMenuItemFazerPedido" text="Fazer Pedido" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="Relatorios">
+                     <items>
+                        <MenuItem fx:id="MenuItemRelatorios" mnemonicParsing="false" onAction="#handleMenuItemRelatorios" text="Relatorios" />
+                     </items>
+                  </Menu>
                </menus>
                <opaqueInsets>
                   <Insets />

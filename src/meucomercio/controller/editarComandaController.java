@@ -94,11 +94,7 @@ public class editarComandaController implements Initializable {
 
     private void popularCmbEstado() {
         ObservableList<String> estados = FXCollections.observableArrayList();
-        estados.add("Aguardando Pedido");
-        estados.add("Atender");
-        estados.add("Consumindo");
-        estados.add("Solicitou Conta");
-        estados.add("Fechado");
+        estados.add("Aberto");
         cmbEstado.getItems().addAll(estados);
     }
 
@@ -119,6 +115,7 @@ public class editarComandaController implements Initializable {
         liberarBotoes();
         configuraBindings();
         abertura();
+        cmbEstado.getSelectionModel().selectFirst();
     }
 
     public void editarComanda(Comanda comanda) {
