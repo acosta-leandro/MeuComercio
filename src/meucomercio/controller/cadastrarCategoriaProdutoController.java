@@ -132,6 +132,7 @@ public class cadastrarCategoriaProdutoController implements Initializable {
     private void configuraColunas() {
         tblColId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tblColCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
+        tblColEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         handleBtnPesquisar();
     }
 
@@ -150,11 +151,20 @@ public class cadastrarCategoriaProdutoController implements Initializable {
                     tblCategoria.setDisable(true);
                     btnPesquisar.setDisable(true);
                     atualizando = true;
+                    cmbEstado.getSelectionModel().select(newValue.getEstado());
                 } else {
                     lblId.textProperty().unbind();
                     tfdCategoria.textProperty().unbind();
                     tfdCategoria.setText("");
                     lblId.setText("X");
+                }
+            }
+        });
+        cmbEstado.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    categoria.setEstado((String) cmbEstado.getSelectionModel().getSelectedItem());
                 }
             }
         });

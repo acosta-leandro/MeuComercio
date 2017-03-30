@@ -131,6 +131,7 @@ public class cadastrarTipoProdutoController implements Initializable {
     private void configuraColunas() {
         tblColId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tblColTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        tblColEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         handleBtnPesquisar();
     }
 
@@ -148,11 +149,21 @@ public class cadastrarTipoProdutoController implements Initializable {
                     lblId.textProperty().bind(Bindings.convert(newValue.idProperty()));
                     tblTipo.setDisable(true);
                     btnPesquisar.setDisable(true);
+                    atualizando = true;
+                    cmbEstado.getSelectionModel().select(newValue.getEstado());
                 } else {
                     lblId.textProperty().unbind();
                     tfdTipo.textProperty().unbind();
                     tfdTipo.setText("");
                     lblId.setText("X");
+                }
+            }
+        });
+        cmbEstado.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    tipo.setEstado((String) cmbEstado.getSelectionModel().getSelectedItem());
                 }
             }
         });

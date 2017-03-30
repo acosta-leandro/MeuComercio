@@ -9,11 +9,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import meucomercio.entidades.Comanda;
 import meucomercio.entidades.Grupo;
+import meucomercio.entidades.Produto;
 
 /**
  * Created by leandro on 12/07/16.
  */
 public class ComandaDao implements daos.IDAO {
+
+    ProdutoDao produtoDao = new ProdutoDao();
 
     @Override
     public int salvar(Object o) {
@@ -263,12 +266,34 @@ public class ComandaDao implements daos.IDAO {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE comanda SET "
-                    + "estado = 'fechado'"
+                    + "estado = 'Fechado'"
                     + " WHERE id = " + id;
             System.out.println("sql: " + sql);
-            st.executeUpdate(sql);            
+            st.executeUpdate(sql);
         } catch (Exception e) {
             System.out.println("Erro Atualizar Comanda = " + e);
         }
     }
+
+    public ArrayList<Produto> produtosComandas(int comandaId) {
+        ArrayList produtos = new ArrayList();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM produto_comanda WHERE "
+                    + "comanda_id = " + comandaId + " ORDER BY 1;";
+            //System.out.println("sql: " + sql);
+
+            ResultSet resultado = st.executeQuery(sql);
+
+            while (resultado.next()) {
+                produtos.add((Produto) produtoDao.consultarId(resultado.getInt("produto_id")));
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Comanda= " + e);
+            return null;
+        }
+        return produtos;
+    }
+
 }

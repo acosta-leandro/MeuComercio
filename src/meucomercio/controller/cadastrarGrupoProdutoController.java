@@ -142,6 +142,7 @@ public class cadastrarGrupoProdutoController implements Initializable {
     private void configuraColunas() {
         tblColId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tblColGrupo.setCellValueFactory(new PropertyValueFactory<>("grupo"));
+        tblColEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         handleBtnPesquisar();
     }
     // configura a lógica da tela
@@ -160,11 +161,20 @@ public class cadastrarGrupoProdutoController implements Initializable {
                     tblGrupo.setDisable(true);
                     btnPesquisar.setDisable(true);
                     atualizando = true;
+                    cmbEstado.getSelectionModel().select(newValue.getEstado());
                 } else {
                     lblId.textProperty().unbind();
                     tfdGrupo.textProperty().unbind();
                     tfdGrupo.setText("");
                     lblId.setText("X");
+                }
+            }
+        });
+        cmbEstado.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    grupo.setEstado((String) cmbEstado.getSelectionModel().getSelectedItem());
                 }
             }
         });

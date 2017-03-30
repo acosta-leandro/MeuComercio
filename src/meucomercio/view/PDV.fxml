@@ -39,10 +39,8 @@
                      <children>
                         <TableView fx:id="tblVenda" layoutX="130.0" layoutY="100.0" prefHeight="364.0" prefWidth="533.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <columns>
-                              <TableColumn fx:id="tblColProduto" prefWidth="-1.0" text="Produto" />
-                              <TableColumn fx:id="tblColQuant" prefWidth="46.66668701171875" text="Quant" />
-                              <TableColumn fx:id="tblColValorUn" prefWidth="79.0" text="R$ Un" />
-                              <TableColumn fx:id="tblColValorTotalItem" prefWidth="82.666748046875" text="R$ Total" />
+                              <TableColumn fx:id="tblVendaColProduto" prefWidth="-1.0" text="Produto" />
+                              <TableColumn fx:id="tblVendaColValorUn" prefWidth="79.0" text="R$ Un" />
                            </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

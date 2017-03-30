@@ -98,9 +98,7 @@ public class ProdutoDao implements daos.IDAO {
         }
     }
 
-    @Override
-    public ArrayList<Object> consultarTodos() {
-
+    public ArrayList<Produto> consultarTodosProdutos() {
         ArrayList produtos = new ArrayList();
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
@@ -187,7 +185,7 @@ public class ProdutoDao implements daos.IDAO {
             String sql = "SELECT * FROM Produto WHERE "
                     + "id = " + id + ";";
 
-            // System.out.println("sql: " + sql);
+            //System.out.println("sql: " + sql);
             ResultSet resultado = st.executeQuery(sql);
 
             if (resultado.next()) {
@@ -298,6 +296,60 @@ public class ProdutoDao implements daos.IDAO {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * FROM Produto WHERE categoria_id = " + idCategoria + " ORDER BY 1";
+            System.out.println("sql: " + sql);
+
+            ResultSet resultado = st.executeQuery(sql);
+            while (resultado.next()) {
+                Produto tmpProduto = new Produto();
+                tmpProduto.setId(String.valueOf(resultado.getInt("id")));
+                //grupoid
+                tmpProduto.setGrupoId(String.valueOf(resultado.getInt("grupo_id")));
+                Grupo tmpGrupo = (Grupo) new GrupoDao().consultarId(Integer.valueOf(tmpProduto.getGrupoId()));
+                tmpProduto.setGrupoNome(tmpGrupo.getGrupo());
+                //produto
+                tmpProduto.setProduto(resultado.getString("produto"));
+                //subgrupoid
+                tmpProduto.setSubgrupoId(String.valueOf(resultado.getInt("subgrupo_id")));
+                Subgrupo tmpSubgrupo = (Subgrupo) new SubgrupoDao().consultarId(Integer.valueOf(tmpProduto.getSubgrupoId()));
+                tmpProduto.setSubgrupoNome(tmpSubgrupo.getSubgrupo());
+                //categoriaid
+                tmpProduto.setCategoriaId(String.valueOf(resultado.getInt("categoria_id")));
+                Categoria tmpCategoria = (Categoria) new CategoriaDao().consultarId(Integer.valueOf(tmpProduto.getCategoriaId()));
+                tmpProduto.setCategoriaNome(tmpCategoria.getCategoria());
+                //bloqueioid
+                tmpProduto.setBloqueioId(String.valueOf(resultado.getInt("bloqueio_id")));
+                Bloqueio tmpBloqueio = (Bloqueio) new BloqueioDao().consultarId(Integer.valueOf(tmpProduto.getBloqueioId()));
+                tmpProduto.setBloqueioNome(tmpBloqueio.getBloqueio());
+                //tipoid
+                tmpProduto.setTipoId(String.valueOf(resultado.getInt("tipo_id")));
+                Tipo tmpTipo = (Tipo) new TipoDao().consultarId(Integer.valueOf(tmpProduto.getTipoId()));
+                tmpProduto.setTipoNome(tmpTipo.getTipo());
+                //unidadeid
+                tmpProduto.setUnidadeId(String.valueOf(resultado.getInt("unidade_id")));
+                UnMedida tmpUnMedida = (UnMedida) new UnMedidaDao().consultarId(Integer.valueOf(tmpProduto.getUnidadeId()));
+                tmpProduto.setUnidadeNome(tmpUnMedida.getNome());
+                tmpProduto.setCusto(resultado.getString("custo").replace(".", ""));
+                tmpProduto.setUltCusto(resultado.getString("ult_custo").replace(".", ""));
+                tmpProduto.setValor(resultado.getString("valor").replace(".", ""));
+                tmpProduto.setEstMax(resultado.getString("est_max"));
+                tmpProduto.setEstMin(resultado.getString("est_min"));
+                produtos.add(tmpProduto);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Produto= " + e);
+            return null;
+        }
+        return produtos;
+    }
+
+    @Override
+    public ArrayList<Object> consultarTodos() {
+
+        ArrayList produtos = new ArrayList();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM Produto ORDER BY 1";
             System.out.println("sql: " + sql);
 
             ResultSet resultado = st.executeQuery(sql);

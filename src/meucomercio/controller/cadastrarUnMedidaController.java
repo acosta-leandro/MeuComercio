@@ -138,6 +138,7 @@ public class cadastrarUnMedidaController implements Initializable {
         tblColId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tblColNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         tblColSigla.setCellValueFactory(new PropertyValueFactory<>("sigla"));
+        tblColEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         handleBtnPesquisar();
     }
 
@@ -158,6 +159,8 @@ public class cadastrarUnMedidaController implements Initializable {
                     atualizando = true;
                     tblUnMedida.setDisable(true);
                     btnPesquisar.setDisable(true);
+                    atualizando = true;
+                    cmbEstado.getSelectionModel().select(newValue.getEstado());
                 } else {
                     lblId.textProperty().unbind();
                     tfdNome.textProperty().unbind();
@@ -165,6 +168,14 @@ public class cadastrarUnMedidaController implements Initializable {
                     tfdSigla.setText("");
                     lblId.setText("X");
                     tfdNome.setText("");
+                }
+            }
+        });
+        cmbEstado.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    unMedida.setEstado((String) cmbEstado.getSelectionModel().getSelectedItem());
                 }
             }
         });

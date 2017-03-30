@@ -1,33 +1,44 @@
-INSERT INTO bloqueio VALUES (DEFAULT, 'bloq1');
-INSERT INTO bloqueio VALUES (DEFAULT, 'bloq3');
-INSERT INTO bloqueio VALUES (DEFAULT, 'bloq4');
-INSERT INTO bloqueio VALUES (DEFAULT, 'bloq5');
-INSERT INTO categoria VALUES (DEFAULT, 'categoria1');
-INSERT INTO categoria VALUES (DEFAULT, 'categoria2');
-INSERT INTO categoria VALUES (DEFAULT, 'categoria4');
-INSERT INTO categoria VALUES (DEFAULT, 'categoria5');
-INSERT INTO grupo VALUES (DEFAULT, 'Grupo1');
-INSERT INTO grupo VALUES (DEFAULT, 'Grupo2');
-INSERT INTO grupo VALUES (DEFAULT, 'Grupo3');
-INSERT INTO grupo VALUES (DEFAULT, 'Grupo4');
-INSERT INTO subgrupo VALUES (DEFAULT, 'Subgrupo1232', 3);
-INSERT INTO subgrupo VALUES (DEFAULT, 'Subgrupo1111', 3);
-INSERT INTO subgrupo VALUES (DEFAULT, 'Subgrupo2', 2);
-INSERT INTO subgrupo VALUES (DEFAULT, 'Subgrupo3', 3);
-INSERT INTO subgrupo VALUES (DEFAULT, 'Subgrupo4', 4);
-INSERT INTO subgrupo VALUES (DEFAULT, 'Subgrupo11', 1);
-INSERT INTO subgrupo VALUES (DEFAULT, 'Subgrupo22', 2);
-INSERT INTO subgrupo VALUES (DEFAULT, 'Subgrupo33', 3);
-INSERT INTO subgrupo VALUES (DEFAULT, 'Subgrupo44', 4);
-INSERT INTO subgrupo VALUES (DEFAULT, 'Subgrupo12', 2);
-INSERT INTO tipo VALUES (DEFAULT, 'Tipo1');
-INSERT INTO tipo VALUES (DEFAULT, 'Tipo2');
-INSERT INTO tipo VALUES (DEFAULT, 'Tipo3');
-INSERT INTO tipo VALUES (DEFAULT, 'Tipo4');
-INSERT INTO tipo VALUES (DEFAULT, 'teste');
-INSERT INTO tipo VALUES (DEFAULT, 'te1');
-INSERT INTO unidade VALUES (DEFAULT, 'aaaa', 'aaa');
-INSERT INTO unidade VALUES (DEFAULT, 'pica', 'pi ');
-INSERT INTO unidade VALUES (DEFAULT, 'teste', 'te ');
-INSERT INTO unidade VALUES (DEFAULT, 'teste', 'te ');
-INSERT INTO unidade VALUES (DEFAULT, 'te', 'eaa');
+INSERT INTO bloqueio VALUES (1, 'Bloqueio 1', 'Ativo');
+INSERT INTO bloqueio VALUES (2, 'Bloqueio 2', 'Desativado');
+INSERT INTO bloqueio VALUES (4, 'Bloqueio 4', 'Ativo');
+INSERT INTO bloqueio VALUES (3, 'Bloqueio 3', 'Ativo');
+
+
+INSERT INTO categoria VALUES (1, 'Categoria 1', 'Ativo');
+INSERT INTO categoria VALUES (2, 'Categoria 2', 'Desativado');
+INSERT INTO categoria VALUES (3, 'Categoria 3', 'Desativado');
+INSERT INTO categoria VALUES (4, 'Categoria 4', 'Ativo');
+
+
+INSERT INTO comanda VALUES (1, 'Leandro', '2017-03-28 12:57:00', NULL, 'Aberto', 'R$0,00');
+INSERT INTO comanda VALUES (2, 'Daiana', '2017-03-28 13:15:00', NULL, 'Aberto', 'R$0,00');
+INSERT INTO comanda VALUES (3, 'Daiana', '2017-03-28 13:15:00', NULL, 'Aberto', 'R$0,00');
+INSERT INTO comanda VALUES (4, 'Tati', '2017-03-28 13:15:00', NULL, 'Aberto', 'R$0,00');
+
+
+INSERT INTO grupo VALUES (1, 'Grupo 1', 'Ativo');
+INSERT INTO grupo VALUES (2, 'Grupo 2', 'Desativado');
+INSERT INTO grupo VALUES (4, 'Grupo 4', 'Ativo');
+INSERT INTO grupo VALUES (3, 'Grupo 3', 'Ativo');
+
+
+INSERT INTO subgrupo VALUES (1, 'Subgrupo 1', 1, 'Ativo');
+INSERT INTO subgrupo VALUES (2, 'Subgrupo 2', 2, 'Desativado');
+INSERT INTO subgrupo VALUES (3, 'Subgrupo 3', 3, 'Desativado');
+INSERT INTO subgrupo VALUES (4, 'Subgrupo 4', 4, 'Ativo');
+
+INSERT INTO tipo VALUES (1, 'Tipo 1', 'Ativo');
+INSERT INTO tipo VALUES (2, 'Tipo 2', 'Desativado');
+INSERT INTO tipo VALUES (3, 'Tipo 3', 'Desativado');
+INSERT INTO tipo VALUES (6, 'Tipo 4', 'Ativo');
+INSERT INTO tipo VALUES (7, 'Tipo 4', 'Ativo');
+INSERT INTO tipo VALUES (4, 'Tipo 4', 'Ativo');
+INSERT INTO tipo VALUES (5, 'Tipo 4', 'Desativado');
+
+INSERT INTO unidade VALUES (1, 'Un 1', '1', 'Ativo');
+INSERT INTO unidade VALUES (2, 'Un 2', '2', 'Desativado');
+INSERT INTO unidade VALUES (3, 'Un 3', '3', 'Desativado');
+INSERT INTO unidade VALUES (4, 'Un 4', '4', 'Ativo');
+
+INSERT INTO produto VALUES (3, 1, 'prod 1', 1, 1, 1, 1, 1, 'R$14,10', 'R$16,00', 'R$1,00', 1, 2);
+

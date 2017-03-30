@@ -23,7 +23,8 @@ public class SubgrupoDao implements daos.IDAO {
             String sql = "INSERT INTO subgrupo VALUES"
                     + "(DEFAULT, "
                     + "'" + subgrupo.getSubgrupo() + "', "
-                    + "'" + subgrupo.getGrupoId()
+                    + "'" + subgrupo.getGrupoId() + "',"
+                    + "'" + subgrupo.getEstado()
                     + "') RETURNING id";
             System.out.println("sql: " + sql);
 
@@ -46,7 +47,8 @@ public class SubgrupoDao implements daos.IDAO {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE subgrupo SET "
                     + "subgrupo = '" + subgrupo.getSubgrupo() + "', "
-                    + "grupo_id = " + subgrupo.getGrupoId()
+                    + "grupo_id = " + subgrupo.getGrupoId() + "',"
+                    + "estado = '" + subgrupo.getEstado()
                     + " WHERE id = " + subgrupo.getId();
             System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
@@ -89,6 +91,7 @@ public class SubgrupoDao implements daos.IDAO {
                 tmpSubgrupo.setGrupoId(String.valueOf(resultado.getInt("grupo_id")));
                 Grupo tmpGrupo = (Grupo) new GrupoDao().consultarId(Integer.valueOf(tmpSubgrupo.getGrupoId()));
                 tmpSubgrupo.setGrupoNome(tmpGrupo.getGrupo());
+                tmpSubgrupo.setEstado(resultado.getString("estado"));
                 subgrupos.add(tmpSubgrupo);
             }
         } catch (Exception e) {
@@ -116,6 +119,7 @@ public class SubgrupoDao implements daos.IDAO {
                 tmpSubgrupo.setGrupoId(String.valueOf(resultado.getInt("grupo_id")));
                 Grupo tmpGrupo = (Grupo) new GrupoDao().consultarId(Integer.valueOf(tmpSubgrupo.getGrupoId()));
                 tmpSubgrupo.setGrupoNome(tmpGrupo.getGrupo());
+                tmpSubgrupo.setEstado(resultado.getString("estado"));
                 subgrupos.add(tmpSubgrupo);
             }
         } catch (Exception e) {
@@ -143,6 +147,7 @@ public class SubgrupoDao implements daos.IDAO {
                 tmpSubgrupo.setGrupoId(String.valueOf(resultado.getInt("grupo_id")));
                 Grupo tmpGrupo = (Grupo) new GrupoDao().consultarId(Integer.valueOf(tmpSubgrupo.getGrupoId()));
                 tmpSubgrupo.setGrupoNome(tmpGrupo.getGrupo());
+                tmpSubgrupo.setEstado(resultado.getString("estado"));
                 return tmpSubgrupo;
             } else {
                 return null;
@@ -168,6 +173,7 @@ public class SubgrupoDao implements daos.IDAO {
                 Grupo tmpGrupo = new Grupo();
                 tmpGrupo.setId(String.valueOf(resultado.getInt("id")));
                 tmpGrupo.setGrupo(resultado.getString("subgrupo"));
+                tmpGrupo.setEstado(resultado.getString("estado"));
                 return tmpGrupo;
             } else {
                 return null;
@@ -195,6 +201,7 @@ public class SubgrupoDao implements daos.IDAO {
                 tmpSubgrupo.setGrupoId(String.valueOf(resultado.getInt("grupo_id")));
                 Grupo tmpGrupo = (Grupo) new GrupoDao().consultarId(Integer.valueOf(tmpSubgrupo.getGrupoId()));
                 tmpSubgrupo.setGrupoNome(tmpGrupo.getGrupo());
+                tmpSubgrupo.setEstado(resultado.getString("estado"));
                 subgrupos.add(tmpSubgrupo);
             }
         } catch (Exception e) {

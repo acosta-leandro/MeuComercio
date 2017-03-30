@@ -20,7 +20,8 @@ public class TipoDao implements daos.IDAO {
 
             String sql = "INSERT INTO tipo VALUES"
                     + "(DEFAULT, "
-                    + "'" + tipo.getTipo()
+                    + "'" + tipo.getTipo() + "',"
+                    + "'" + tipo.getEstado()
                     + "') RETURNING id";
             //System.out.println("sql: " + sql);
 
@@ -42,7 +43,8 @@ public class TipoDao implements daos.IDAO {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE tipo SET "
-                    + "tipo = '" + tipo.getTipo()
+                    + "tipo = '" + tipo.getTipo() + "',"
+                    + "estado = '" + tipo.getEstado()
                     + "' WHERE id = " + tipo.getId();
             System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
@@ -82,6 +84,7 @@ public class TipoDao implements daos.IDAO {
                 Tipo tmpTipo = new Tipo();
                 tmpTipo.setId(String.valueOf(resultado.getInt("id")));
                 tmpTipo.setTipo(resultado.getString("tipo"));
+                tmpTipo.setEstado(resultado.getString("estado"));
                 tipos.add(tmpTipo);
             }
         } catch (Exception e) {
@@ -106,6 +109,7 @@ public class TipoDao implements daos.IDAO {
                 Tipo tmpTipo = new Tipo();
                 tmpTipo.setId(String.valueOf(resultado.getInt("id")));
                 tmpTipo.setTipo(resultado.getString("tipo"));
+                tmpTipo.setEstado(resultado.getString("estado"));
                 tipos.add(tmpTipo);
             }
         } catch (Exception e) {
@@ -130,6 +134,7 @@ public class TipoDao implements daos.IDAO {
                 Tipo tmpTipo = new Tipo();
                 tmpTipo.setId(String.valueOf(resultado.getInt("id")));
                 tmpTipo.setTipo(resultado.getString("tipo"));
+                tmpTipo.setEstado(resultado.getString("estado"));
                 return tmpTipo;
             } else {
                 return null;

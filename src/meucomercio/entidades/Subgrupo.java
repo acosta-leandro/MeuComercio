@@ -58,9 +58,23 @@ public class Subgrupo {
         this.grupoNome.set(grupoNome);
     }
 
+    public String getEstado() {
+        return estado.get();
+    }
+
+    public StringProperty estadoProperty() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado.set(estado);
+    }
+
+    StringProperty estado = new SimpleStringProperty();
     StringProperty id = new SimpleStringProperty();
     StringProperty subgrupo = new SimpleStringProperty();
     StringProperty grupoId = new SimpleStringProperty();
     StringProperty grupoNome = new SimpleStringProperty();
+    
 
 }

@@ -563,8 +563,8 @@ public class cadastrarProdutoController implements Initializable {
         Validation.validate(tfdCusto, Validation.MONEY);
         Validation.validate(tfdEstMax, Validation.VARCHAR25);
         Validation.validate(tfdEstMin, Validation.VARCHAR25);
-        Validation.validate(tfdUltCusto, Validation.VARCHAR25);
-        Validation.validate(tfdValor, Validation.VARCHAR25);
+        Validation.validate(tfdUltCusto, Validation.MONEY);
+        Validation.validate(tfdValor, Validation.MONEY);
 
     }
 

@@ -20,7 +20,8 @@ public class CategoriaDao implements daos.IDAO {
 
             String sql = "INSERT INTO categoria VALUES"
                     + "(DEFAULT, "
-                    + "'" + categoria.getCategoria()
+                    + "'" + categoria.getCategoria() + "',"
+                    + "'" + categoria.getEstado()
                     + "') RETURNING id";
             //System.out.println("sql: " + sql);
 
@@ -42,7 +43,8 @@ public class CategoriaDao implements daos.IDAO {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE categoria SET "
-                    + "categoria = '" + categoria.getCategoria()
+                    + "categoria = '" + categoria.getCategoria() + "',"
+                    + "estado = '" + categoria.getEstado()
                     + "' WHERE id = " + categoria.getId();
             System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
@@ -82,6 +84,7 @@ public class CategoriaDao implements daos.IDAO {
                 Categoria tmpCategoria = new Categoria();
                 tmpCategoria.setId(String.valueOf(resultado.getInt("id")));
                 tmpCategoria.setCategoria(resultado.getString("categoria"));
+                tmpCategoria.setEstado(resultado.getString("estado"));
                 categorias.add(tmpCategoria);
             }
         } catch (Exception e) {
@@ -106,6 +109,7 @@ public class CategoriaDao implements daos.IDAO {
                 Categoria tmpCategoria = new Categoria();
                 tmpCategoria.setId(String.valueOf(resultado.getInt("id")));
                 tmpCategoria.setCategoria(resultado.getString("categoria"));
+                tmpCategoria.setEstado(resultado.getString("estado"));
                 categorias.add(tmpCategoria);
             }
         } catch (Exception e) {
@@ -130,6 +134,7 @@ public class CategoriaDao implements daos.IDAO {
                 Categoria tmpCategoria = new Categoria();
                 tmpCategoria.setId(String.valueOf(resultado.getInt("id")));
                 tmpCategoria.setCategoria(resultado.getString("categoria"));
+                tmpCategoria.setEstado(resultado.getString("estado"));
                 return tmpCategoria;
             } else {
                 return null;
@@ -140,6 +145,29 @@ public class CategoriaDao implements daos.IDAO {
         }
     }
 
+    public ArrayList<Object> consultarTodosAtivos() {
+        ArrayList categorias = new ArrayList();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM Categoria WHERE estado = 'Ativo' ORDER BY 1";
+            // System.out.println("sql: " + sql);
+
+            ResultSet resultado = st.executeQuery(sql);
+            while (resultado.next()) {
+                Categoria tmpCategoria = new Categoria();
+                tmpCategoria.setId(String.valueOf(resultado.getInt("id")));
+                tmpCategoria.setCategoria(resultado.getString("categoria"));
+                tmpCategoria.setEstado(resultado.getString("estado"));
+                categorias.add(tmpCategoria);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Categoria= " + e);
+            return null;
+        }
+        return categorias;
+    }
+    
     @Override
     public Object consultarNome(String nome) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

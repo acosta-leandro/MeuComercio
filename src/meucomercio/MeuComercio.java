@@ -31,8 +31,6 @@ public class MeuComercio extends Application {
 
     static BorderPane borde;
     public static Stage stage;
-    private String primaria = "view/principal.fxml";
-
     private static MeuComercio instance;
 
     public MeuComercio() {
@@ -47,10 +45,8 @@ public class MeuComercio extends Application {
     public void start(Stage stage) throws IOException {
 
         this.stage = stage;
-        System.out.println("1");
-        iniciaTelas(primaria);
+        iniciarLogin();
         stage.show();
-
     }
 
     /**
@@ -60,39 +56,30 @@ public class MeuComercio extends Application {
         launch(args);
     }
 
-    public void iniciaTelas(String tela) {
-        System.out.println("2");
+    public void iniciarSistema() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            // System.out.println("3: "+MeuComercio.class.getResource(tela));
-            loader.setLocation(MeuComercio.class.getResource(tela));
-            // System.out.println("4");
+            loader.setLocation(MeuComercio.class.getResource("view/principal.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
-            // System.out.println("5");
-
             stage.setScene(new Scene(pane));
-            //stage.setResizable(false);
             stage.setFullScreen(true);
             stage.show();
-
-            // borde.setCenter(pane);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-//    public void gotoCategoria() {
-//        try {
-//            new cadastrarTipoProdutoController();
-//            Parent page = (Parent) FXMLLoader.load(MeuComercio.class.getResource("view/cadastrarCategoriaProduto.fxml"), null, new JavaFXBuilderFactory());
-//            Scene scene = new Scene(page, 725, 384);
-//            stage.setScene(scene);
-//            stage.setResizable(false);
-//            stage.setTitle("BHGerVendas -- Busca Produtos");
-//            stage.centerOnScreen();
-//        } catch (Exception ex) {
-//            Logger.getLogger(MeuComercio.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+    
+        public void iniciarLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MeuComercio.class.getResource("view/login.fxml"));
+            AnchorPane pane = (AnchorPane) loader.load();
+            stage.setScene(new Scene(pane));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 
 }

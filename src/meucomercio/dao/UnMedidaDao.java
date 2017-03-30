@@ -23,7 +23,8 @@ public class UnMedidaDao implements daos.IDAO {
             String sql = "INSERT INTO unidade VALUES"
                     + "(DEFAULT, "
                     + "'" + unMedida.getNome() + "', "
-                    + "'" + unMedida.getSigla()
+                    + "'" + unMedida.getSigla() + "',"
+                    + "'" + unMedida.getEstado()
                     + "') RETURNING id";
             System.out.println("sql: " + sql);
 
@@ -46,7 +47,8 @@ public class UnMedidaDao implements daos.IDAO {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE unidade SET "
                     + "unidade = '" + unMedida.getNome()+ "', "
-                    + "sigla = '" + unMedida.getSigla()
+                    + "sigla = '" + unMedida.getSigla() + "',"
+                    + "estado = '" + unMedida.getEstado()
                     + "' WHERE id = " + unMedida.getId();
             System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
@@ -87,6 +89,7 @@ public class UnMedidaDao implements daos.IDAO {
                 tmpUnMedida.setId(String.valueOf(resultado.getInt("id")));
                 tmpUnMedida.setNome(resultado.getString("unidade"));
                 tmpUnMedida.setSigla(resultado.getString("sigla"));
+                tmpUnMedida.setEstado(resultado.getString("estado"));
                 unMedidas.add(tmpUnMedida);
             }
         } catch (Exception e) {
@@ -112,6 +115,7 @@ public class UnMedidaDao implements daos.IDAO {
                 tmpUnMedida.setId(String.valueOf(resultado.getInt("id")));
                 tmpUnMedida.setNome(resultado.getString("unidade"));
                 tmpUnMedida.setSigla(resultado.getString("sigla"));
+                tmpUnMedida.setEstado(resultado.getString("estado"));
                 unMedidas.add(tmpUnMedida);
             }
         } catch (Exception e) {
@@ -137,6 +141,7 @@ public class UnMedidaDao implements daos.IDAO {
                 tmpUnMedida.setId(String.valueOf(resultado.getInt("id")));
                 tmpUnMedida.setNome(resultado.getString("unidade"));
                 tmpUnMedida.setSigla(resultado.getString("sigla"));
+                tmpUnMedida.setEstado(resultado.getString("estado"));
                 return tmpUnMedida;
             } else {
                 return null;

@@ -139,6 +139,7 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
         tblColId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tblColSubgrupo.setCellValueFactory(new PropertyValueFactory<>("subgrupo"));
         tblColGrupo.setCellValueFactory(new PropertyValueFactory<>("grupoNome"));
+        tblColEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         handleBtnPesquisar();
     }
 
@@ -158,6 +159,7 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
                     tblSubgrupo.setDisable(true);
                     btnPesquisar.setDisable(true);
                     atualizando = true;
+                    cmbEstado.getSelectionModel().select(newValue.getEstado());
                 } else {
                     lblId.textProperty().unbind();
                     tfdSubgrupo.textProperty().unbind();
@@ -172,6 +174,14 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
                 if (newValue != null) {
                     Grupo grupo = (Grupo) new GrupoDao().consultarNome(cmbGrupo.getSelectionModel().getSelectedItem().toString());
                     subgrupo.setGrupoId(grupo.getId());
+                }
+            }
+        });
+        cmbEstado.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue != null) {
+                    subgrupo.setEstado((String) cmbEstado.getSelectionModel().getSelectedItem());
                 }
             }
         });

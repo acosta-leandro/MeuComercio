@@ -24,12 +24,12 @@ public class FazerPedidoDao {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "INSERT INTO produto_comanda VALUES"
-                    + "(DEFAULT, "
+                    + "(DEFAULT,"
                     + idProduto + ","
                     + idComanda + ","
-                    + "Aberto"
+                    + "'Aberto'"
                     + ") RETURNING id";
-            //System.out.println("sql: " + sql);
+            System.out.println("sql: " + sql);
 
             ResultSet rs = st.executeQuery(sql);
             int id = 0;

@@ -20,7 +20,8 @@ public class GrupoDao implements daos.IDAO {
 
             String sql = "INSERT INTO grupo VALUES"
                     + "(DEFAULT, "
-                    + "'" + grupo.getGrupo()
+                    + "'" + grupo.getGrupo() + "',"
+                    + "'" + grupo.getEstado()
                     + "') RETURNING id";
             //System.out.println("sql: " + sql);
 
@@ -42,7 +43,8 @@ public class GrupoDao implements daos.IDAO {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE grupo SET "
-                    + "grupo = '" + grupo.getGrupo()
+                    + "grupo = '" + grupo.getGrupo() + "',"
+                    + "estado = '" + grupo.getEstado()
                     + "' WHERE id = " + grupo.getId();
             System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
@@ -82,6 +84,7 @@ public class GrupoDao implements daos.IDAO {
                 Grupo tmpGrupo = new Grupo();
                 tmpGrupo.setId(String.valueOf(resultado.getInt("id")));
                 tmpGrupo.setGrupo(resultado.getString("grupo"));
+                tmpGrupo.setEstado(resultado.getString("estado"));
                 grupos.add(tmpGrupo);
             }
         } catch (Exception e) {
@@ -106,6 +109,7 @@ public class GrupoDao implements daos.IDAO {
                 Grupo tmpGrupo = new Grupo();
                 tmpGrupo.setId(String.valueOf(resultado.getInt("id")));
                 tmpGrupo.setGrupo(resultado.getString("grupo"));
+                tmpGrupo.setEstado(resultado.getString("estado"));
                 grupos.add(tmpGrupo);
             }
         } catch (Exception e) {
@@ -130,6 +134,7 @@ public class GrupoDao implements daos.IDAO {
                 Grupo tmpGrupo = new Grupo();
                 tmpGrupo.setId(String.valueOf(resultado.getInt("id")));
                 tmpGrupo.setGrupo(resultado.getString("grupo"));
+                tmpGrupo.setEstado(resultado.getString("estado"));
                 return tmpGrupo;
             } else {
                 return null;
@@ -155,6 +160,7 @@ public class GrupoDao implements daos.IDAO {
                 Grupo tmpGrupo = new Grupo();
                 tmpGrupo.setId(String.valueOf(resultado.getInt("id")));
                 tmpGrupo.setGrupo(resultado.getString("grupo"));
+                tmpGrupo.setEstado(resultado.getString("estado"));
                 return tmpGrupo;
             } else {
                 return null;

@@ -1,18 +1,20 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-01-05 16:57:27.625
+-- Last modification date: 2017-03-22 23:34:44.443
 
 -- tables
 -- Table: Bloqueio
 CREATE TABLE Bloqueio (
     id serial  NOT NULL,
-    bloqueio varchar(25)  NULL,
+    bloqueio varchar(25)  NOT NULL,
+    estado varchar(25)  NOT NULL,
     CONSTRAINT Bloqueio_pk PRIMARY KEY (id)
 );
 
 -- Table: Categoria
 CREATE TABLE Categoria (
     id serial  NOT NULL,
-    categoria varchar(25)  NULL,
+    categoria varchar(25)  NOT NULL,
+    estado varchar(25)  NOT NULL,
     CONSTRAINT Categoria_pk PRIMARY KEY (id)
 );
 
@@ -30,7 +32,8 @@ CREATE TABLE Comanda (
 -- Table: Grupo
 CREATE TABLE Grupo (
     id serial  NOT NULL,
-    grupo varchar(25)  NULL,
+    grupo varchar(25)  NOT NULL,
+    estado varchar(25)  NOT NULL,
     CONSTRAINT Grupo_pk PRIMARY KEY (id)
 );
 
@@ -57,29 +60,33 @@ CREATE TABLE Produto_Comanda (
     id serial  NOT NULL,
     produto_id int  NOT NULL,
     comanda_id int  NOT NULL,
+    status varchar(60)  NOT NULL,
     CONSTRAINT Produto_Comanda_pk PRIMARY KEY (id)
 );
 
 -- Table: Subgrupo
 CREATE TABLE Subgrupo (
     id serial  NOT NULL,
-    subgrupo varchar(25)  NULL,
+    subgrupo varchar(25)  NOT NULL,
     grupo_id int  NOT NULL,
+    estado varchar(25)  NOT NULL,
     CONSTRAINT Subgrupo_pk PRIMARY KEY (id)
 );
 
 -- Table: Tipo
 CREATE TABLE Tipo (
     id serial  NOT NULL,
-    tipo varchar(25)  NULL,
+    tipo varchar(25)  NOT NULL,
+    estado varchar(25)  NOT NULL,
     CONSTRAINT Tipo_pk PRIMARY KEY (id)
 );
 
 -- Table: Unidade
 CREATE TABLE Unidade (
     id serial  NOT NULL,
-    unidade varchar(25)  NULL,
-    sigla varchar(3)  NULL,
+    unidade varchar(25)  NOT NULL,
+    sigla varchar(3)  NOT NULL,
+    estado varchar(25)  NOT NULL,
     CONSTRAINT Unidade_pk PRIMARY KEY (id)
 );
 
@@ -89,6 +96,7 @@ CREATE TABLE Usuario (
     login varchar(25)  NOT NULL,
     senha varchar(25)  NOT NULL,
     nome varchar(50)  NOT NULL,
+    funcao varchar(50)  NOT NULL,
     CONSTRAINT Usuario_pk PRIMARY KEY (id)
 );
 

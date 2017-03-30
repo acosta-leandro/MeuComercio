@@ -293,7 +293,7 @@ public class fazerPedidoController implements Initializable {
     }
 
     private void popularCategorias() {
-        ArrayList categorias = categoriaDao.consultarTodos();
+        ArrayList categorias = categoriaDao.consultarTodosAtivos();
 
         for (int i = 0; i < categorias.size(); i++) {
             Categoria categoria = (Categoria) categorias.get(i);
