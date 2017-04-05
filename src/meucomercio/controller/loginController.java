@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import meucomercio.dao.LoginDao;
-import meucomercio.entsenhaades.Usuario;
+import meucomercio.entidades.Usuario;
 
 public class loginController implements Initializable{
 
@@ -38,13 +38,13 @@ public class loginController implements Initializable{
 
     @FXML
     void handleBtnLogin() {
-//        if (loginDao.verificarUsuario(usuario)) {
-//           meucomercio.MeuComercio.getInstance().iniciarSistema();
-//        }else{
-//            lblStatus.setText("Usuário ou senha incorreto");
-//            lblStatus.setTextFill(Color.rgb(210, 39, 30));
-//        }
-         meucomercio.MeuComercio.getInstance().iniciarSistema();
+        if (loginDao.verificarUsuario(usuario)) {
+            meucomercio.MeuComercio.getInstance().iniciarSistema();
+        } else {
+            lblStatus.setText("Usuário ou senha incorreto");
+            lblStatus.setTextFill(Color.rgb(210, 39, 30));
+        }
+        // meucomercio.MeuComercio.getInstance().iniciarSistema();
         
     }
     

@@ -9,21 +9,26 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.DoubleStream;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -36,6 +41,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import meucomercio.MeuComercio;
+import meucomercio.apoio.Util;
 import meucomercio.dao.ComandaDao;
 import meucomercio.dao.ProdutoDao;
 import meucomercio.entidades.Comanda;
@@ -60,9 +69,6 @@ public class PDVController implements Initializable {
     private Button btnDescontoItem;
 
     @FXML
-    private TextField tfdTotalProdutos;
-
-    @FXML
     private TableView<Comanda> tblComandas;
 
     @FXML
@@ -73,9 +79,6 @@ public class PDVController implements Initializable {
 
     @FXML
     private Button btnFinalizarVenda;
-
-    @FXML
-    private TextField tfdDesconto;
 
     @FXML
     private Button btnFecharComanda;
@@ -99,7 +102,7 @@ public class PDVController implements Initializable {
     private TableColumn<Produto, String> tblColValorProduto;
 
     @FXML
-    private TextField tfdTotalFinal;
+    private TextField tfdTotal;
 
     @FXML
     private RadioButton rbtTodos;
@@ -141,24 +144,27 @@ public class PDVController implements Initializable {
 
     @FXML
     private void handleBtnFinalizarVenda() {
-        System.out.println("aaaa");
+        Util.DinheiroParaDouble("R$2,00");
     }
 
     @FXML
-    private void handleBtnDescontoItem() {
-        Double a = 10.3;
-        Locale ptBr = new Locale("pt", "BR");
-        String b = NumberFormat.getCurrencyInstance(ptBr).format(a);
-        System.out.println("b:" + b);
+    private void handleBtnDescontoItem() throws IOException {
+        
+        FXMLLoader loader = new FXMLLoader(MeuComercio.class.getResource("view/descontoItem.fxml"));
+        AnchorPane anchorPane = loader.load();
+        // Get the Controller from the FXMLLoader
+        descontoItemController controller = loader.getController();
+        controller.descontoItem(tblVenda.getSelectionModel().getSelectedItem());
+        // Set data in the controller
+        Scene scene = new Scene(anchorPane);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     private void handleBtnConsProduto() {
-        int total = 0;
-        for (Produto value : tblVenda.getItems()) {
-            Double count = 0.0;
-            System.out.println("alfa:" + value.getValor());
-        }
+        calcularTotal();
     }
 
     @FXML
@@ -218,9 +224,12 @@ public class PDVController implements Initializable {
     }
 
     private void liberarBotoes() {
+        //liberar botão de fechar comanda - apenas se estiverem sendo exibidas as comandas aberta
         BooleanBinding booleanBind = Bindings.not(rbtAbertos.selectedProperty())
                 .or(Bindings.isEmpty(tblComandas.getSelectionModel().getSelectedItems()));
         btnFecharComanda.disableProperty().bind(booleanBind);
+        //liberar botão desconto item apenas se uma linha da tblVenda estiver selecionada
+        btnDescontoItem.disableProperty().bind(Bindings.isEmpty(tblVenda.getSelectionModel().getSelectedItems()));
     }
 
     private void configuraBindings() {
@@ -229,8 +238,7 @@ public class PDVController implements Initializable {
             TableRow<Produto> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    //  tblVenda.getItems().add(row.getItem());
-                    tblVenda.getItems().addAll(produtoDao.consultarTodosProdutos());
+                    tblVenda.getItems().add(row.getItem());
                 }
             });
             return row;
@@ -251,11 +259,27 @@ public class PDVController implements Initializable {
                 }
             }
         });
-
+        tblVenda.getItems().addListener(new ListChangeListener<Produto>() {
+            @Override
+            public void onChanged(ListChangeListener.Change<? extends Produto> arg0) {
+                calcularTotal();
+            }
+        });
     }
 
     private void inserirProduto(Produto produto) {
         tblProdutos.getItems().add(produto);
+    }
+
+    private void calcularTotal() {
+        ArrayList<String> valores = new ArrayList<String>();
+        for (Produto value : tblVenda.getItems()) {
+            //System.out.println(value.getValor());
+            valores.add(value.getValor());
+        }
+        ArrayList<Double> arrayDouble = Util.DinheiroParaDouble(valores);
+        //System.out.println("total:" + Util.somarDouble(arrayDouble));
+        tfdTotal.setText("R$ " + String.valueOf(Util.somarDouble(arrayDouble)));
     }
 
     @Override

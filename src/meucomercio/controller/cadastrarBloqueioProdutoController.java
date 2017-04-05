@@ -188,9 +188,10 @@ public class cadastrarBloqueioProdutoController implements Initializable {
 
     private void liberarBotoes() {
         btnConfirmar.disableProperty().bind(Validation.validGroup.not());
-        btnRemover.disableProperty().bind(tblBloqueio.getSelectionModel().selectedItemProperty().isNull());
+        //     btnRemover.disableProperty().bind(tblBloqueio.getSelectionModel().selectedItemProperty().isNull());
+        btnRemover.setDisable(true);
     }
-    
+
     private void popularCmbEstado() {
         ObservableList<String> estados = FXCollections.observableArrayList();
         estados.add("Ativo");

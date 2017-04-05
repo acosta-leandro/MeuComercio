@@ -177,7 +177,8 @@ public class cadastrarTipoProdutoController implements Initializable {
 
     private void liberarBotoes() {
         btnConfirmar.disableProperty().bind(Validation.validGroup.not());
-        btnRemover.disableProperty().bind(tblTipo.getSelectionModel().selectedItemProperty().isNull());
+        //   btnRemover.disableProperty().bind(tblTipo.getSelectionModel().selectedItemProperty().isNull());
+        btnRemover.setDisable(true);
     }
 
     private void popularCmbEstado() {

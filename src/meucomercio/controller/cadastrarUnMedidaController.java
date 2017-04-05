@@ -190,7 +190,8 @@ public class cadastrarUnMedidaController implements Initializable {
 
     private void liberarBotoes() {
         btnConfirmar.disableProperty().bind(Validation.validGroup.not());
-        btnRemover.disableProperty().bind(tblUnMedida.getSelectionModel().selectedItemProperty().isNull());
+       // btnRemover.disableProperty().bind(tblUnMedida.getSelectionModel().selectedItemProperty().isNull());
+        btnRemover.setDisable(true);
     }
     
        private void popularCmbEstado() {

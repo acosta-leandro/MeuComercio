@@ -467,7 +467,7 @@ public class cadastrarProdutoController implements Initializable {
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 cmbSubgrupo.getItems().clear();
                 popularCmbSubgrupo((String) cmbGrupo.getSelectionModel().getSelectedItem());
-                }
+            }
         });
 
     }
@@ -570,7 +570,8 @@ public class cadastrarProdutoController implements Initializable {
 
     private void liberarBotoes() {
         btnConfirmar.disableProperty().bind(Validation.validGroup.not());
-        btnRemover.disableProperty().bind(tblProduto.getSelectionModel().selectedItemProperty().isNull());
+        //    btnRemover.disableProperty().bind(tblProduto.getSelectionModel().selectedItemProperty().isNull());
+        btnRemover.setDisable(true);
     }
 
     @Override

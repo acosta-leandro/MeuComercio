@@ -1,44 +1,45 @@
-INSERT INTO bloqueio VALUES (1, 'Bloqueio 1', 'Ativo');
-INSERT INTO bloqueio VALUES (2, 'Bloqueio 2', 'Desativado');
-INSERT INTO bloqueio VALUES (4, 'Bloqueio 4', 'Ativo');
-INSERT INTO bloqueio VALUES (3, 'Bloqueio 3', 'Ativo');
+INSERT INTO bloqueio VALUES (default, 'Bloqueio 1', 'Ativo');
+INSERT INTO bloqueio VALUES (default, 'Bloqueio 2', 'Desativado');
+INSERT INTO bloqueio VALUES (default, 'Bloqueio 4', 'Ativo');
+INSERT INTO bloqueio VALUES (default, 'Bloqueio 3', 'Ativo');
 
 
-INSERT INTO categoria VALUES (1, 'Categoria 1', 'Ativo');
-INSERT INTO categoria VALUES (2, 'Categoria 2', 'Desativado');
-INSERT INTO categoria VALUES (3, 'Categoria 3', 'Desativado');
-INSERT INTO categoria VALUES (4, 'Categoria 4', 'Ativo');
+INSERT INTO categoria VALUES (default, 'Categoria 1', 'Ativo');
+INSERT INTO categoria VALUES (default, 'Categoria 2', 'Desativado');
+INSERT INTO categoria VALUES (default, 'Categoria 3', 'Desativado');
+INSERT INTO categoria VALUES (default, 'Categoria 4', 'Ativo');
 
 
-INSERT INTO comanda VALUES (1, 'Leandro', '2017-03-28 12:57:00', NULL, 'Aberto', 'R$0,00');
-INSERT INTO comanda VALUES (2, 'Daiana', '2017-03-28 13:15:00', NULL, 'Aberto', 'R$0,00');
-INSERT INTO comanda VALUES (3, 'Daiana', '2017-03-28 13:15:00', NULL, 'Aberto', 'R$0,00');
-INSERT INTO comanda VALUES (4, 'Tati', '2017-03-28 13:15:00', NULL, 'Aberto', 'R$0,00');
+INSERT INTO comanda VALUES (default, 'Leandro', '2017-03-28 12:57:00', NULL, 'Aberto', 'R$0,00');
+INSERT INTO comanda VALUES (default, 'Daiana', '2017-03-28 13:15:00', NULL, 'Aberto', 'R$0,00');
+INSERT INTO comanda VALUES (default, 'Daiana', '2017-03-28 13:15:00', NULL, 'Aberto', 'R$0,00');
+INSERT INTO comanda VALUES (default, 'Tati', '2017-03-28 13:15:00', NULL, 'Aberto', 'R$0,00');
 
 
-INSERT INTO grupo VALUES (1, 'Grupo 1', 'Ativo');
-INSERT INTO grupo VALUES (2, 'Grupo 2', 'Desativado');
-INSERT INTO grupo VALUES (4, 'Grupo 4', 'Ativo');
-INSERT INTO grupo VALUES (3, 'Grupo 3', 'Ativo');
+INSERT INTO grupo VALUES (default, 'Grupo 1', 'Ativo');
+INSERT INTO grupo VALUES (default, 'Grupo 2', 'Desativado');
+INSERT INTO grupo VALUES (default, 'Grupo 4', 'Ativo');
+INSERT INTO grupo VALUES (default, 'Grupo 3', 'Ativo');
 
 
-INSERT INTO subgrupo VALUES (1, 'Subgrupo 1', 1, 'Ativo');
-INSERT INTO subgrupo VALUES (2, 'Subgrupo 2', 2, 'Desativado');
-INSERT INTO subgrupo VALUES (3, 'Subgrupo 3', 3, 'Desativado');
-INSERT INTO subgrupo VALUES (4, 'Subgrupo 4', 4, 'Ativo');
+INSERT INTO subgrupo VALUES (default, 'Subgrupo 1', 1, 'Ativo');
+INSERT INTO subgrupo VALUES (default, 'Subgrupo 2', 2, 'Desativado');
+INSERT INTO subgrupo VALUES (default, 'Subgrupo 3', 3, 'Desativado');
+INSERT INTO subgrupo VALUES (default, 'Subgrupo 4', 4, 'Ativo');
 
-INSERT INTO tipo VALUES (1, 'Tipo 1', 'Ativo');
-INSERT INTO tipo VALUES (2, 'Tipo 2', 'Desativado');
-INSERT INTO tipo VALUES (3, 'Tipo 3', 'Desativado');
-INSERT INTO tipo VALUES (6, 'Tipo 4', 'Ativo');
-INSERT INTO tipo VALUES (7, 'Tipo 4', 'Ativo');
-INSERT INTO tipo VALUES (4, 'Tipo 4', 'Ativo');
-INSERT INTO tipo VALUES (5, 'Tipo 4', 'Desativado');
+INSERT INTO tipo VALUES (default, 'Tipo 1', 'Ativo');
+INSERT INTO tipo VALUES (default, 'Tipo 2', 'Desativado');
+INSERT INTO tipo VALUES (default, 'Tipo 3', 'Desativado');
+INSERT INTO tipo VALUES (default, 'Tipo 4', 'Ativo');
+INSERT INTO tipo VALUES (default, 'Tipo 4', 'Ativo');
+INSERT INTO tipo VALUES (default, 'Tipo 4', 'Ativo');
+INSERT INTO tipo VALUES (default, 'Tipo 4', 'Desativado');
 
-INSERT INTO unidade VALUES (1, 'Un 1', '1', 'Ativo');
-INSERT INTO unidade VALUES (2, 'Un 2', '2', 'Desativado');
-INSERT INTO unidade VALUES (3, 'Un 3', '3', 'Desativado');
-INSERT INTO unidade VALUES (4, 'Un 4', '4', 'Ativo');
+INSERT INTO unidade VALUES (default, 'Un 1', '1', 'Ativo');
+INSERT INTO unidade VALUES (default, 'Un 2', '2', 'Desativado');
+INSERT INTO unidade VALUES (default, 'Un 3', '3', 'Desativado');
+INSERT INTO unidade VALUES (default, 'Un 4', '4', 'Ativo');
 
-INSERT INTO produto VALUES (3, 1, 'prod 1', 1, 1, 1, 1, 1, 'R$14,10', 'R$16,00', 'R$1,00', 1, 2);
-
+INSERT INTO produto VALUES (default, 1, 'prod 1', 1, 1, 1, 1, 1, 'R$11,11', 'R$4,44', 'R$77,77', 77, 11);
+INSERT INTO produto VALUES (default, 2, 'prod 2', 2, 2, 2, 2, 2, 'R$22,22', 'R$5,55', 'R$88,88', 88, 22);
+INSERT INTO produto VALUES (default, 3, 'prod 3', 3, 3, 3, 3, 3, 'R$33,33', 'R$6,66', 'R$99,99', 99, 33);

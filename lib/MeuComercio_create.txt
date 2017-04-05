@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-03-22 23:34:44.443
+-- Last modification date: 2017-03-28 16:12:23.801
 
 -- tables
 -- Table: Bloqueio
@@ -172,6 +172,10 @@ ALTER TABLE Subgrupo ADD CONSTRAINT Subgrupo_Grupo
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
+
+
+INSERT INTO usuario VALUES (1, 'adm', 'adm','Administrador', 'adm');
+INSERT INTO usuario VALUES (2, 'user', 'user','Usuário', 'user');
 
 -- End of file.
 

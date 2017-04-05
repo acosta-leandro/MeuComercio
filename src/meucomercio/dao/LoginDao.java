@@ -9,7 +9,7 @@ import apoio.ConexaoBD;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import meucomercio.entsenhaades.Usuario;
+import meucomercio.entidades.Usuario;
 
 /**
  *
@@ -45,7 +45,7 @@ public class LoginDao {
                 tmpUsuario.setId(String.valueOf(resultado.getInt("id")));
                 tmpUsuario.setNome(resultado.getString("nome"));
                 tmpUsuario.setLogin(resultado.getString("login"));
-                tmpUsuario.setPerfil(resultado.getString("perfil"));
+                tmpUsuario.setPerfil(resultado.getString("funcao"));
                 tmpUsuario.setSenha(resultado.getString("senha"));
                 usuarios.add(tmpUsuario);
             }

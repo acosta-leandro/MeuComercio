@@ -196,7 +196,8 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
 
     private void liberarBotoes() {
         btnConfirmar.disableProperty().bind(Validation.validGroup.not());
-        btnRemover.disableProperty().bind(tblSubgrupo.getSelectionModel().selectedItemProperty().isNull());
+        // btnRemover.disableProperty().bind(tblSubgrupo.getSelectionModel().selectedItemProperty().isNull());
+        btnRemover.setDisable(true);
     }
 
     private void popularCmbGrupo() {
@@ -208,8 +209,8 @@ public class cadastrarSubgrupoProdutoController implements Initializable {
         }
         cmbGrupo.getItems().addAll(nomesProdutos);
     }
-    
-       private void popularCmbEstado() {
+
+    private void popularCmbEstado() {
         ObservableList<String> estados = FXCollections.observableArrayList();
         estados.add("Ativo");
         estados.add("Desativado");
