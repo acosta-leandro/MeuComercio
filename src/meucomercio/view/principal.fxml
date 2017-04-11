@@ -49,7 +49,7 @@
                         <MenuItem fx:id="MenuItemRelatorios" mnemonicParsing="false" onAction="#handleMenuItemRelatorios" text="Relatorios" />
                      </items>
                   </Menu>
-                  <Menu fx:id="menuUsuario" mnemonicParsing="false" text="Usuário">
+                  <Menu fx:id="menuUsuario" mnemonicParsing="false" style="float: right;" text="Usuário">
                     <items>
                       <MenuItem fx:id="MenuItemSair" mnemonicParsing="false" onAction="#handleMenuItemSair" text="Sair" />
                     </items>

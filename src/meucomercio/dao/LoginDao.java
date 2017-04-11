@@ -9,6 +9,7 @@ import apoio.ConexaoBD;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import meucomercio.controller.principalController;
 import meucomercio.entidades.Usuario;
 
 /**
@@ -24,6 +25,7 @@ public class LoginDao {
                 System.out.println("ACHOU USER");
                 if (user.getSenha().equals(usuarios.get(i).getSenha())) {
                     System.out.println("Senha OK");
+                    principalController.setUsuarioLogado(usuarios.get(i));
                     return true;
                 }
             }

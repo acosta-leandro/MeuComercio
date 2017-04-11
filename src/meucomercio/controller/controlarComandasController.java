@@ -51,7 +51,7 @@ public class controlarComandasController implements Initializable {
 
     @FXML
     private Button btnF1NovaComanda;
-    
+
     @FXML
     private Button btnTodosItens;
 
@@ -96,7 +96,7 @@ public class controlarComandasController implements Initializable {
             TableRow<Comanda> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    try {                    
+                    try {
                         handleBtnF2AlterarComanda();
                     } catch (IOException ex) {
                         Logger.getLogger(controlarComandasController.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,10 +107,10 @@ public class controlarComandasController implements Initializable {
         });
         btnF2AlterarComanda.disableProperty().bind(Bindings.isEmpty(tblComandas.getSelectionModel().getSelectedItems()));
     }
-    
+
     @FXML
     private void handleBtnTodosItens() throws IOException {
-    FXMLLoader fxmlLoader = new FXMLLoader(MeuComercio.class.getResource("view/listarProdutos.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MeuComercio.class.getResource("view/listarProdutos.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(root1));
@@ -118,7 +118,7 @@ public class controlarComandasController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
         stage.show();
-}
+    }
 
     @FXML
     private void handleBtnF1NovaComanda() throws IOException {
@@ -144,7 +144,7 @@ public class controlarComandasController implements Initializable {
         Scene scene = new Scene(anchorPane);
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.show();        
+
     }
 
     @FXML

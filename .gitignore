@@ -13,3 +13,10 @@ hs_err_pid*
 /nbproject/private/
 /build/
 /dist/
+!/lib/jidefx-validation-0.9.1.jar
+!/lib/jfoenix.jar
+!/lib/jidefx-common-0.9.1.jar
+!/lib/jidefx-decoration-0.9.1.jar
+!/lib/jidefx-converters-0.9.1.jar
+!/lib/jidefx-fields-0.9.1.jar
+!/lib/jidefx-comparators-0.9.1.jar

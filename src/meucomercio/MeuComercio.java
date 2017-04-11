@@ -75,6 +75,7 @@ public class MeuComercio extends Application {
             loader.setLocation(MeuComercio.class.getResource("view/login.fxml"));
             AnchorPane pane = (AnchorPane) loader.load();
             stage.setScene(new Scene(pane));
+            stage.setTitle("MeuComercio");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

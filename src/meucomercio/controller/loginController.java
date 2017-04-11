@@ -13,11 +13,11 @@ import javafx.scene.paint.Color;
 import meucomercio.dao.LoginDao;
 import meucomercio.entidades.Usuario;
 
-public class loginController implements Initializable{
+public class loginController implements Initializable {
 
     LoginDao loginDao = new LoginDao();
     Usuario usuario = new Usuario();
-    
+
     @FXML
     private Button btnLogin;
 
@@ -32,26 +32,31 @@ public class loginController implements Initializable{
 
     @FXML
     private TextField tfdLogin;
-    
+
     @FXML
     private Label lblStatus;
 
     @FXML
     void handleBtnLogin() {
-        if (loginDao.verificarUsuario(usuario)) {
-            meucomercio.MeuComercio.getInstance().iniciarSistema();
-        } else {
-            lblStatus.setText("Usuário ou senha incorreto");
-            lblStatus.setTextFill(Color.rgb(210, 39, 30));
-        }
-        // meucomercio.MeuComercio.getInstance().iniciarSistema();
-        
+
+//        if (loginDao.verificarUsuario(usuario)) {
+//            meucomercio.MeuComercio.getInstance().iniciarSistema();
+//        } else {
+//            lblStatus.setText("Usuário ou senha incorreto");
+//            lblStatus.setTextFill(Color.rgb(210, 39, 30));
+//        }
+        Usuario user = new Usuario();
+        user.setLogin("adm");
+        user.setSenha("adm");
+        loginDao.verificarUsuario(user);
+        meucomercio.MeuComercio.getInstance().iniciarSistema();
+
     }
-    
+
     private void configuraBindings() {
         //bids de campos
         usuario.loginProperty().bind(tfdLogin.textProperty());
-        usuario.senhaProperty().bind(tfdSenha.textProperty());        
+        usuario.senhaProperty().bind(tfdSenha.textProperty());
     }
 
     @Override

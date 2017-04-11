@@ -2,6 +2,7 @@ package meucomercio.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -11,9 +12,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import meucomercio.apoio.Util;
+import meucomercio.dao.LoginDao;
 import meucomercio.entidades.Produto;
+import meucomercio.entidades.Usuario;
 
 public class descontoItemController implements Initializable {
+
+    Produto produto = new Produto();
+    
 
     @FXML
     private Label lblProduto;
@@ -26,6 +32,9 @@ public class descontoItemController implements Initializable {
 
     @FXML
     private Label lblValorAtual;
+
+    @FXML
+    private Label lblSenha;
 
     @FXML
     private TextField tfdDesconto;
@@ -53,24 +62,51 @@ public class descontoItemController implements Initializable {
 
     @FXML
     void handleBtnConfirmar() {
-        calcularPorcentagem();
+        System.out.println("ValorCOnf" + lblValorAtual);
+        produto.setValor(lblValorAtual.getText());
+        PDVController.setProduto(produto);
+
     }
 
-    private void configuraBindings() {       
+    
+    
+    private void configuraBindings() {
         tfdDesconto.textProperty().addListener((observable, oldValue, newValue) -> {
-            lblDescontoAtual.setText(newValue+"%");
+            lblDescontoAtual.setText(newValue + "%");
             calcularPorcentagem();
+            tfdSenha.setText("");
+        });
+        tfdSenha.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            if (tfdSenha.getText().equalsIgnoreCase(principalController.getUsuarioLogado().getSenha())) {
+                btnConfirmar.setDisable(false);
+            } else {
+                btnConfirmar.setDisable(true);
+            }
         });
     }
-    
-  
 
     private void calcularPorcentagem() {
+
+        Double descontoMax = Double.valueOf(lblDescontoMax.getText().replace("%", ""));
+        Double descontoAtual = 0.0;
+        if (!tfdDesconto.getText().isEmpty()) {
+            descontoAtual = Util.DinheiroParaDouble(tfdDesconto.getText());
+        }
+
         Double valorNormal = Util.DinheiroParaDouble(lblValorNormal.getText());
-        Double valorAtual = 0.0;
-        Double desconto = Util.DinheiroParaDouble(tfdDesconto.getText());
-        valorAtual = valorNormal - (valorNormal * (desconto / 100));
+        Double valorAtual = valorAtual = valorNormal - (valorNormal * (descontoAtual / 100));;
+
         lblValorAtual.setText(Util.DoubleParaDinheiro(valorAtual));
+
+        if (descontoAtual <= descontoMax) {
+            btnConfirmar.setDisable(false);
+            lblSenha.setDisable(true);
+            tfdSenha.setDisable(true);
+        } else {
+            lblSenha.setDisable(false);
+            tfdSenha.setDisable(false);
+            btnConfirmar.setDisable(true);
+        }
     }
 
     @Override
@@ -79,7 +115,10 @@ public class descontoItemController implements Initializable {
 
     public void descontoItem(Produto produto) {
         configuraBindings();
+        System.out.println("produtodocoooooooooooo" + produto.getProduto());
         lblProduto.setText(produto.getProduto());
         lblValorNormal.setText(produto.getValor());
+        lblResponsavel.setText(principalController.getUsuarioLogado().getNome());
+        this.produto = produto;
     }
 }

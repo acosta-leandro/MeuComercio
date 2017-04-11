@@ -58,6 +58,15 @@ public class PDVController implements Initializable {
 
     ProdutoDao produtoDao = new ProdutoDao();
     ComandaDao comandaDao = new ComandaDao();
+    private static Produto produto;
+
+    public static Produto getProduto() {
+        return produto;
+    }
+
+    public static void setProduto(Produto tmpProduto) {
+        produto = tmpProduto;
+    }
 
     @FXML
     private Button btnFechar;
@@ -144,12 +153,14 @@ public class PDVController implements Initializable {
 
     @FXML
     private void handleBtnFinalizarVenda() {
-        Util.DinheiroParaDouble("R$2,00");
+        System.out.println("PRODUTOESTATICO" + produto.getValor());
     }
+
+    //Stage static stage = new Stage();
 
     @FXML
     private void handleBtnDescontoItem() throws IOException {
-        
+
         FXMLLoader loader = new FXMLLoader(MeuComercio.class.getResource("view/descontoItem.fxml"));
         AnchorPane anchorPane = loader.load();
         // Get the Controller from the FXMLLoader
@@ -157,9 +168,15 @@ public class PDVController implements Initializable {
         controller.descontoItem(tblVenda.getSelectionModel().getSelectedItem());
         // Set data in the controller
         Scene scene = new Scene(anchorPane);
-        Stage stage = new Stage();
+
         stage.setScene(scene);
-        stage.show();
+        stage.setTitle("Desconto Item");
+        stage.showAndWait();
+        System.out.println("fechouuuu");
+
+    }
+    public static void fecharStage(){
+        stage.close();
     }
 
     @FXML

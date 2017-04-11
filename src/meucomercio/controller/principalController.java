@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Menu;
 import meucomercio.MeuComercio;
@@ -18,22 +19,26 @@ import meucomercio.entidades.Usuario;
  * Created by leandro on 05/07/16.
  */
 public class principalController implements Initializable {
-    
+
     private static principalController instance;
     private static Usuario user;
-    
+
     public principalController() {
         instance = this;
     }
-    
+
     public static principalController getInstance() {
         return instance;
     }
-    
-    public static void usuarioLogado(Usuario usuario){
+
+    public static void setUsuarioLogado(Usuario usuario) {
         user = usuario;
     }
-    
+
+    public static Usuario getUsuarioLogado() {
+        return user;
+    }
+
     private boolean cadastrarCategoriaIsAberto = false;
     private boolean cadastrarGrupoIsAberto = false;
     private boolean cadastrarSubgrupoIsAberto = false;
@@ -45,49 +50,49 @@ public class principalController implements Initializable {
     private boolean controlarComandasIsAberto = false;
     private boolean fazerPedidoIsAberto = false;
     private boolean relatoriosIsAberto = false;
-    
+
     @FXML
     private Accordion accordion;
-    
+
     @FXML
     private AnchorPane anchorPane;
-    
+
     @FXML
     private MenuItem MenuItemProduto;
-    
+
     @FXML
     private MenuItem MenuItemCategoria;
-    
+
     @FXML
     private MenuItem MenuItemGrupo;
-    
+
     @FXML
     private MenuItem MenuItemSubgrupo;
-    
+
     @FXML
     private MenuItem MenuItemTipo;
-    
+
     @FXML
     private MenuItem MenuItemBloqueio;
-    
+
     @FXML
     private MenuItem MenuItemVenderProduto;
-    
+
     @FXML
     private MenuItem MenuItemControlarComandas;
-    
+
     @FXML
     private MenuItem MenuItemFazerPedido;
-    
+
     @FXML
     private MenuItem MenuItemRelatorios;
-    
+
     @FXML
     private MenuItem MenuItemSair;
-    
+
     @FXML
-    private Menu Usuario;
-    
+    private Menu menuUsuario;
+
     @FXML
     public void handleMenuItemCadastrarCategoria() throws IOException {
         if (!cadastrarCategoriaIsAberto) {
@@ -97,7 +102,7 @@ public class principalController implements Initializable {
             cadastrarCategoriaIsAberto = true;
         }
     }
-    
+
     @FXML
     public void handleMenuItemCadastrarGrupo() throws IOException {
         if (!cadastrarGrupoIsAberto) {
@@ -107,7 +112,7 @@ public class principalController implements Initializable {
             cadastrarGrupoIsAberto = true;
         }
     }
-    
+
     @FXML
     public void handleMenuItemCadastrarSubgrupo() throws IOException {
         if (!cadastrarSubgrupoIsAberto) {
@@ -117,7 +122,7 @@ public class principalController implements Initializable {
             cadastrarSubgrupoIsAberto = true;
         }
     }
-    
+
     @FXML
     public void handleMenuItemCadastrarUnMedida() throws IOException {
         if (!cadastrarUnMedidaIsAberto) {
@@ -127,7 +132,7 @@ public class principalController implements Initializable {
             cadastrarUnMedidaIsAberto = true;
         }
     }
-    
+
     @FXML
     public void handleMenuItemCadastrarTipo() throws IOException {
         if (!cadastrarTipoIsAberto) {
@@ -137,7 +142,7 @@ public class principalController implements Initializable {
             cadastrarTipoIsAberto = true;
         }
     }
-    
+
     @FXML
     public void handleMenuItemCadastrarProduto() throws IOException {
         if (!cadastrarProdutoIsAberto) {
@@ -147,7 +152,7 @@ public class principalController implements Initializable {
             cadastrarProdutoIsAberto = true;
         }
     }
-    
+
     @FXML
     public void handleMenuItemCadastrarBloqueio() throws IOException {
         if (!cadastrarBloqueioIsAberto) {
@@ -157,7 +162,7 @@ public class principalController implements Initializable {
             cadastrarBloqueioIsAberto = true;
         }
     }
-    
+
     @FXML
     public void handleMenuItemControlarComandas() throws IOException {
         if (!controlarComandasIsAberto) {
@@ -167,7 +172,7 @@ public class principalController implements Initializable {
             controlarComandasIsAberto = true;
         }
     }
-    
+
     @FXML
     public void handleMenuItemVenderProduto() throws IOException {
         if (!venderProdutoIsAberto) {
@@ -177,7 +182,7 @@ public class principalController implements Initializable {
             venderProdutoIsAberto = true;
         }
     }
-    
+
     @FXML
     public void handleMenuItemFazerPedido() throws IOException {
         if (!fazerPedidoIsAberto) {
@@ -187,7 +192,7 @@ public class principalController implements Initializable {
             fazerPedidoIsAberto = true;
         }
     }
-    
+
     @FXML
     public void handleMenuItemRelatorios() throws IOException {
         if (!relatoriosIsAberto) {
@@ -197,12 +202,12 @@ public class principalController implements Initializable {
             relatoriosIsAberto = true;
         }
     }
-    
+
     @FXML
     public void handleMenuItemSair() throws IOException {
         System.exit(0);
     }
-    
+
     public void fecharTittledPane(String tela) {
         if (tela.equals("cadastrarCategoriaProduto")) {
             cadastrarCategoriaIsAberto = false;
@@ -239,9 +244,9 @@ public class principalController implements Initializable {
         }
         accordion.getPanes().remove(accordion.getExpandedPane());
     }
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        menuUsuario.setText(getUsuarioLogado().getNome());
     }
 }
