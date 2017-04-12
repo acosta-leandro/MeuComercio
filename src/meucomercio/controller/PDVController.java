@@ -56,9 +56,19 @@ import meucomercio.entidades.Produto;
  */
 public class PDVController implements Initializable {
 
-    ProdutoDao produtoDao = new ProdutoDao();
-    ComandaDao comandaDao = new ComandaDao();
+    private ProdutoDao produtoDao = new ProdutoDao();
+    private ComandaDao comandaDao = new ComandaDao();
     private static Produto produto;
+    private Stage popup = new Stage();
+    private static PDVController instance;
+
+    public PDVController() {
+        instance = this;
+    }
+
+    public static PDVController getInstance() {
+        return instance;
+    }
 
     public static Produto getProduto() {
         return produto;
@@ -156,8 +166,6 @@ public class PDVController implements Initializable {
         System.out.println("PRODUTOESTATICO" + produto.getValor());
     }
 
-    //Stage static stage = new Stage();
-
     @FXML
     private void handleBtnDescontoItem() throws IOException {
 
@@ -169,14 +177,15 @@ public class PDVController implements Initializable {
         // Set data in the controller
         Scene scene = new Scene(anchorPane);
 
-        stage.setScene(scene);
-        stage.setTitle("Desconto Item");
-        stage.showAndWait();
+        popup.setScene(scene);
+        popup.setTitle("Desconto Item");
+        popup.showAndWait();
         System.out.println("fechouuuu");
 
     }
-    public static void fecharStage(){
-        stage.close();
+
+    public void fecharPopup() {
+        popup.close();
     }
 
     @FXML

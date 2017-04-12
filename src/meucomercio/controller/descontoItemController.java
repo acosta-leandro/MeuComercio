@@ -19,7 +19,6 @@ import meucomercio.entidades.Usuario;
 public class descontoItemController implements Initializable {
 
     Produto produto = new Produto();
-    
 
     @FXML
     private Label lblProduto;
@@ -65,11 +64,10 @@ public class descontoItemController implements Initializable {
         System.out.println("ValorCOnf" + lblValorAtual);
         produto.setValor(lblValorAtual.getText());
         PDVController.setProduto(produto);
-
+        PDVController.getInstance().fecharPopup();
+        
     }
 
-    
-    
     private void configuraBindings() {
         tfdDesconto.textProperty().addListener((observable, oldValue, newValue) -> {
             lblDescontoAtual.setText(newValue + "%");
