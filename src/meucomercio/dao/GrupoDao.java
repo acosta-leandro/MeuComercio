@@ -46,7 +46,7 @@ public class GrupoDao implements daos.IDAO {
                     + "grupo = '" + grupo.getGrupo() + "',"
                     + "estado = '" + grupo.getEstado()
                     + "' WHERE id = " + grupo.getId();
-            System.out.println("sql: " + sql);
+         //   System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
             return true;
         } catch (Exception e) {
@@ -102,7 +102,7 @@ public class GrupoDao implements daos.IDAO {
 
             String sql = "SELECT * FROM Grupo WHERE "
                     + "grupo iLIKE '%" + grupo + "%' ORDER BY 1;";
-            System.out.println("sql: " + sql);
+      //      System.out.println("sql: " + sql);
 
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
@@ -153,7 +153,7 @@ public class GrupoDao implements daos.IDAO {
             String sql = "SELECT * FROM Grupo WHERE "
                     + "grupo = '" + nome + "';";
 
-            System.out.println("sql: " + sql);
+        //    System.out.println("sql: " + sql);
             ResultSet resultado = st.executeQuery(sql);
 
             if (resultado.next()) {

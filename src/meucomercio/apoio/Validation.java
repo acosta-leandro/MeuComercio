@@ -35,9 +35,9 @@ public class Validation {
     public static String CPF = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}";
     public static String CNPJ = "[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}/[0-9]{4}-[0-9]{2}";
     public static String INTEIRO = "[0-9]{1,9}";
-    public static String MONEY = "[0-9]{1,6}(|((\\,|)([0-9]{1,2})))";
+    public static String MONEY = "[R][$](([1-9]+\\.?\\d*)|([0]\\.\\d*)|[0])";
+    public static String DOUBLE = "[0-9]{1,6}(|((\\,|)([0-9]{1,2})))";
     public static String SIGLA = ".{1,3}";
- 
 
     /**
      * Configura campo FormattedTextField para se comportar com DDD e telefone.
@@ -134,6 +134,21 @@ public class Validation {
         addDecoration(field.getText().matches(pattern), field);
     }
 
+    public static void validateOr(TextField field, String pattern, String pattern2) {
+        field.setUserData(false);
+        field.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.matches(pattern) || newValue.matches(pattern2)) {
+                    System.out.println("teste");
+                    addDecoration(true, field);
+                }
+            }
+        });
+        System.out.println("teste1");
+        addDecoration(field.getText().matches(pattern)||field.getText().matches(pattern2), field);
+    }
+
     // Adiciona a decoração ao campo...
     private static void addDecoration(boolean b, Node field) {
         if (b) {
@@ -145,9 +160,10 @@ public class Validation {
         }
         validateGroup((Pane) field.getParent());
     }
+
     //validar sempre true
     public static void validateTrue(TextField field) {
         addDecoration(true, field);
     }
-    
+
 }

@@ -46,11 +46,11 @@ public class SubgrupoDao implements daos.IDAO {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE subgrupo SET "
-                    + "subgrupo = '" + subgrupo.getSubgrupo() + "', "
-                    + "grupo_id = " + subgrupo.getGrupoId() + "',"
-                    + "estado = '" + subgrupo.getEstado()
-                    + " WHERE id = " + subgrupo.getId();
-            System.out.println("sql: " + sql);
+                    + "subgrupo = '" + subgrupo.getSubgrupo() + "',"
+                    + "grupo_id = " + subgrupo.getGrupoId() + ","
+                    + "estado = '" + subgrupo.getEstado()+ "' "
+                    + "WHERE id = " + subgrupo.getId() + ";";
+        //    System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
             return true;
         } catch (Exception e) {
@@ -109,7 +109,7 @@ public class SubgrupoDao implements daos.IDAO {
 
             String sql = "SELECT * FROM Subgrupo WHERE "
                     + "subgrupo iLIKE '%" + subgrupo + "%' ORDER BY 1;";
-            System.out.println("sql: " + sql);
+           // System.out.println("sql: " + sql);
 
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
@@ -166,7 +166,7 @@ public class SubgrupoDao implements daos.IDAO {
             String sql = "SELECT * FROM Subgrupo WHERE "
                     + "subgrupo = '" + nome + "';";
 
-            System.out.println("sql: " + sql);
+      //      System.out.println("sql: " + sql);
             ResultSet resultado = st.executeQuery(sql);
 
             if (resultado.next()) {
@@ -191,7 +191,7 @@ public class SubgrupoDao implements daos.IDAO {
 
             String sql = "SELECT * FROM Subgrupo WHERE "
                     + "grupo_id =" + idGrupo + " ORDER BY 1;";
-            System.out.println("sql: " + sql);
+        //    System.out.println("sql: " + sql);
 
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {

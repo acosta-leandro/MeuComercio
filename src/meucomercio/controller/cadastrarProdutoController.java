@@ -384,42 +384,42 @@ public class cadastrarProdutoController implements Initializable {
                 }
             }
         });
-        //Remover R$ quando for alterar valor
-        tfdCusto.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                if (newPropertyValue) { //ganhou foco
-                    if (!tfdCusto.getText().isEmpty() && tfdCusto.getText(0, 2).equals("R$")) {
-                        tfdCusto.setText(tfdCusto.getText(2, tfdCusto.getLength()));
-                    }
-                }
-            }
-        });
-        tfdUltCusto.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                if (newPropertyValue) { //ganhou foco
-                    if (!tfdUltCusto.getText().isEmpty() && tfdUltCusto.getText(0, 2).equals("R$")) {
-                        tfdUltCusto.setText(tfdUltCusto.getText(2, tfdUltCusto.getLength()));
-                    }
-                }
-            }
-        });
-        tfdValor.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                if (newPropertyValue) { //ganhou foco
-                    if (!tfdValor.getText().isEmpty() && tfdValor.getText(0, 2).equals("R$")) {
-                        tfdValor.setText(tfdValor.getText(2, tfdValor.getLength()));
-                    }
-                }
-            }
-        });
+//        Remover R$ quando for alterar valor
+//        tfdCusto.focusedProperty().addListener(new ChangeListener<Boolean>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+//                if (newPropertyValue) { //ganhou foco
+//                    if (!tfdCusto.getText().isEmpty() && tfdCusto.getText(0, 2).equals("R$")) {
+//                        tfdCusto.setText(tfdCusto.getText(2, tfdCusto.getLength()));
+//                    }
+//                }
+//            }
+//        });
+//        tfdUltCusto.focusedProperty().addListener(new ChangeListener<Boolean>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+//                if (newPropertyValue) { //ganhou foco
+//                    if (!tfdUltCusto.getText().isEmpty() && tfdUltCusto.getText(0, 2).equals("R$")) {
+//                        tfdUltCusto.setText(tfdUltCusto.getText(2, tfdUltCusto.getLength()));
+//                    }
+//                }
+//            }
+//        });
+//        tfdValor.focusedProperty().addListener(new ChangeListener<Boolean>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+//                if (newPropertyValue) { //ganhou foco
+//                    if (!tfdValor.getText().isEmpty() && tfdValor.getText(0, 2).equals("R$")) {
+//                        tfdValor.setText(tfdValor.getText(2, tfdValor.getLength()));
+//                    }
+//                }
+//            }
+//        });
 
         // indica se há algo selecionado na tabela
         BooleanBinding algoSelecionado = tblProduto.getSelectionModel().selectedItemProperty().isNull();
         // alguns botões só são habilitados se algo foi selecionado na tabela
-        btnRemover.disableProperty().bind(algoSelecionado);
+        // btnRemover.disableProperty().bind(algoSelecionado);
 
         // quando algo é selecionado na tabela, preenchemos os campos de entrada com os valores para o 
         tblProduto.getSelectionModel().selectedItemProperty().addListener(new javafx.beans.value.ChangeListener<Produto>() {
@@ -564,13 +564,13 @@ public class cadastrarProdutoController implements Initializable {
         Validation.validate(tfdEstMax, Validation.VARCHAR25);
         Validation.validate(tfdEstMin, Validation.VARCHAR25);
         Validation.validate(tfdUltCusto, Validation.MONEY);
-        Validation.validate(tfdValor, Validation.MONEY);
+        Validation.validateOr(tfdValor, Validation.MONEY, Validation.DOUBLE);
 
     }
 
     private void liberarBotoes() {
         btnConfirmar.disableProperty().bind(Validation.validGroup.not());
-        //    btnRemover.disableProperty().bind(tblProduto.getSelectionModel().selectedItemProperty().isNull());
+        // btnRemover.disableProperty().bind(tblProduto.getSelectionModel().selectedItemProperty().isNull());
         btnRemover.setDisable(true);
     }
 

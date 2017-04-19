@@ -250,7 +250,7 @@ public class fazerPedidoController implements Initializable {
         }
         int colunas = 7;
         int linhas = verificarLinhas(comandas.size(), colunas);
-        System.out.println("linas" + linhas);
+        //  System.out.println("linas" + linhas);
 
         Button[][] btn = new Button[colunas][linhas];
         //para testar numero de casas

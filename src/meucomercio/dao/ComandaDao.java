@@ -203,7 +203,7 @@ public class ComandaDao implements daos.IDAO {
 
             String sql = "SELECT * "
                     + "FROM comanda "
-                    + "WHERE estado != 'Fechado'"
+                    + "WHERE estado = 'Aberto'"
                     + "ORDER BY 1";
             System.out.println("sql: " + sql);
 
@@ -266,12 +266,25 @@ public class ComandaDao implements daos.IDAO {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE comanda SET "
-                    + "estado = 'Fechado'"
-                    + " WHERE id = " + id;
+                    + "estado = 'Fechado' "
+                    + "WHERE id = " + id;
             System.out.println("sql: " + sql);
             st.executeUpdate(sql);
         } catch (Exception e) {
-            System.out.println("Erro Atualizar Comanda = " + e);
+            System.out.println("Erro ao Fechar Comanda = " + e);
+        }
+    }
+    
+    public void faturarComanda(int id) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            String sql = "UPDATE comanda SET "
+                    + "estado = 'Faturado' "
+                    + "WHERE id = " + id;
+            System.out.println("sql: " + sql);
+            st.executeUpdate(sql);
+        } catch (Exception e) {
+            System.out.println("Erro ao Faturar Comanda = " + e);
         }
     }
 

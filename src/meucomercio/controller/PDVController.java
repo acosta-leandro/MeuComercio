@@ -162,8 +162,26 @@ public class PDVController implements Initializable {
     }
 
     @FXML
-    private void handleBtnFinalizarVenda() {
-        System.out.println("PRODUTOESTATICO" + produto.getValor());
+    private void handleBtnFinalizarVenda() throws IOException {
+        String valorVenda = tfdTotal.getText();
+        String comandaIdSelecionada = "1";
+        if (!tblComandas.getSelectionModel().isEmpty()) {
+            comandaIdSelecionada = tblComandas.getSelectionModel().getSelectedItem().getId();
+        }
+
+        FXMLLoader loader = new FXMLLoader(MeuComercio.class.getResource("view/pagamentoDinheiro.fxml"));
+        AnchorPane anchorPane = loader.load();
+        // Get the Controller from the FXMLLoader
+        pagamentoDinheiroController controller = loader.getController();
+        List<Produto> consultations = tblVenda.getItems();
+        controller.efetuarPagamento(tblVenda.getItems(), comandaIdSelecionada, valorVenda);
+        // Set data in the controller
+        Scene scene = new Scene(anchorPane);
+
+        popup.setScene(scene);
+        popup.setTitle("Finalizar Venda");
+        popup.showAndWait();
+        System.out.println("fechouuuu");
     }
 
     @FXML
@@ -186,6 +204,10 @@ public class PDVController implements Initializable {
 
     public void fecharPopup() {
         popup.close();
+    }
+
+    public void prepararFinalizarVenda() {
+
     }
 
     @FXML

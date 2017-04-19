@@ -156,6 +156,7 @@ public class cadastrarTipoProdutoController implements Initializable {
                     tfdTipo.textProperty().unbind();
                     tfdTipo.setText("");
                     lblId.setText("X");
+                    atualizando = false;
                 }
             }
         });
