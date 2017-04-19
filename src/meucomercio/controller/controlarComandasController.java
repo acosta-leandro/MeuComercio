@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,6 +43,16 @@ public class controlarComandasController implements Initializable {
 
     ComandaDao comandaDao = new ComandaDao();
     private static principalController princCont = principalController.getInstance();
+    private Stage popup = new Stage();
+    private static controlarComandasController instance;
+
+    public controlarComandasController() {
+        instance = this;
+    }
+
+    public static controlarComandasController getInstance() {
+        return instance;
+    }
 
     @FXML
     private TitledPane titledPane;
@@ -122,14 +133,16 @@ public class controlarComandasController implements Initializable {
 
     @FXML
     private void handleBtnF1NovaComanda() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MeuComercio.class.getResource("view/editarComanda.fxml"));
-        Parent root1 = (Parent) fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root1));
-        stage.setTitle("Nova Comanda");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setResizable(false);
-        stage.show();
+
+        FXMLLoader loader = new FXMLLoader(MeuComercio.class.getResource("view/editarComanda.fxml"));
+        AnchorPane anchorPane = loader.load();
+        Scene scene = new Scene(anchorPane);
+        popup.setTitle("Nova Comanda");
+        popup.setResizable(false);
+        popup.setScene(scene);
+        popup.showAndWait();
+        System.out.println("fechou");
+        popularTblComandas();
     }
 
     @FXML
@@ -142,13 +155,20 @@ public class controlarComandasController implements Initializable {
         controller.editarComanda(tblComandas.getSelectionModel().getSelectedItem());
         // Set data in the controller
         Scene scene = new Scene(anchorPane);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-
+        popup.setTitle("Editar Comanda");
+        popup.setResizable(false);
+        popup.setScene(scene);
+        popup.showAndWait();
+        System.out.println("fechou");
+        popularTblComandas();
     }
 
     @FXML
     private void handleBtnF5ListarTodos() throws IOException {
+        popularTblComandas();
+    }
+
+    private void popularTblComandas() {
         ArrayList comandas = comandaDao.consultarTodos();
         ObservableList<Comanda> tmplistProdutos = FXCollections.observableArrayList(comandas);
         tblComandas.setItems(tmplistProdutos);
@@ -159,10 +179,15 @@ public class controlarComandasController implements Initializable {
         princCont.fecharTittledPane("controlarComanda");
     }
 
+    public void fecharPopup() {
+        popup.close();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         configuraColunas();
         configuraBindings();
+        Platform.runLater(() -> popularTblComandas());
     }
 
 }

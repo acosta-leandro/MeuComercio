@@ -384,37 +384,6 @@ public class cadastrarProdutoController implements Initializable {
                 }
             }
         });
-//        Remover R$ quando for alterar valor
-//        tfdCusto.focusedProperty().addListener(new ChangeListener<Boolean>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-//                if (newPropertyValue) { //ganhou foco
-//                    if (!tfdCusto.getText().isEmpty() && tfdCusto.getText(0, 2).equals("R$")) {
-//                        tfdCusto.setText(tfdCusto.getText(2, tfdCusto.getLength()));
-//                    }
-//                }
-//            }
-//        });
-//        tfdUltCusto.focusedProperty().addListener(new ChangeListener<Boolean>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-//                if (newPropertyValue) { //ganhou foco
-//                    if (!tfdUltCusto.getText().isEmpty() && tfdUltCusto.getText(0, 2).equals("R$")) {
-//                        tfdUltCusto.setText(tfdUltCusto.getText(2, tfdUltCusto.getLength()));
-//                    }
-//                }
-//            }
-//        });
-//        tfdValor.focusedProperty().addListener(new ChangeListener<Boolean>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-//                if (newPropertyValue) { //ganhou foco
-//                    if (!tfdValor.getText().isEmpty() && tfdValor.getText(0, 2).equals("R$")) {
-//                        tfdValor.setText(tfdValor.getText(2, tfdValor.getLength()));
-//                    }
-//                }
-//            }
-//        });
 
         // indica se há algo selecionado na tabela
         BooleanBinding algoSelecionado = tblProduto.getSelectionModel().selectedItemProperty().isNull();
@@ -560,10 +529,10 @@ public class cadastrarProdutoController implements Initializable {
         Validation.validate(cmbTipo);
         Validation.validate(cmbUnMedida);
         Validation.validate(tfdProduto, Validation.VARCHAR25);
-        Validation.validate(tfdCusto, Validation.MONEY);
+        Validation.validateOr(tfdCusto, Validation.MONEY, Validation.DOUBLE);
         Validation.validate(tfdEstMax, Validation.VARCHAR25);
         Validation.validate(tfdEstMin, Validation.VARCHAR25);
-        Validation.validate(tfdUltCusto, Validation.MONEY);
+        Validation.validateOr(tfdUltCusto, Validation.MONEY, Validation.DOUBLE);
         Validation.validateOr(tfdValor, Validation.MONEY, Validation.DOUBLE);
 
     }

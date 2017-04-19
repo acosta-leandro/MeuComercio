@@ -152,7 +152,7 @@ public class PDVController implements Initializable {
         alert.setTitle("Fechar Comanda");
         alert.setHeaderText("Fechando Comanda: " + tblComandas.getSelectionModel().getSelectedItem().getId()
                 + " - " + tblComandas.getSelectionModel().getSelectedItem().getNome());
-        alert.setContentText("Não é possível reabrir.\nTem Certeza?");
+        alert.setContentText("Não será possível reabrir.\nOk?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             comandaDao.fecharComanda(Integer.valueOf(tblComandas.getSelectionModel().getSelectedItem().getId()));

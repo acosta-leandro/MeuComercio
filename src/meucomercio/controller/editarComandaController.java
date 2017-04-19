@@ -58,8 +58,10 @@ public class editarComandaController implements Initializable {
     private void handleBtnConfirmar() {
         if (atualizando) {
             comandaDao.atualizar(comanda);
+            controlarComandasController.getInstance().fecharPopup();
         } else {
             comandaDao.salvar(comanda);
+            controlarComandasController.getInstance().fecharPopup();
         }
         atualizando = false;
         //   handleBtnCancelar();
@@ -124,6 +126,7 @@ public class editarComandaController implements Initializable {
         tfdAbertura.setText(comanda.getDtAbertura());
         lblId.setText(comanda.getId());
         cmbEstado.getSelectionModel().select(comanda.getEstado());
+        Validation.validate(tfdNome, Validation.VARCHAR25);
     }
 
 }
