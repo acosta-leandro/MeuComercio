@@ -46,7 +46,7 @@ public class Util {
 
     public static String DoubleParaDinheiro(Double valor) {
         String Svalor = "R$" + String.valueOf(limitarPrecisaoDouble(String.valueOf(valor), 2));
-        Svalor = Svalor.replace(".", ",");
+       // Svalor = Svalor.replace("", ",");
         return Svalor;
     }
 

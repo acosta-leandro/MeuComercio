@@ -31,7 +31,7 @@ public class ComandaDao implements daos.IDAO {
                     + "null, "
                     + "'" + comanda.getEstado() + "', "
                     + "0 ) RETURNING id";
-            System.out.println("sql: " + sql);
+            //    System.out.println("sql: " + sql);
 
             ResultSet rs = st.executeQuery(sql);
             int id = 0;
@@ -51,10 +51,10 @@ public class ComandaDao implements daos.IDAO {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE comanda SET "
-                    //         + "comanda = '" + comanda.getComanda() + "', "
-                    //         + "grupo_id = " + comanda.getGrupoId()
-                    + " WHERE id = " + comanda.getId();
-            System.out.println("sql: " + sql);
+                    + "nome = '" + comanda.getNome() + "', "
+                    + "estado = '" + comanda.getEstado() + "' "
+                    + "WHERE id = " + comanda.getId();
+            //    System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
             return true;
         } catch (Exception e) {
@@ -93,13 +93,14 @@ public class ComandaDao implements daos.IDAO {
                 tmpComanda.setId(String.valueOf(resultado.getInt("id")));
                 tmpComanda.setNome(resultado.getString("nome"));
                 tmpComanda.setDtAbertura(String.valueOf(resultado.getTime("dt_abertura")));
+               
                 if (String.valueOf(resultado.getDate("dt_encerramento")).equals("null")) {
                     tmpComanda.setDtEncerramento("Aberto");
                 } else {
                     tmpComanda.setDtEncerramento(String.valueOf(resultado.getDate("dt_encerramento")));
                 }
                 tmpComanda.setEstado(String.valueOf(resultado.getString("estado")));
-                tmpComanda.setValor(String.valueOf(resultado.getString("valor")));
+                tmpComanda.setValor(valorComanda(tmpComanda.getId()));
                 comandas.add(tmpComanda);
 
             }
@@ -118,7 +119,7 @@ public class ComandaDao implements daos.IDAO {
 
             String sql = "SELECT * FROM Comanda WHERE "
                     + "comanda iLIKE '%" + comanda + "%' ORDER BY 1;";
-            System.out.println("sql: " + sql);
+            //      System.out.println("sql: " + sql);
 
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
@@ -145,7 +146,7 @@ public class ComandaDao implements daos.IDAO {
             String sql = "SELECT * FROM Comanda WHERE "
                     + "id = " + id + ";";
 
-            System.out.println("sql: " + sql);
+            //    System.out.println("sql: " + sql);
             ResultSet resultado = st.executeQuery(sql);
 
             if (resultado.next()) {
@@ -160,7 +161,7 @@ public class ComandaDao implements daos.IDAO {
                     tmpComanda.setDtEncerramento(String.valueOf(resultado.getDate("dt_encerramento")));
                 }
                 tmpComanda.setEstado(String.valueOf(resultado.getString("estado")));
-                tmpComanda.setValor(String.valueOf(resultado.getString("valor")));
+                 tmpComanda.setValor(valorComanda(tmpComanda.getId()));
                 return tmpComanda;
             } else {
                 return null;
@@ -179,7 +180,7 @@ public class ComandaDao implements daos.IDAO {
             String sql = "SELECT * FROM Comanda WHERE "
                     + "comanda = '" + nome + "';";
 
-            System.out.println("sql: " + sql);
+            //    System.out.println("sql: " + sql);
             ResultSet resultado = st.executeQuery(sql);
 
             if (resultado.next()) {
@@ -205,7 +206,7 @@ public class ComandaDao implements daos.IDAO {
                     + "FROM comanda "
                     + "WHERE estado = 'Aberto'"
                     + "ORDER BY 1";
-            System.out.println("sql: " + sql);
+            //  System.out.println("sql: " + sql);
 
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
@@ -219,7 +220,7 @@ public class ComandaDao implements daos.IDAO {
                     tmpComanda.setDtEncerramento(String.valueOf(resultado.getDate("dt_encerramento")));
                 }
                 tmpComanda.setEstado(String.valueOf(resultado.getString("estado")));
-                tmpComanda.setValor(String.valueOf(resultado.getString("valor")));
+                 tmpComanda.setValor(valorComanda(tmpComanda.getId()));
                 comandas.add(tmpComanda);
 
             }
@@ -237,7 +238,7 @@ public class ComandaDao implements daos.IDAO {
 
             String sql = "SELECT * FROM Comanda WHERE "
                     + "estado = '" + status + "' ORDER BY 1;";
-            System.out.println("sql: " + sql);
+            //    System.out.println("sql: " + sql);
 
             ResultSet resultado = st.executeQuery(sql);
             while (resultado.next()) {
@@ -251,7 +252,7 @@ public class ComandaDao implements daos.IDAO {
                     tmpComanda.setDtEncerramento(String.valueOf(resultado.getDate("dt_encerramento")));
                 }
                 tmpComanda.setEstado(String.valueOf(resultado.getString("estado")));
-                tmpComanda.setValor(String.valueOf(resultado.getString("valor")));
+                 tmpComanda.setValor(valorComanda(tmpComanda.getId()));
                 comandas.add(tmpComanda);
 
             }
@@ -263,25 +264,27 @@ public class ComandaDao implements daos.IDAO {
     }
 
     public void fecharComanda(int id) {
+        fecharProdutoComanda(id);
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE comanda SET "
                     + "estado = 'Fechado' "
                     + "WHERE id = " + id;
-            System.out.println("sql: " + sql);
+            //    System.out.println("sql: " + sql);
             st.executeUpdate(sql);
         } catch (Exception e) {
             System.out.println("Erro ao Fechar Comanda = " + e);
         }
     }
-    
+
     public void faturarComanda(int id) {
+        faturarProdutoComanda(id);
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE comanda SET "
                     + "estado = 'Faturado' "
                     + "WHERE id = " + id;
-            System.out.println("sql: " + sql);
+            //    System.out.println("sql: " + sql);
             st.executeUpdate(sql);
         } catch (Exception e) {
             System.out.println("Erro ao Faturar Comanda = " + e);
@@ -309,4 +312,57 @@ public class ComandaDao implements daos.IDAO {
         return produtos;
     }
 
+    public void fecharProdutoComanda(int id) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            String sql = "UPDATE produto_comanda SET "
+                    + "status = 'Fechado' "
+                    + "WHERE comanda_id = " + id
+                    + "AND status != 'Cancelado'";
+            System.out.println("sql: " + sql);
+            st.executeUpdate(sql);
+        } catch (Exception e) {
+            System.out.println("Erro ao Fechar Comanda = " + e);
+        }
+    }
+
+    public void faturarProdutoComanda(int id) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            String sql = "UPDATE produto_comanda SET "
+                    + "status = 'Faturado' "
+                    + "WHERE comanda_id = " + id
+                    + "AND status != 'Cancelado'";
+            //   System.out.println("sql: " + sql);
+            st.executeUpdate(sql);
+        } catch (Exception e) {
+            System.out.println("Erro ao Fechar Comanda = " + e);
+        }
+    }
+
+    public String valorComanda(String idComanda) {
+        String valor;
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT SUM(produto.valor)"
+                    + " FROM produto, produto_comanda"
+                    + " WHERE produto_comanda.produto_id = produto.id"
+                    + " AND produto_comanda.comanda_id =" + idComanda;
+
+            //System.out.println("sql: " + sql);
+            ResultSet resultado = st.executeQuery(sql);
+            resultado.next();
+            if (resultado.getString(1) == null) {
+                valor = "R$0,00";
+            } else {
+                valor = resultado.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Comanda= " + e);
+            return e.toString();
+        }
+        System.out.println("valor:"+valor);
+        return valor;
+    }
 }

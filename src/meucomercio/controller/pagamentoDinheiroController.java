@@ -9,7 +9,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import jidefx.scene.control.decoration.DecorationPane;
 import meucomercio.apoio.Util;
+import meucomercio.apoio.Validation;
 import meucomercio.dao.ComandaDao;
 import meucomercio.dao.VendaDao;
 import meucomercio.entidades.Produto;
@@ -48,7 +50,7 @@ public class pagamentoDinheiroController implements Initializable {
 
     private void configuraBindings() {
         tfdValorPago.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
+            if (newValue != null || newValue.equals("")) {
                 calcularTroco();
             }
         });
@@ -56,12 +58,18 @@ public class pagamentoDinheiroController implements Initializable {
 
     private void calcularTroco() {
         Double valorTotal = Util.DinheiroParaDouble(tfdValorTotal.getText());
-        Double valorPago = Double.valueOf(tfdValorPago.getText());
+        Double valorPago;
+        if (!tfdValorPago.getText().isEmpty() && tfdValorPago.getText().matches(Validation.DOUBLE)) {
+            valorPago = Double.valueOf(tfdValorPago.getText());
+        } else {
+            valorPago = 0.0;
+        }
+
         Double troco = valorPago - valorTotal;
 
         tfdTroco.setText(Util.DoubleParaDinheiro(troco));
 
-        if (valorTotal < valorPago) {
+        if (valorTotal <= valorPago) {
             btnConfirmar.setDisable(false);
         } else {
             btnConfirmar.setDisable(true);

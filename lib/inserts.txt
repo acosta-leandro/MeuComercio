@@ -43,3 +43,6 @@ INSERT INTO unidade VALUES (default, 'Un 4', '4', 'Ativo');
 INSERT INTO produto VALUES (default, 1, 'prod 1', 1, 1, 1, 1, 1, 'R$11,11', 'R$4,44', 'R$77,77', 77, 11);
 INSERT INTO produto VALUES (default, 2, 'prod 2', 2, 2, 2, 2, 2, 'R$22,22', 'R$5,55', 'R$88,88', 88, 22);
 INSERT INTO produto VALUES (default, 3, 'prod 3', 3, 3, 3, 3, 3, 'R$33,33', 'R$6,66', 'R$99,99', 99, 33);
+
+INSERT INTO usuario VALUES (default, 'user','user','user','user');
+INSERT INTO usuario VALUES (default, 'adm','adm','adm','adm');

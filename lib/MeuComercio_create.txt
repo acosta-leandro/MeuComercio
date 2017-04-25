@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-03-28 16:12:23.801
+-- Last modification date: 2017-04-20 19:47:35.424
 
 -- tables
 -- Table: Bloqueio
@@ -60,7 +60,7 @@ CREATE TABLE Produto_Comanda (
     id serial  NOT NULL,
     produto_id int  NOT NULL,
     comanda_id int  NOT NULL,
-    status varchar(60)  NOT NULL,
+    status varchar(45)  NOT NULL,
     CONSTRAINT Produto_Comanda_pk PRIMARY KEY (id)
 );
 
@@ -98,6 +98,18 @@ CREATE TABLE Usuario (
     nome varchar(50)  NOT NULL,
     funcao varchar(50)  NOT NULL,
     CONSTRAINT Usuario_pk PRIMARY KEY (id)
+);
+
+-- Table: Venda
+CREATE TABLE Venda (
+    id_venda serial  NOT NULL,
+    valor_produto_venda money  NOT NULL,
+    valor_produto_tabela money  NOT NULL,
+    produto_id int  NOT NULL,
+    comanda_id int  NOT NULL,
+    data timestamp  NOT NULL,
+    pagamento_tipo varchar(30)  NOT NULL,
+    CONSTRAINT Venda_pk PRIMARY KEY (id_venda)
 );
 
 -- foreign keys
@@ -173,9 +185,21 @@ ALTER TABLE Subgrupo ADD CONSTRAINT Subgrupo_Grupo
     INITIALLY IMMEDIATE
 ;
 
+-- Reference: Venda_Comanda (table: Venda)
+ALTER TABLE Venda ADD CONSTRAINT Venda_Comanda
+    FOREIGN KEY (comanda_id)
+    REFERENCES Comanda (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
 
-INSERT INTO usuario VALUES (1, 'adm', 'adm','Administrador', 'adm');
-INSERT INTO usuario VALUES (2, 'user', 'user','Usuário', 'user');
+-- Reference: Venda_Produto (table: Venda)
+ALTER TABLE Venda ADD CONSTRAINT Venda_Produto
+    FOREIGN KEY (produto_id)
+    REFERENCES Produto (id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
 
 -- End of file.
 

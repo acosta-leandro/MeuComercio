@@ -57,6 +57,8 @@ public class editarComandaController implements Initializable {
     @FXML
     private void handleBtnConfirmar() {
         if (atualizando) {
+            comanda.setNome(tfdNome.getText());
+            comanda.setEstado(String.valueOf(cmbEstado.getSelectionModel().getSelectedItem()));
             comandaDao.atualizar(comanda);
             controlarComandasController.getInstance().fecharPopup();
         } else {
@@ -121,6 +123,8 @@ public class editarComandaController implements Initializable {
     }
 
     public void editarComanda(Comanda comanda) {
+        atualizando = true;
+        configuraBindings();
         this.comanda = comanda;
         tfdNome.setText(comanda.getNome());
         tfdAbertura.setText(comanda.getDtAbertura());

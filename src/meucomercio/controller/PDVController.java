@@ -298,6 +298,7 @@ public class PDVController implements Initializable {
                     System.out.println(rbtFechados.isSelected());
                     if (rbtFechados.isSelected()) {
                         tblVenda.getItems().addAll(comandaDao.produtosComandas(Integer.valueOf(tblComandas.getSelectionModel().getSelectedItem().getId())));
+                        tblComandas.setDisable(true);
                     } else {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Informação");

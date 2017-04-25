@@ -367,7 +367,7 @@ public class fazerPedidoController implements Initializable {
                 String nome = "";
                 if (numero < produtos.size()) {
                     Produto p = (Produto) produtos.get(numero);
-                    nome = p.getId() + "\n" + p.getProduto() + "\n" + p.getValor();
+                    nome = p.getId() + " - " + p.getProduto() + " - " + p.getValor();
                 } else {
                     break;
                 }
@@ -402,7 +402,7 @@ public class fazerPedidoController implements Initializable {
             public void changed(ObservableValue<? extends Produto> observable, Produto oldValue, Produto newValue) {
                 if (newValue != null) {
                     Produto p = tblProdutos.getSelectionModel().getSelectedItem();
-                    String strProd = p.getId() + " - " + p.getProduto();
+                    String strProd = p.getId() + " - " + p.getProduto() + " - " + p.getValor();
                     tfdProduto.setText(strProd);
                 }
             }

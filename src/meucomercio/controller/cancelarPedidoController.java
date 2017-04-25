@@ -107,7 +107,7 @@ public class cancelarPedidoController implements Initializable {
         tblColStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tblColId.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
         ArrayList pedidos = new ArrayList();
-        pedidos = pedidoDao.consultarTodos();
+        pedidos = pedidoDao.consultarTodosAbertos();
         ObservableList<Pedido> listPedidos = FXCollections.observableArrayList(pedidos);
         tblPedidos.setItems(listPedidos);
     }

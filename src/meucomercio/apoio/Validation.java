@@ -36,7 +36,7 @@ public class Validation {
     public static String CNPJ = "[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}/[0-9]{4}-[0-9]{2}";
     public static String INTEIRO = "[0-9]{1,9}";
     public static String MONEY = "[R][$](([1-9]+\\.?\\d*)|([0]\\.\\d*)|[0])";
-    public static String DOUBLE = "[0-9]{1,6}(|((\\,|)([0-9]{1,2})))";
+    public static String DOUBLE = "[0-9]{1,6}(|((\\.|)([0-9]{1,2})))";
     public static String SIGLA = ".{1,3}";
 
     /**

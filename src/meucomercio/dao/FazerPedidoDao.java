@@ -74,13 +74,14 @@ public class FazerPedidoDao {
         }
         return pedidos;
     }
-    public boolean alterarEstadoCancelado(int idPedido){
-            try {
+
+    public boolean alterarEstadoCancelado(int idPedido) {
+        try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE produto_comanda SET "
-                    + "status = 'Cancelado'" 
+                    + "status = 'Cancelado'"
                     + " WHERE id = " + idPedido;
-          //  System.out.println("sql: " + sql);
+            //  System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
             return true;
         } catch (Exception e) {
@@ -88,20 +89,48 @@ public class FazerPedidoDao {
             return false;
         }
     }
-    
-        public boolean alterarEstadoFechado(int idPedido){
-            try {
+
+    public boolean alterarEstadoFechado(int idPedido) {
+        try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             String sql = "UPDATE produto_comanda SET "
-                    + "status = 'Fechado'" 
+                    + "status = 'Fechado'"
                     + " WHERE id = " + idPedido;
-          //  System.out.println("sql: " + sql);
+            //  System.out.println("sql: " + sql);
             st.executeUpdate(sql);;
             return true;
         } catch (Exception e) {
             System.out.println("Erro ao alterar estado do Pedido = " + e);
             return false;
         }
+    }
+
+    public ArrayList<Object> consultarTodosAbertos() {
+        ArrayList pedidos = new ArrayList();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM produto_comanda WHERE status = 'Aberto' ORDER BY 1 ";
+             System.out.println("sql: " + sql);
+
+            ResultSet resultado = st.executeQuery(sql);
+            while (resultado.next()) {
+                Pedido tmpPedido = new Pedido();
+                tmpPedido.setIdComanda(resultado.getInt("comanda_id"));
+                Comanda tmpComanda = (Comanda) new ComandaDao().consultarId(Integer.valueOf(tmpPedido.getIdComanda()));
+                tmpPedido.setNomeComanda(tmpComanda.getNome());
+                tmpPedido.setIdPedido(resultado.getInt("id"));
+                tmpPedido.setIdProduto(resultado.getInt("produto_id"));
+                Produto tmpProduto = (Produto) new ProdutoDao().consultarId(Integer.valueOf(tmpPedido.getIdProduto()));
+                tmpPedido.setNomeProduto(tmpProduto.getProduto());
+                tmpPedido.setStatus(resultado.getString("status"));
+                pedidos.add(tmpPedido);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Pedido= " + e);
+            return null;
+        }
+        return pedidos;
     }
 
 }
