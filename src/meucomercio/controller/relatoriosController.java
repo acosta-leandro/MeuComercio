@@ -1,9 +1,12 @@
 package meucomercio.controller;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,6 +36,8 @@ import javafx.stage.Stage;
 import meucomercio.apoio.Graficos;
 import meucomercio.dao.CategoriaDao;
 import meucomercio.entidades.Categoria;
+import meucomercio.reports.PrintReport;
+import net.sf.jasperreports.engine.JRException;
 
 public class relatoriosController implements Initializable {
 
@@ -62,86 +67,24 @@ public class relatoriosController implements Initializable {
 
     @FXML
     void handleBtnImprimir() {
-        testeImp2();
+       testeImp1();
     }
 
     void testeImp1() {
-        //PrinterJob printerJob = PrinterJob.createPrinterJob();
-        //tezteeeeeeeeeeeeee
-        Rectangle rect = new Rectangle(0, 0, anchorTbl.getWidth(), anchorTbl.getHeight());
-        anchor.setClip(rect);
-        WritableImage writableImage;
-        writableImage = new WritableImage((int) anchorTbl.getPrefWidth(),
-                (int) anchorTbl.getPrefHeight());
-        anchorTbl.snapshot(null, writableImage);
-        ////////////////// testeee
-        ImageView imageView = new ImageView(writableImage);
-        Printer printer = Printer.getDefaultPrinter();
-        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.DEFAULT);
-        double scaleX = pageLayout.getPrintableWidth() / imageView.getBoundsInParent().getWidth();
-        double scaleY = pageLayout.getPrintableHeight() / imageView.getBoundsInParent().getHeight();
-        imageView.getTransforms().add(new Scale(scaleX, scaleY));
-
-        PrinterJob job = PrinterJob.createPrinterJob();
-        if (job != null) {
-            boolean successPrintDialog = job.showPrintDialog(meucomercio.MeuComercio.stage);
-            if (successPrintDialog) {
-                boolean success = job.printPage(pageLayout, anchor);
-                if (success) {
-                    job.endJob();
-                }
-            }
+        try {
+            new PrintReport().showReport();
+        } catch (JRException ex) {
+            Logger.getLogger(relatoriosController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(relatoriosController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(relatoriosController.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        System.out.println(" can I print?");
-//        PrinterJob printerJob = PrinterJob.createPrinterJob();
-//        if (printerJob.showPrintDialog(meucomercio.MeuComercio.stage) && printerJob.printPage(tblCategoria)) {
-//            printerJob.endJob();
-//            System.out.println("printed");
-//        }
-    }
-
-    void testeImp2() {
-        Printer printer = Printer.getDefaultPrinter();
-        PageLayout pageLayout
-                = printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM);
-        PrinterAttributes attr = printer.getPrinterAttributes();
-        PrinterJob job = PrinterJob.createPrinterJob();
-        double scaleX
-                = pageLayout.getPrintableWidth() / anchorTbl.getBoundsInParent().getWidth();
-        double scaleY
-                = pageLayout.getPrintableHeight() / anchorTbl.getBoundsInParent().getHeight();
-        Scale scale = new Scale(scaleX, scaleY);
-        anchorTbl.getTransforms().add(scale);
-
-        if (job != null && job.showPrintDialog(anchorTbl.getScene().getWindow())) {
-            boolean success = job.printPage(pageLayout, anchorTbl);
-            if (success) {
-                job.endJob();
-
-            }
-        }
-        anchorTbl.getTransforms().remove(scale);
     }
 
     @FXML
     void handleBtnTeste() {
-//        Graficos.nomes.add("Leandro");
-//        Graficos.nomes.add("acosta");
-//        Graficos.valores.add(30);
-//        Graficos.valores.add(70);
-//        Graficos.nomes.add("meucu");
-//        Graficos.nomes.add("notebook");
-//        Graficos.valores.add(30);
-//        Graficos.valores.add(70);        
-//        Graficos.pizza(anchor);
-        ArrayList categorias = new ArrayList();
-        categorias = categoriaDao.consultarTodos();
-        for (int i = 0; i < categorias.size(); i++) {
-            Categoria tmpCategoria = (Categoria) categorias.get(i);
-            System.out.println("teste:" + tmpCategoria.getCategoria());
-        }
-        ObservableList<Categoria> listCategorias = FXCollections.observableArrayList(categorias);
-        tblCategoria.setItems(listCategorias);
+        System.out.println(getClass().getResource("ListarComandas.jrxml"));
     }
 
     private void configuraColunas() {
