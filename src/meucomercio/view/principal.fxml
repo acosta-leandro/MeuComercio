@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Menu?>
@@ -12,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/principal.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="meucomercio.controller.principalController">
+<AnchorPane fx:id="anchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../css/principal.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="meucomercio.controller.principalController">
    <children>
       <VBox layoutY="-21.0" prefHeight="720.0" prefWidth="1280.0" styleClass="root" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -44,7 +40,7 @@
                         <MenuItem fx:id="MenuItemFazerPedido" mnemonicParsing="false" onAction="#handleMenuItemFazerPedido" text="Fazer Pedido" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Relatorios">
+                  <Menu mnemonicParsing="false" text="Relatórios">
                      <items>
                         <MenuItem fx:id="MenuItemRelatorios" mnemonicParsing="false" onAction="#handleMenuItemRelatorios" text="Relatorios" />
                      </items>

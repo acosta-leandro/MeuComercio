@@ -167,9 +167,27 @@ public class CategoriaDao implements daos.IDAO {
         }
         return categorias;
     }
-    
+
     @Override
     public Object consultarNome(String nome) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Categoria tmpCategoria = new Categoria();
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * FROM Categoria WHERE "
+                    + "categoria iLIKE '%" + nome + "%' ORDER BY 1;";
+            System.out.println("sql: " + sql);
+
+            ResultSet resultado = st.executeQuery(sql);
+            while (resultado.next()) {
+                tmpCategoria.setId(String.valueOf(resultado.getInt("id")));
+                tmpCategoria.setCategoria(resultado.getString("categoria"));
+                tmpCategoria.setEstado(resultado.getString("estado"));
+            }
+        } catch (Exception e) {
+            System.out.println("Erro consultar Categoria= " + e);
+            return null;
+        }
+        return tmpCategoria;
     }
 }

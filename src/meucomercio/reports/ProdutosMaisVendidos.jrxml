@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-05-13T15:46:53 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="921c37d5-f850-48a6-b441-81b4333f2e19">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString language="SQL">
+		<![CDATA[select produto.produto, COUNT(produto.produto) 
+from produto_comanda, produto
+where produto.id = produto_comanda.produto_id
+group by 1
+order by 2 DESC]]>
+	</queryString>
+	<field name="produto" class="java.lang.String"/>
+	<field name="count" class="java.lang.Long"/>
+	<group name="produto">
+		<groupExpression><![CDATA[$F{produto}]]></groupExpression>
+	</group>
+	<group name="count">
+		<groupExpression><![CDATA[$F{count}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="79" uuid="a36885c4-24d5-4316-a88b-0f00265ea34a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="40"/>
+				</textElement>
+				<text><![CDATA[MeuComércio]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="280" height="30" uuid="92f2d64c-0f39-40d5-8873-40d426afba51"/>
+				<textElement>
+					<font size="19"/>
+				</textElement>
+				<text><![CDATA[Produtos Mais Vendidos]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="310" y="10" width="100" height="30" uuid="e06602f9-fbdd-4097-b1ee-293b938d36a2"/>
+				<textFieldExpression><![CDATA["Emitido :"+
+new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="460" y="10" width="100" height="30" uuid="5fe844ea-ed42-4a69-a724-2af63524e68c"/>
+				<textFieldExpression><![CDATA["Páginas:"+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="55" splitType="Stretch">
+			<textField>
+				<reportElement x="80" y="10" width="200" height="30" uuid="a9c63c24-f32c-4c6c-803a-591082437eb9"/>
+				<textFieldExpression><![CDATA["Produto"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="10" width="150" height="30" uuid="b16aff7a-f438-4615-ad84-56a506abe0cd"/>
+				<textFieldExpression><![CDATA["Vendas"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement x="330" y="0" width="150" height="30" uuid="b5d6b228-39e0-43c3-89d4-711a21c9bf50"/>
+				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="200" height="30" uuid="a08b4edd-e866-45f8-8b91-8cb390909628"/>
+				<textFieldExpression><![CDATA[$F{produto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="450" y="10" width="100" height="30" uuid="642685ab-8a5b-406b-94e4-d578a0512b0d"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-05-14T21:03:56 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VendasPorData" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b08f7080-e69f-417c-894c-71e5fd3389d2">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<parameter name="data1" class="java.sql.Timestamp"/>
+	<parameter name="data2" class="java.sql.Timestamp"/>
+	<queryString language="SQL">
+		<![CDATA[Select produto.produto, venda.valor_produto_venda, venda.data
+From venda, produto
+Where venda.data between  $P{data1}  and $P{data2} 
+and produto.id = venda.produto_id]]>
+	</queryString>
+	<field name="produto" class="java.lang.String"/>
+	<field name="valor_produto_venda" class="java.lang.String"/>
+	<field name="data" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="79" uuid="aa243b9e-6574-4a39-8c4d-05e993576606"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="40"/>
+				</textElement>
+				<text><![CDATA[MeuComércio]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="280" height="30" uuid="68b4d11b-0602-4964-9846-b0969539a23a"/>
+				<textElement>
+					<font size="19"/>
+				</textElement>
+				<text><![CDATA[Vendas Por data]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="450" y="11" width="100" height="30" uuid="e40c0ecc-59a9-4a41-ac27-2ed90d19c266"/>
+				<textFieldExpression><![CDATA["Páginas:"+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="300" y="11" width="100" height="30" uuid="20322241-5984-4051-b10d-5df3fd153b11"/>
+				<textFieldExpression><![CDATA["Emitido :"+
+new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="30" y="0" width="130" height="30" uuid="9cc4f231-4bb7-45be-b142-409621abe803"/>
+				<textFieldExpression><![CDATA["Produto"
+]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="200" y="0" width="140" height="30" uuid="5bc4379c-05fd-4877-a097-1e045bd3fc10"/>
+				<text><![CDATA["Valor Venda"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="0" width="130" height="30" uuid="f4cb9c36-e5b4-41e8-a5af-964a0aded0a8"/>
+				<text><![CDATA["Data"]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement x="200" y="0" width="140" height="30" uuid="d694d146-3c22-461d-a81f-872dc269169d"/>
+				<textFieldExpression><![CDATA[$F{valor_produto_venda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="0" width="130" height="30" uuid="bf1d2983-84cb-40ef-8847-c26e5922a226"/>
+				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="0" width="130" height="30" uuid="d21be863-2700-479d-a9c8-ed7f5a8de64e"/>
+				<textFieldExpression><![CDATA[$F{produto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="180" y="12" width="370" height="30" uuid="c5170687-378a-477b-98a2-b39c948ecdc0"/>
+				<textFieldExpression><![CDATA["Vendas Por Data "+$P{data2}+ " - " +$P{data1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
