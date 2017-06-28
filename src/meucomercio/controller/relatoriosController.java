@@ -31,6 +31,7 @@ import meucomercio.reports.PrintReport;
 
 public class relatoriosController implements Initializable {
 
+    private static principalController princCont = principalController.getInstance();
     PrintReport printReport = new PrintReport();
     String parametro1;
     String parametro2;
@@ -87,7 +88,7 @@ public class relatoriosController implements Initializable {
 
     @FXML
     void handleBtnFechar() {
-
+princCont.fecharTittledPane("relatorios");
     }
 
     @FXML

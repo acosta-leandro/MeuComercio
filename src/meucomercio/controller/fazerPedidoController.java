@@ -177,8 +177,10 @@ public class fazerPedidoController implements Initializable {
     private void handleBtnInserir() {
         String ComandaTxt = tfdComanda.getText() + "\n";
         String ProdutoTxt = tfdProduto.getText() + "\n";
-        String idProduto = tfdProduto.getText(0, 1);
-        String idComanda = tfdComanda.getText(0, 1);
+        String arrayProd[] = tfdProduto.getText().split(" - ");
+        String arrayCom[] = tfdComanda.getText().split(" ");
+        String idProduto = arrayProd[0];
+        String idComanda = arrayCom[0];
         String IdTxt = String.valueOf(fazerPedido.salvar(idComanda, idProduto)) + "\n";
         txtComanda.setText(ComandaTxt + txtComanda.getText());
         txtProduto.setText(ProdutoTxt + txtProduto.getText());
@@ -186,6 +188,7 @@ public class fazerPedidoController implements Initializable {
         tfdProduto.clear();
         tfdProduto.setDisable(false);
         tfdProduto.requestFocus();
+        System.out.println("teste");
     }
 
     @FXML
@@ -264,7 +267,7 @@ public class fazerPedidoController implements Initializable {
                 String nome = "";
                 if (numero < comandas.size()) {
                     Comanda c = (Comanda) comandas.get(numero);
-                    nome = c.getId() + "\n" + c.getNome();
+                    nome = c.getId() + " " + c.getNome();
                 } else {
                     break;
                 }

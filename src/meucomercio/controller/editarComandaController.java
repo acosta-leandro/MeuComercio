@@ -89,7 +89,6 @@ public class editarComandaController implements Initializable {
         root.getChildren().add(decorationPane);
         Validation.validate(tfdNome, Validation.VARCHAR25);
         Validation.validateTrue(tfdAbertura);
-        Validation.validate(cmbEstado);
     }
 
     private void liberarBotoes() {

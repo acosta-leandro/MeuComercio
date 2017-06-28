@@ -6,7 +6,10 @@ import meucomercio.entidades.Comanda;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import meucomercio.entidades.Comanda;
 import meucomercio.entidades.Grupo;
 import meucomercio.entidades.Produto;
@@ -100,6 +103,7 @@ public class ComandaDao implements daos.IDAO {
                     tmpComanda.setDtEncerramento(String.valueOf(resultado.getDate("dt_encerramento")));
                 }
                 tmpComanda.setEstado(String.valueOf(resultado.getString("estado")));
+                System.out.println("tmpcomandaestado="+tmpComanda.getEstado());
                 tmpComanda.setValor(valorComanda(tmpComanda.getId()));
                 comandas.add(tmpComanda);
 
@@ -265,16 +269,29 @@ public class ComandaDao implements daos.IDAO {
 
     public void fecharComanda(int id) {
         fecharProdutoComanda(id);
+         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date = new Date();
+        //System.out.println(dateFormat.format(date));
+        String dataEnc = dateFormat.format(date);
+        
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-            String sql = "UPDATE comanda SET "
-                    + "estado = 'Fechado' "
-                    + "WHERE id = " + id;
-            //    System.out.println("sql: " + sql);
+            String sql = "UPDATE comanda SET"
+                    + " dt_encerramento = '"+ date
+                    + "' WHERE id = " + id;
+                System.out.println("sql: " + sql);
             st.executeUpdate(sql);
+             String sql1 = "UPDATE comanda SET "
+                    + "estado = 'Fechado' "
+                    + " WHERE id = " + id;
+                System.out.println("sql: " + sql);
+            st.executeUpdate(sql1);
+            
         } catch (Exception e) {
             System.out.println("Erro ao Fechar Comanda = " + e);
         }
+        
+        
     }
 
     public void faturarComanda(int id) {
@@ -297,7 +314,7 @@ public class ComandaDao implements daos.IDAO {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * FROM produto_comanda WHERE "
-                    + "comanda_id = " + comandaId + " ORDER BY 1;";
+                    + "comanda_id = " + comandaId + "AND status != 'Cancelado' ORDER BY 1;";
             //System.out.println("sql: " + sql);
 
             ResultSet resultado = st.executeQuery(sql);

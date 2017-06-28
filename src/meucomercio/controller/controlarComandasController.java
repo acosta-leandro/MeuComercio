@@ -176,7 +176,7 @@ public class controlarComandasController implements Initializable {
 
     @FXML
     private void handleBtnFechar() {
-        princCont.fecharTittledPane("controlarComanda");
+        princCont.fecharTittledPane("controlarComandas");
     }
 
     public void fecharPopup() {

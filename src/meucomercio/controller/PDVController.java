@@ -58,6 +58,7 @@ public class PDVController implements Initializable {
 
     private ProdutoDao produtoDao = new ProdutoDao();
     private ComandaDao comandaDao = new ComandaDao();
+    private static principalController princCont = principalController.getInstance();
     private static Produto produto;
     private Stage popup = new Stage();
     private static PDVController instance;
@@ -217,7 +218,7 @@ public class PDVController implements Initializable {
 
     @FXML
     private void handleBtnFechar() {
-
+        princCont.fecharTittledPane("venderProdutos");
     }
 
     @FXML

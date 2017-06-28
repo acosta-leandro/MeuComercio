@@ -230,7 +230,7 @@ public class principalController implements Initializable {
         if (tela.equals("cadastrarBloqueioProduto")) {
             cadastrarBloqueioIsAberto = false;
         }
-        if (tela.equals("cadastrarVenderProdutos")) {
+        if (tela.equals("venderProdutos")) {
             venderProdutoIsAberto = false;
         }
         if (tela.equals("controlarComandas")) {
